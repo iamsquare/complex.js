@@ -9,6 +9,6 @@
     "lib": ["es5", "es6"],
     "target": "es5",
   },
-  "exclude": ["node_modules", "lib", "tests", "coverage"]
+  "exclude": ["node_modules", "lib", "tests"]
 }
 
