@@ -1,0 +1,37 @@
+language: node_js
+node_js:
+  - "node"
+  - "lts/*"
+cache:
+  directories:
+    - "node_modules"
+before_script:
+  - npm run setup
+  - npm run build
+script:
+  - npm run test
+after_success:
+  - npm run docs
+  - npm pack
+
+
+deploy:
+- provider: pages
+  skip_cleanup: true
+  local_dir: docs/
+  github_token: $GIT_KEY
+  on:
+    tags: true
+- provider: releases
+  api_key: $GIT_KEY
+  file_glob: true
+  file: "{YOURLIB}-*.tgz"
+  skip_cleanup: true
+  on:
+    tags: true
+- provider: npm
+  skip_cleanup: true
+  email: "sq@iamsquare.it"
+  api_key: $NPM_KEY
+  on:
+    tags: true

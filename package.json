@@ -1,0 +1,60 @@
+{
+  "name": "@iamsquare/complex.js",
+  "version": "0.0.1",
+  "description": "A simple complex numbers library written in Typescript",
+  "main": "dist/complex.js",
+  "types": "types/complex.d.ts",
+  "scripts": {
+    "setup": "npm install",
+    "test": "jest",
+    "test:watch": "npm run test -- --watch",
+    "clean:docs": "rimraf ./docs",
+    "clean:lib": "rimraf ./lib && rimraf ./types",
+    "clean": "npm run clean:lib && npm run clean:docs",
+    "docs": "npm run clean:docs && typedoc --name complex.js --readme ./README.md --mode file --theme default --hidegenerator --excludeexternals --tsconfig ./tsconfig.json --out ./docs ./src",
+    "build": "npm run clean:lib && tsc -p ./tsconfig.d.json",
+    "build:watch": "npm run clean:lib && tsc -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iamsquare/complex.js.git"
+  },
+  "keywords": [
+    "typescript",
+    "javascript",
+    "complex",
+    "math",
+    "library"
+  ],
+  "author": "squaremarco",
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://www.opensource.org/licenses/mit-license.php"
+    }
+  ],
+  "bugs": {
+    "url": "https://github.com/iamsquare/complex.js/issues"
+  },
+  "homepage": "https://github.com/iamsquare/complex.js",
+  "private": false,
+  "devDependencies": {
+    "@types/jest": "^23.3.1",
+    "@types/node": "^10.9.3",
+    "jest": "^23.5.0",
+    "rimraf": "^2.6.2",
+    "serve": "^10.0.0",
+    "ts-jest": "^23.1.4",
+    "typedoc": "^0.12.0",
+    "typescript": "^3.0.3"
+  },
+  "directories": {
+    "lib": "lib",
+    "test": "tests"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {},
+  "license": "MIT"
+}

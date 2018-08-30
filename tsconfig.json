@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "outDir": "lib",
+    "noImplicitAny": true,
+    "sourceMap": true,
+    "downlevelIteration": true,
+    "module": "commonjs",
+    "lib": ["es5", "es6"],
+    "target": "es5",
+  },
+  "exclude": ["node_modules", "lib", "tests", "coverage"]
+}
+
