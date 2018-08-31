@@ -14,7 +14,7 @@ describe('Complex constructor', () => {
     });
   });
 
-  describe('Value is number', () => {
+  describe('Value is a number', () => {
     test('new Complex() => re: 0, im: 0', () => {
       let z: Complex = new Complex();
 
@@ -38,7 +38,7 @@ describe('Complex constructor', () => {
     let cartesian: Cartesian = { x: 1, y: 1 };
     let polar: Polar = { r: 1, p: Math.PI / 2 };
 
-    describe('Value is Polar', () => {
+    describe('Value is a Polar coordinate', () => {
       test('isCartesian({r: number, p: number})', () => {
         expect(isPolar(cartesian)).toBeFalsy();
         expect(isPolar(polar)).toBeTruthy();
@@ -52,7 +52,7 @@ describe('Complex constructor', () => {
       });
     });
 
-    describe('Value is Cartesian', () => {
+    describe('Value is a Cartesian coordinate', () => {
       test('isCartesian({x: number, y: number})', () => {
         expect(isCartesian(cartesian)).toBeTruthy();
         expect(isCartesian(polar)).toBeFalsy();
