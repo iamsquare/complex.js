@@ -1,4 +1,6 @@
-//TODO: test and eventually fix precision errors
+//TODO: test and fix eventual precision errors
+//TODO: rounding function
+
 /**
  * Cartesian Coordinate type definition
  */
@@ -79,7 +81,7 @@ export default class Complex {
     } else if (isNaN(r) || isNaN(i)) {
       this.re = NaN;
       this.im = NaN;
-    } else if (r === Infinity || i === Infinity) {
+    } else if (!isFinite(r) || !isFinite(i)) {
       this.re = Infinity;
       this.im = Infinity;
     } else {
@@ -103,112 +105,115 @@ export default class Complex {
   private im: number;
 
   /**
-   * Gets the real part of a complex number.
+   * Gets the real part of a Complex number.
    */
   getRe(): number {
     return this.re;
   }
 
   /**
-   * Gets the imaginary part of a complex number.
+   * Gets the imaginary part of a Complex number.
    */
   getIm(): number {
     return this.im;
   }
 
-  round(): Complex {
-    let r: number = Math.abs(this.re) > Complex.EPSILON ? this.re : 0;
-    let i: number = Math.abs(this.im) > Complex.EPSILON ? this.im : 0;
-    return new Complex(r, i);
-  }
-
   /**
    * Calculates the modulus squared of a complex number.
    */
-  modulus2(): number {
-    let m2: number = this.re * this.re + this.im * this.im;
-    let gtEpsilon = Math.abs(m2) > Complex.EPSILON;
-
-    return gtEpsilon ? m2 : 1;
+  pythagoras(): number {
+    return this.re * this.re + this.im * this.im;
   }
 
   /**
-   * Calculates the modulus of a complex number.
+   * Calculates the modulus of a Complex number.
+   * @todo Test if this implementation easily overflows
    */
   modulus(): number {
-    return Math.sqrt(this.modulus2());
+    return Math.hypot(this.re, this.im);
   }
 
   /**
-   * Gets the argument of a complex number.
+   * Gets the argument of a Complex number.
    */
   argument(): number {
+    if (this.isNaN()) return NaN;
+    if (this.isInfinite()) return Infinity;
+
     return Math.atan2(this.im, this.re);
   }
 
+  /**
+   * Returns true when a Complex number imaginary part is real.
+   */
   isReal(): boolean {
-    return Math.abs(this.im) <= Complex.EPSILON;
+    return this.im === 0;
   }
 
   /**
-   * Returns true when a complex number is 0 + 0i.
+   * Returns true when a Complex number is 0 + 0i.
    */
   isZero(): boolean {
-    return this.equals(Complex.ZERO);
+    return this.re === 0 && this.im === 0;
   }
 
   /**
-   * Returns true when a complex number is ∞.
+   * Returns true when a Complex number is ∞.
    */
   isInfinite(): boolean {
-    return this.equals(Complex.INFINITY);
+    return this.re === Infinity || this.im === Infinity;
   }
 
   /**
-   * Returns true whe a complex number is NaN.
+   * Returns true whe a Complex number is NaN.
    */
   isNaN(): boolean {
     return isNaN(this.re) || isNaN(this.im);
   }
 
   /**
-   * Negates a complex number
+   * Negates a Complex number.
    */
   negate(): Complex {
-    if (this.isInfinite()) return Complex.INFINITY;
     if (this.isNaN()) return Complex.NAN;
+    if (this.isInfinite()) return Complex.INFINITY;
+    if (this.isZero()) return Complex.ZERO;
 
     return new Complex(-this.re, -this.im);
   }
 
   /**
-   * Calculates the complex-conjugate of a complex number.
+   * Calculates the Complex-conjugate of a Complex number.
    */
   conjugate(): Complex {
-    if (this.isInfinite()) return Complex.INFINITY;
     if (this.isNaN()) return Complex.NAN;
+    if (this.isInfinite()) return Complex.INFINITY;
+    if (this.isZero()) return Complex.ZERO;
 
     return new Complex(this.re, -this.im);
   }
 
   /**
-   * Calculates 1 / z
+   * Calculates 1 / z.
+   * @todo Test if this implementation easily overflows.
    */
   inverse(): Complex {
-    if (this.isZero()) return Complex.INFINITY;
+    if (this.isNaN()) return Complex.NAN;
     if (this.isInfinite()) return Complex.ZERO;
+    if (this.isZero()) return Complex.INFINITY;
 
-    let d: number = this.modulus2();
+    const a: number = this.re;
+    const b: number = this.im;
 
-    return new Complex(this.re / d, -this.im / d);
+    return new Complex(1 / (a * (1 + Math.pow(b / a, 2))), -1 / (b * (1 + Math.pow(a / b, 2))));
   }
 
   /**
-   * Calculates the unit vector of a complex number.
+   * Calculates the unit vector of a Complex number.
    */
   unit(): Complex {
+    if (this.isNaN() || this.isZero()) return Complex.NAN;
     if (this.isInfinite()) return Complex.INFINITY;
-    if (this.isNaN()) return Complex.NAN;
 
     const m: number = this.modulus();
 
@@ -216,162 +221,196 @@ export default class Complex {
   }
 
   /**
-   * Calculates the square-root of a complex number.
+   * Calculates the square-root of a Complex number.
+   * @todo Test if this implementation is better than the algebraic formula.
    */
   sqrt(): Complex {
-    if (this.isInfinite()) return Complex.INFINITY;
     if (this.isNaN()) return Complex.NAN;
+    if (this.isInfinite()) return Complex.INFINITY;
+    if (this.isZero()) return Complex.ZERO;
 
-    const a: number = Math.SQRT1_2; //0.5 * sqrt(2)
+    const r: number = this.modulus();
+    const p: number = this.argument();
+
+    return new Complex(Math.sqrt(r) * Math.cos(p / 2), Math.sqrt(r) * Math.sin(p / 2));
+
+    /*const a: number = Math.SQRT1_2; //0.5 * sqrt(2)
     const m: number = this.modulus();
-    const is: number = this.im >= 0 ? 1 : -1;
+    const is: number = Math.sign(this.im);
 
-    return new Complex(a * Math.sqrt(m + this.re), a * is * Math.sqrt(m - this.re));
+    return new Complex(a * Math.sqrt(m + this.re), a * is * Math.sqrt(m - this.re));*/
   }
 
   /**
-   * Calculates e^z
+   * Calculates e^z, where z is the Complex number from which the method is called.
    */
   exp(): Complex {
-    if (this.im === Infinity || this.isInfinite()) return Complex.NAN;
+    if (this.isInfinite()) return Complex.NAN;
     if (this.isZero()) return Complex.ONE;
 
     return new Complex({ r: Math.exp(this.re), p: this.im });
   }
 
   /**
-   * Calculates the principal value of Ln(z)
+   * Calculates the principal value of Ln(z).
    */
   log(): Complex {
     return new Complex(Math.log(this.modulus()), this.argument());
   }
 
   /**
-   * Calculates z + w
+   * Calculates z + w.
    */
   plus(z: Complex): Complex {
-    if ((this.isInfinite() && z.isInfinite()) || this.isNaN() || z.isNaN()) return Complex.NAN;
+    if (this.isNaN() || z.isNaN() || (this.isInfinite() && z.isInfinite())) return Complex.NAN;
     if (this.isInfinite() || z.isInfinite()) return Complex.INFINITY;
 
     return new Complex(this.re + z.re, this.im + z.im);
   }
 
   /**
-   * Calculates z - w
+   * Calculates z - w.
    */
   minus(z: Complex): Complex {
-    return this.plus(z.negate());
+    if (this.isNaN() || z.isNaN() || (this.isInfinite() && z.isInfinite())) return Complex.NAN;
+
+    return new Complex(this.re - z.re, this.im - z.im);
   }
 
   /**
-   * Calculates z * w
+   * Calculates z * w.
    */
   times(z: Complex): Complex {
     if ((this.isZero() && z.isInfinite()) || (this.isInfinite() && z.isZero())) return Complex.NAN;
     if (this.isInfinite() || z.isInfinite()) return Complex.INFINITY;
-    //if (this.isReal() && z.isReal()) return new Complex(this.re * z.re, 0);
+    if (this.isZero() || z.isZero()) return Complex.ZERO;
+    if (this.isReal() && z.isReal()) return new Complex(this.re * z.re, 0);
 
     return new Complex(this.re * z.re - this.im * z.im, this.re * z.im + this.im * z.re);
   }
 
   /**
-   * Calculates z / w
+   * Calculates z / w using a modified Smith's Method.
+   * http://forge.scilab.org/index.php/p/compdiv/source/tree/21/doc/improved_cdiv.pdf
+   * @todo Test if this implementation is actually SO better than the original Smith's method.
    * */
   divide(z: Complex): Complex {
-    if ((this.isZero() && z.isZero()) || (this.isInfinite() && z.isInfinite())) return Complex.NAN;
+    if ((this.isZero() && z.isZero()) || (this.isInfinite() && z.isInfinite()) || this.isNaN() || z.isNaN())
+      return Complex.NAN;
     if (this.isInfinite() || z.isZero()) return Complex.INFINITY;
     if (this.isZero() || z.isInfinite()) return Complex.ZERO;
 
-    let d: number = z.re * z.re + z.im * z.im;
-    return new Complex((this.re * z.re + this.im * z.im) / d, (this.im * z.re - this.re * z.im) / d);
+    const a: number = this.re;
+    const b: number = this.im;
+    const c: number = z.re;
+    const d: number = z.im;
+
+    if (Math.abs(d) < Math.abs(c)) {
+      const r: number = d / c;
+      const t: number = 1 / (c + d * r);
+
+      if (r === 0) {
+        return new Complex((a + d * (b / c)) * t, (b - d * (a / c)) * t);
+      } else {
+        return new Complex((a + b * r) * t, (b - a * r) * t);
+      }
+    } else {
+      const r: number = c / d;
+      const t: number = 1 / (c * r + d);
+
+      if (r === 0) {
+        return new Complex((c * (a / d) + b) * t, (c * (b / d) - a) * t);
+      } else {
+        return new Complex((a * r + b) * t, (b * r - a) * t);
+      }
+    }
   }
 
   /**
-   * Returns true when z === w
+   * Returns true when z === w.
    */
   equals(z: Complex): boolean {
-    if ((this.re === Infinity && z.re === Infinity) || (this.im === Infinity && z.im === Infinity)) return true;
+    if (this.isInfinite() && z.isInfinite()) return true;
     if (this.isNaN() || z.isNaN()) return false;
 
     return Math.abs(this.re - z.re) <= Complex.EPSILON && Math.abs(this.im - z.im) <= Complex.EPSILON;
   }
 
   /**
-   * Returns true when z !== w
+   * Returns true when z !== w.
    */
   notEquals(z: Complex): boolean {
     return !this.equals(z);
   }
 
   /**
-   * A method that formats a complex number to: a + bi
+   * A method that formats a complex number to: ±a ± bi.
+   * @todo Find a more elegant solution.
    */
   toString(): string {
     if (this.isNaN()) return 'NaN';
     if (this.isInfinite()) return 'Infinite';
     if (this.isZero()) return '0';
 
-    let re: string = this.re !== 0 || this.isReal() ? `${this.re}` : '';
-    let im: string = !this.isReal() ? `${Math.abs(this.im)} i` : '';
-    let i: string = !this.isReal() ? (Math.sign(this.im) ? ' + ' : ' - ') : '';
+    const re: string = this.re !== 0 || this.isReal() ? `${this.re}` : '';
+    const im: string = !this.isReal() ? `${Math.abs(this.im)} i` : '';
+    const sign: string = !this.isReal() ? (Math.sign(this.im) ? ' + ' : ' - ') : '';
 
-    return `${re}${i}${im}`;
+    return `${re}${sign}${im}`;
   }
 
   /**
-   * A method that returns a complex number in Cartesian coordinates
+   * A method that returns a complex number in Cartesian coordinates.
    */
   toCartesian(): Cartesian {
-    let x = Math.abs(this.re) > Complex.EPSILON ? this.re : 0;
-    let y = Math.abs(this.im) > Complex.EPSILON ? this.im : 0;
-    return { x, y };
+    return { x: this.re, y: this.im };
   }
 
   /**
-   * A method that returns a complex number in Polar coordinates
+   * A method that returns a complex number in Polar coordinates.
    */
   toPolar(): Polar {
     return { r: this.modulus(), p: this.argument() };
   }
 
   /**
-   * Costant zero
+   * Costant zero - z = 0.
    */
   static ZERO: Complex = new Complex(0, 0);
 
   /**
-   * Constant one
+   * Constant one - z = 1.
    */
   static ONE: Complex = new Complex(1, 0);
 
   /**
-   * Constant i
+   * Constant i - z = i.
    */
   static I: Complex = new Complex(0, 1);
 
   /**
-   * Constant pi
+   * Constant pi - z = π.
    */
   static PI: Complex = new Complex(Math.PI, 0);
 
   /**
-   * Constant e
+   * Constant e - z = e.
    */
   static E: Complex = new Complex(Math.E, 0);
 
   /**
-   * Infinity
+   * Infinity - z = ∞.
    */
   static INFINITY: Complex = new Complex(Infinity, Infinity);
 
   /**
-   * Not a number
+   * Not a number - z = NaN.
    */
   static NAN: Complex = new Complex(NaN, NaN);
 
   /**
-   * Maximum floating precision - smaller values are considered as 0
+   * Difference between 1 and the smallest floating point number greater than 1.
+   * Simply stores Number.EPSILON in a static property.
    */
-  //TODO: add configuration to EPSILON static member
-  static EPSILON: number = 10e-10;
+  static EPSILON: number = Number.EPSILON;
 }
