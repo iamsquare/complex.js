@@ -1,6 +1,7 @@
 lib
 node_modules
 types
+docs
 
 .vscode/*
 logs

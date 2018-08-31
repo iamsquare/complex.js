@@ -3,7 +3,7 @@ tests
 docs
 src
 
-{YOURLIB}-*.tgz
+iamsquare-complex.js-*.tgz
 
 .npmignore
 tsconfig.json
