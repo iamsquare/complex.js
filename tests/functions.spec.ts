@@ -9,6 +9,18 @@ const ONE = Complex.ONE;
 // http://www.wolframalpha.com/
 
 describe('Functions', () => {
+  test('They should exist', () => {
+    expect(Complex.prototype.sqrt).toBeDefined();
+    expect(Complex.prototype.log).toBeDefined();
+    expect(Complex.prototype.exp).toBeDefined();
+    expect(Complex.prototype.sin).toBeDefined();
+    expect(Complex.prototype.cos).toBeDefined();
+    expect(Complex.prototype.tan).toBeDefined();
+    expect(Complex.prototype.sinh).toBeDefined();
+    expect(Complex.prototype.cosh).toBeDefined();
+    expect(Complex.prototype.tanh).toBeDefined();
+  });
+
   const z: Complex = new Complex(1, 1);
   const w: Complex = new Complex(2, 3);
 
