@@ -270,6 +270,47 @@ export default class Complex {
   }
 
   /**
+   * Calculates the sine of a Complex number.
+   */
+  sin(): Complex {
+    if (this.isInfinite() || this.isNaN()) return Complex.NAN;
+    if (this.isZero()) return Complex.ZERO;
+
+    const a: number = this.re;
+    const b: number = this.im;
+
+    return new Complex(Math.sin(a) * Math.cosh(b), Math.cos(a) * Math.sinh(b));
+  }
+
+  /**
+   * Calculates the cosine of a Complex number.
+   */
+  cos(): Complex {
+    if (this.isInfinite() || this.isNaN()) return Complex.NAN;
+    if (this.isZero()) return Complex.ONE;
+
+    const a: number = this.re;
+    const b: number = this.im;
+
+    return new Complex(Math.cos(a) * Math.cosh(b), -Math.sin(a) * Math.sinh(b));
+  }
+
+  /**
+   * Calculates the tangent of a Complex number.
+   */
+  tan(): Complex {
+    if (this.isInfinite() || this.isNaN()) return Complex.NAN;
+    if (this.isZero()) return Complex.ZERO;
+
+    // We avoid numeric cancellation by expanding the denominator and simplifying with trig rules.
+    const a2: number = 2 * this.re;
+    const b2: number = 2 * this.im;
+    const d: number = Math.cos(a2) + Math.cosh(b2);
+
+    return new Complex(Math.sin(a2) / d, Math.sinh(b2) / d);
+  }
+
+  /**
    * Calculates the hyperbolic sine of a Complex number.
    */
   sinh(): Complex {

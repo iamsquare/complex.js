@@ -78,6 +78,72 @@ describe('Functions', () => {
     });
   });
 
+  describe('Trigonometric', () => {
+    describe('sin', () => {
+      const sz: Complex = z.sin();
+      const sw: Complex = w.sin();
+      
+      test('sin(z)', () => {
+        expect(sz.getRe()).toBeCloseTo(1.2984575814159772948260423658078156203134365616352080734, 10);
+        expect(sz.getIm()).toBeCloseTo(0.63496391478473610825508220299150978151708195141937941052, 10);
+        expect(sw.getRe()).toBeCloseTo(9.15449914691142957346729954460983255915886056876518297789, 10);
+        expect(sw.getIm()).toBeCloseTo(-4.16890695996656435075481305885375484357356560475805588996, 10);
+      });
+
+      describe('Special Cases', () => {
+        test('Infinity', () => {
+          expect(INFINITY.sin()).toEqual(NAN);
+        });
+
+        test('NaN', () => {
+          expect(NAN.sin()).toEqual(NAN);
+        });
+      });
+    });
+
+    describe('cos', () => {
+      const sz: Complex = z.cos();
+      const sw: Complex = w.cos();
+      test('cos(z)', () => {
+        expect(sz.getRe()).toBeCloseTo(0.83373002513114904888388539433509447980987478520962931227, 10);
+        expect(sz.getIm()).toBeCloseTo(-0.98889770576286509638212954089268618864214969503314760753, 10);
+        expect(sw.getRe()).toBeCloseTo(-4.1896256909688072301325550196159737286219454041279210357, 10);
+        expect(sw.getIm()).toBeCloseTo(-9.1092278937553365979791972627788621213326202389201695649, 10);
+      });
+
+      describe('Special Cases', () => {
+        test('Infinity', () => {
+          expect(INFINITY.cos()).toEqual(NAN);
+        });
+
+        test('NaN', () => {
+          expect(NAN.cos()).toEqual(NAN);
+        });
+      });
+    });
+    describe('tan', () => {
+      const sz: Complex = z.tan();
+      const sw: Complex = w.tan();
+
+      test('tan(z)', () => {
+        expect(sz.getRe()).toBeCloseTo(0.27175258531951171652884372249858892070946411146177945309, 10);
+        expect(sz.getIm()).toBeCloseTo(1.0839233273386945434757520612119717213449675274753898563, 10);
+        expect(sw.getRe()).toBeCloseTo(-0.0037640256415042482927512211303226908396306202016580864, 10);
+        expect(sw.getIm()).toBeCloseTo(1.0032386273536098014463585978219272598077897241071003, 10);
+      });
+
+      describe('Special Cases', () => {
+        test('Infinity', () => {
+          expect(INFINITY.tan()).toEqual(NAN);
+        });
+
+        test('NaN', () => {
+          expect(NAN.tan()).toEqual(NAN);
+        });
+      });
+    });
+  });
+
   describe('Hyperbolic', () => {
     describe('sinh', () => {
       test('Complex', () => {
