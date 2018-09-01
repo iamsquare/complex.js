@@ -1,5 +1,10 @@
 import Complex, { isCartesian, Cartesian, isPolar, Polar } from '../src/complex';
 
+const ONE = Complex.ONE;
+const ZERO = Complex.ZERO;
+const INFINITY = Complex.INFINITY;
+const NAN = Complex.NAN;
+
 describe('Complex constructor', () => {
   test('Should Exist', () => {
     expect(Complex).toBeDefined();
@@ -18,13 +23,13 @@ describe('Complex constructor', () => {
     test('new Complex() => re: 0, im: 0', () => {
       let z: Complex = new Complex();
 
-      expect(z).toEqual(Complex.ZERO);
+      expect(z).toEqual(ZERO);
     });
 
     test('new Complex(1) => re: 1, im: 0', () => {
       let z: Complex = new Complex(1);
 
-      expect(z).toEqual(Complex.ONE);
+      expect(z).toEqual(ONE);
     });
 
     test('new Complex(1, 1) => re: 1, im: 0', () => {
@@ -71,13 +76,13 @@ describe('Complex constructor', () => {
     test('new Complex(NaN) => re: NaN, im: NaN', () => {
       let z: Complex = new Complex(NaN);
 
-      expect(z).toEqual(Complex.NAN);
+      expect(z).toEqual(NAN);
     });
 
     test('new Complex(NaN, NaN) => re: NaN, im: NaN', () => {
       let z: Complex = new Complex(NaN, NaN);
 
-      expect(z).toEqual(Complex.NAN);
+      expect(z).toEqual(NAN);
     });
   });
 
@@ -85,13 +90,13 @@ describe('Complex constructor', () => {
     test('new Complex(Infinity) => re: Infinity, im: Infinity', () => {
       let z: Complex = new Complex(Infinity);
 
-      expect(z).toEqual(Complex.INFINITY);
+      expect(z).toEqual(INFINITY);
     });
 
     test('new Complex(Infinity, Infinity) => re: Infinity, im: Infinity', () => {
       let z: Complex = new Complex(Infinity, Infinity);
 
-      expect(z).toEqual(Complex.INFINITY);
+      expect(z).toEqual(INFINITY);
     });
   });
 });

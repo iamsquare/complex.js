@@ -1,6 +1,28 @@
 import Complex from '../src/complex';
 
+const NAN = Complex.NAN;
+const INFINITY = Complex.INFINITY;
+const ZERO = Complex.ZERO;
+const ONE = Complex.ONE;
+const I = Complex.I;
+
 describe('Operators', () => {
+  test('They should exist', () => {
+    expect(Complex.prototype.argument).toBeDefined();
+    expect(Complex.prototype.conjugate).toBeDefined();
+    expect(Complex.prototype.divide).toBeDefined();
+    expect(Complex.prototype.equals).toBeDefined();
+    expect(Complex.prototype.notEquals).toBeDefined();
+    expect(Complex.prototype.getIm).toBeDefined();
+    expect(Complex.prototype.getRe).toBeDefined();
+    expect(Complex.prototype.minus).toBeDefined();
+    expect(Complex.prototype.modulus).toBeDefined();
+    expect(Complex.prototype.negate).toBeDefined();
+    expect(Complex.prototype.plus).toBeDefined();
+    expect(Complex.prototype.times).toBeDefined();
+    expect(Complex.prototype.unit).toBeDefined();
+  });
+
   let z: Complex = new Complex(1, 1);
   let w: Complex = new Complex(2, 3);
 
@@ -13,19 +35,19 @@ describe('Operators', () => {
 
     describe('Special Cases', () => {
       test('Infinite + Infinite', () => {
-        expect(Complex.INFINITY.plus(Complex.INFINITY)).toEqual(Complex.NAN);
+        expect(INFINITY.plus(INFINITY)).toEqual(NAN);
       });
 
       test('Value + Infinite', () => {
-        expect(z.plus(Complex.INFINITY)).toEqual(Complex.INFINITY);
+        expect(z.plus(INFINITY)).toEqual(INFINITY);
       });
 
       test('NaN + NaN', () => {
-        expect(Complex.NAN.plus(Complex.NAN)).toEqual(Complex.NAN);
+        expect(NAN.plus(NAN)).toEqual(NAN);
       });
 
       test('Value + NaN', () => {
-        expect(z.plus(Complex.NAN)).toEqual(Complex.NAN);
+        expect(z.plus(NAN)).toEqual(NAN);
       });
     });
   });
@@ -39,19 +61,19 @@ describe('Operators', () => {
 
     describe('Special Cases', () => {
       test('Infinite - Infinite', () => {
-        expect(Complex.INFINITY.minus(Complex.INFINITY)).toEqual(Complex.NAN);
+        expect(INFINITY.minus(INFINITY)).toEqual(NAN);
       });
 
       test('Value - Infinite', () => {
-        expect(z.minus(Complex.INFINITY)).toEqual(Complex.INFINITY);
+        expect(z.minus(INFINITY)).toEqual(INFINITY);
       });
 
       test('NaN - NaN', () => {
-        expect(Complex.NAN.minus(Complex.NAN)).toEqual(Complex.NAN);
+        expect(NAN.minus(NAN)).toEqual(NAN);
       });
 
       test('Value - NaN', () => {
-        expect(z.minus(Complex.NAN)).toEqual(Complex.NAN);
+        expect(z.minus(NAN)).toEqual(NAN);
       });
     });
   });
@@ -65,19 +87,19 @@ describe('Operators', () => {
 
     describe('Special cases', () => {
       test('Infinite * Infinite', () => {
-        expect(Complex.INFINITY.times(Complex.INFINITY)).toEqual(Complex.INFINITY);
+        expect(INFINITY.times(INFINITY)).toEqual(INFINITY);
       });
 
       test('Value * Infinite', () => {
-        expect(z.times(Complex.INFINITY)).toEqual(Complex.INFINITY);
+        expect(z.times(INFINITY)).toEqual(INFINITY);
       });
 
       test('NaN * NaN', () => {
-        expect(Complex.NAN.times(Complex.NAN)).toEqual(Complex.NAN);
+        expect(NAN.times(NAN)).toEqual(NAN);
       });
 
       test('Value * NaN', () => {
-        expect(z.times(Complex.NAN)).toEqual(Complex.NAN);
+        expect(z.times(NAN)).toEqual(NAN);
       });
     });
   });
@@ -91,19 +113,19 @@ describe('Operators', () => {
 
     describe('Special Cases', () => {
       test('Infinite / Infinite', () => {
-        expect(Complex.INFINITY.divide(Complex.INFINITY)).toEqual(Complex.NAN);
+        expect(INFINITY.divide(INFINITY)).toEqual(NAN);
       });
 
       test('Value / Infinite', () => {
-        expect(z.divide(Complex.INFINITY)).toEqual(Complex.ZERO);
+        expect(z.divide(INFINITY)).toEqual(ZERO);
       });
 
       test('NaN / NaN', () => {
-        expect(Complex.NAN.divide(Complex.NAN)).toEqual(Complex.NAN);
+        expect(NAN.divide(NAN)).toEqual(NAN);
       });
 
       test('Value / NaN', () => {
-        expect(z.divide(Complex.NAN)).toEqual(Complex.NAN);
+        expect(z.divide(NAN)).toEqual(NAN);
       });
     });
   });
@@ -117,11 +139,11 @@ describe('Operators', () => {
 
     describe('Special Cases', () => {
       test('-Infinite', () => {
-        expect(Complex.INFINITY.negate()).toEqual(Complex.INFINITY);
+        expect(INFINITY.negate()).toEqual(INFINITY);
       });
 
       test('-NaN', () => {
-        expect(Complex.NAN.negate()).toEqual(Complex.NAN);
+        expect(NAN.negate()).toEqual(NAN);
       });
     });
   });
@@ -135,11 +157,35 @@ describe('Operators', () => {
 
     describe('Special Cases', () => {
       test('Infinity', () => {
-        expect(Complex.INFINITY.conjugate()).toEqual(Complex.INFINITY);
+        expect(INFINITY.conjugate()).toEqual(INFINITY);
       });
 
       test('NaN', () => {
-        expect(Complex.NAN.conjugate()).toEqual(Complex.NAN);
+        expect(NAN.conjugate()).toEqual(NAN);
+      });
+    });
+  });
+
+  describe('Equality', () => {
+    test('eq()', () => {
+      expect(z.equals(z)).toBeTruthy();
+      expect(z.equals(w)).toBeFalsy();
+    });
+
+    test('neq()', () => {
+      expect(z.notEquals(z)).toBeFalsy();
+      expect(z.notEquals(w)).toBeTruthy();
+    });
+
+    describe('Special Cases', () => {
+      test('Infinity', () => {
+        expect(INFINITY.equals(INFINITY)).toBeTruthy();
+        expect(INFINITY.notEquals(INFINITY)).toBeFalsy();
+      });
+
+      test('NaN', () => {
+        expect(NAN.equals(NAN)).toBeFalsy();
+        expect(NAN.notEquals(NAN)).toBeTruthy();
       });
     });
   });
@@ -151,11 +197,11 @@ describe('Operators', () => {
 
     describe('Special Cases', () => {
       test('Infinity', () => {
-        expect(Complex.INFINITY.getRe()).toEqual(Infinity);
+        expect(INFINITY.getRe()).toEqual(Infinity);
       });
 
       test('NaN', () => {
-        expect(isNaN(Complex.NAN.getRe())).toBeTruthy();
+        expect(isNaN(NAN.getRe())).toBeTruthy();
       });
     });
   });
@@ -167,11 +213,11 @@ describe('Operators', () => {
 
     describe('Special Cases', () => {
       test('Infinity', () => {
-        expect(Complex.INFINITY.getIm()).toEqual(Infinity);
+        expect(INFINITY.getIm()).toEqual(Infinity);
       });
 
       test('NaN', () => {
-        expect(isNaN(Complex.NAN.getIm())).toBeTruthy();
+        expect(isNaN(NAN.getIm())).toBeTruthy();
       });
     });
   });
@@ -184,11 +230,11 @@ describe('Operators', () => {
 
     describe('Special Cases', () => {
       test('Infinity', () => {
-        expect(Complex.INFINITY.modulus()).toEqual(Infinity);
+        expect(INFINITY.modulus()).toEqual(Infinity);
       });
 
       test('NaN', () => {
-        expect(Complex.NAN.modulus()).toEqual(NaN);
+        expect(NAN.modulus()).toEqual(NaN);
       });
     });
   });
@@ -201,12 +247,83 @@ describe('Operators', () => {
 
     describe('Special Cases', () => {
       test('Infinity', () => {
-        expect(Complex.INFINITY.argument()).toEqual(Infinity);
+        expect(INFINITY.argument()).toEqual(Infinity);
       });
 
       test('NaN', () => {
-        expect(Complex.NAN.argument()).toEqual(NaN);
+        expect(NAN.argument()).toEqual(NaN);
       });
+    });
+  });
+
+  describe('Unit', () => {
+    const zu = z.unit();
+    const wu = w.unit();
+    test('ẑ', () => {
+      expect(zu.getRe()).toBeCloseTo(Math.SQRT1_2, 10);
+      expect(zu.getIm()).toBeCloseTo(Math.SQRT1_2, 10);
+      expect(wu.getRe()).toBeCloseTo(2 / Math.sqrt(13), 10);
+      expect(wu.getIm()).toBeCloseTo(3 / Math.sqrt(13), 10);
+    });
+    describe('Special Cases', () => {
+      test('Zero', () => {
+        expect(ZERO.unit()).toEqual(NAN);
+      });
+
+      test('Infinity', () => {
+        expect(INFINITY.unit()).toEqual(INFINITY);
+      });
+
+      test('NaN', () => {
+        expect(NAN.unit()).toEqual(NAN);
+      });
+    });
+  });
+
+  describe('Misc.', () => {
+    describe('isReal()', () => {
+      expect(z.isReal()).toBeFalsy();
+      expect(ZERO.isReal()).toBeTruthy();
+      expect(ONE.isReal()).toBeTruthy();
+      expect(I.isReal()).toBeFalsy();
+      expect(INFINITY.isReal()).toBeFalsy();
+      expect(NAN.isReal()).toBeFalsy();
+    });
+
+    describe('isPureImaginary()', () => {
+      expect(z.isPureImaginary()).toBeFalsy();
+      expect(ZERO.isPureImaginary()).toBeFalsy();
+      expect(ONE.isPureImaginary()).toBeFalsy();
+      expect(I.isPureImaginary()).toBeTruthy();
+      expect(INFINITY.isPureImaginary()).toBeFalsy();
+      expect(NAN.isPureImaginary()).toBeFalsy();
+    });
+
+    describe('isZero()', () => {
+      expect(z.isZero()).toBeFalsy();
+      expect(ZERO.isZero()).toBeTruthy();
+      expect(ONE.isZero()).toBeFalsy();
+      expect(I.isZero()).toBeFalsy();
+      expect(INFINITY.isZero()).toBeFalsy();
+      expect(NAN.isZero()).toBeFalsy();
+    });
+
+    describe('isInfinite()', () => {
+      expect(z.isInfinite()).toBeFalsy();
+      expect(ZERO.isInfinite()).toBeFalsy();
+      expect(ONE.isInfinite()).toBeFalsy();
+      expect(I.isInfinite()).toBeFalsy();
+      expect(INFINITY.isInfinite()).toBeTruthy();
+      expect(NAN.isInfinite()).toBeFalsy();
+    });
+
+    describe('isNaN()', () => {
+      expect(z.isNaN()).toBeFalsy();
+      expect(ZERO.isNaN()).toBeFalsy();
+      expect(ONE.isNaN()).toBeFalsy();
+      expect(I.isNaN()).toBeFalsy();
+      expect(INFINITY.isNaN()).toBeFalsy();
+      expect(NAN.isNaN()).toBeTruthy();
     });
   });
 });
