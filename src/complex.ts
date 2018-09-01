@@ -144,14 +144,21 @@ export default class Complex {
   }
 
   /**
-   * Returns true when a Complex number imaginary part is real.
+   * Returns true when a Complex number imaginary part is zero.
    */
   isReal(): boolean {
     return this.im === 0;
   }
 
   /**
-   * Returns true when a Complex number is 0 + 0i.
+   * Returns true when a Complex number real part is zero.
+   */
+  isPureImaginary(): boolean {
+    return this.re === 0 && this.im !== 0;
+  }
+
+  /**
+   * Returns true when a Complex number real and imaginary part are zero.
    */
   isZero(): boolean {
     return this.re === 0 && this.im === 0;
@@ -165,7 +172,7 @@ export default class Complex {
   }
 
   /**
-   * Returns true whe a Complex number is NaN.
+   * Returns true when a Complex number is NaN.
    */
   isNaN(): boolean {
     return isNaN(this.re) || isNaN(this.im);
@@ -222,7 +229,7 @@ export default class Complex {
 
   /**
    * Calculates the square-root of a Complex number.
-   * @todo Test if this implementation is better than the algebraic formula.
+   * @todo Test if this implementation is better than the commented algebraic formula.
    */
   sqrt(): Complex {
     if (this.isNaN()) return Complex.NAN;
@@ -245,7 +252,7 @@ export default class Complex {
    * Calculates e^z, where z is the Complex number from which the method is called.
    */
   exp(): Complex {
-    if (this.isInfinite()) return Complex.NAN;
+    if (this.isNaN() || this.isInfinite()) return Complex.NAN;
     if (this.isZero()) return Complex.ONE;
 
     return new Complex({ r: Math.exp(this.re), p: this.im });
@@ -253,8 +260,12 @@ export default class Complex {
 
   /**
    * Calculates the principal value of Ln(z).
+   * https://en.wikipedia.org/wiki/Complex_logarithm#Definition_of_principal_value
    */
   log(): Complex {
+    if (this.isNaN() || this.isZero()) return Complex.NAN;
+    if (this.isInfinite()) return Complex.INFINITY;
+
     return new Complex(Math.log(this.modulus()), this.argument());
   }
 
@@ -374,37 +385,38 @@ export default class Complex {
   }
 
   /**
-   * Costant zero - z = 0.
+   * Costant zero: z = 0.
    */
   static ZERO: Complex = new Complex(0, 0);
 
   /**
-   * Constant one - z = 1.
+   * Constant one: z = 1.
    */
   static ONE: Complex = new Complex(1, 0);
 
   /**
-   * Constant i - z = i.
+   * Constant i: z = i.
    */
   static I: Complex = new Complex(0, 1);
 
   /**
-   * Constant pi - z = π.
+   * Constant pi: z = π.
    */
   static PI: Complex = new Complex(Math.PI, 0);
 
   /**
-   * Constant e - z = e.
+   * Constant e: z = e.
    */
   static E: Complex = new Complex(Math.E, 0);
 
   /**
-   * Infinity - z = ∞.
+   * Infinity: z = ∞.
+   * https://en.wikipedia.org/wiki/Riemann_sphere
    */
   static INFINITY: Complex = new Complex(Infinity, Infinity);
 
   /**
-   * Not a number - z = NaN.
+   * Not a number: z = NaN.
    */
   static NAN: Complex = new Complex(NaN, NaN);
 
