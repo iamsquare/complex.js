@@ -1,4 +1,4 @@
-![Logo-Javascript](./media/logo.png)
+![Logo](https://raw.githubusercontent.com/iamsquare/complex.js/master/logo.png)
 
 # [ℂomplex.js](http://iamsquare.it/complex.js)
 
@@ -18,7 +18,7 @@ Install complex.js using [npm](https://www.npmjs.com/package/@iamsquare/complex.
 npm i @iamsquare/complex.js
 ```
 
-> Since this library is compiled from Typescript, type definition files are provided by default. No additional installations required!
+> Since this library is compiled from Typescript, type definition files are provided by default. No additional @types installation required!
 
 ## Building
 
@@ -30,6 +30,7 @@ cd complex.js/
 npm i
 npm run build
 ```
+> Even though Typescript compiler target is set to ES5, polyfills are not included (read [Usage](#usage) to learn more).
 
 # Usage
 
@@ -46,6 +47,19 @@ import Complex from '@iamsquare/complex';
 ```js
 var Complex = require('@iamsquare/complex');
 ```
+
+**Note**: for ES5 (e.g IE<=11) you will probably need to polyfill the following methods and properties:
+
+- *core-js/modules/es6.math.sinh*
+- *core-js/modules/es6.math.cosh*
+- *core-js/modules/es6.math.tanh*
+- *core-js/modules/es6.math.hypot*
+- *core-js/modules/es6.math.sign*
+- *core-js/modules/es6.number.epsilon*
+
+To keep the build as little as possible, and to let old tech die, these polyfills are NOT included in the bundle. You almost surely use Babel in your workflow anyway, so it's useless to polyfill the library beforehand.
+
+## Documentation
 
 The library documentation can be found [here](https://www.iamsquare.it/complex.js/).
 
@@ -88,12 +102,20 @@ const d: Complex = z.divide(w);
 console.log(d); // => Complex {re: 0.39999999999999997, im: 0.2}
 ```
 
-These are just the four basic operators. Check the [documentation](https://www.iamsquare.it/complex.js/) to know more.
+These are just the four basic operations. Check the [documentation](https://www.iamsquare.it/complex.js/) to know more.
+
+# TODO
+
+- [ ] Support for trig functions (~~cos, sin, tan,~~ acos, asin, atan, ...).
+- [ ] Support for hyperbolic functions (~~cosh, sinh, tanh,~~ acosh, asinh, atanh, ...)
+- [ ] Support for powers (z^a, z^ib, z^w).
+- [ ] Support for nth-roots (n√z).
 
 # Built With
 
 - [Typescript](https://www.typescriptlang.org/) ([github](https://github.com/Microsoft/TypeScript)) - Main language.
 - [Jest](https://jestjs.io/) ([github](https://github.com/facebook/jest)) - Testing framework.
+- [TypeDoc](https://typedoc.org/) ([github](https://github.com/TypeStrong/typedoc)) - Documentation generator for Typescript projects.
 - [Travis-CI](https://travis-ci.com) - Continuous Integration Service
 
 # Licensing

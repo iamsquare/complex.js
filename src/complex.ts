@@ -144,14 +144,21 @@ export default class Complex {
   }
 
   /**
-   * Returns true when a Complex number imaginary part is real.
+   * Returns true when a Complex number imaginary part is zero.
    */
   isReal(): boolean {
     return this.im === 0;
   }
 
   /**
-   * Returns true when a Complex number is 0 + 0i.
+   * Returns true when a Complex number real part is zero.
+   */
+  isPureImaginary(): boolean {
+    return this.re === 0 && this.im !== 0;
+  }
+
+  /**
+   * Returns true when a Complex number real and imaginary part are zero.
    */
   isZero(): boolean {
     return this.re === 0 && this.im === 0;
@@ -165,7 +172,7 @@ export default class Complex {
   }
 
   /**
-   * Returns true whe a Complex number is NaN.
+   * Returns true when a Complex number is NaN.
    */
   isNaN(): boolean {
     return isNaN(this.re) || isNaN(this.im);
@@ -222,7 +229,7 @@ export default class Complex {
 
   /**
    * Calculates the square-root of a Complex number.
-   * @todo Test if this implementation is better than the algebraic formula.
+   * @todo Test if this implementation is better than the commented algebraic formula.
    */
   sqrt(): Complex {
     if (this.isNaN()) return Complex.NAN;
@@ -245,7 +252,7 @@ export default class Complex {
    * Calculates e^z, where z is the Complex number from which the method is called.
    */
   exp(): Complex {
-    if (this.isInfinite()) return Complex.NAN;
+    if (this.isNaN() || this.isInfinite()) return Complex.NAN;
     if (this.isZero()) return Complex.ONE;
 
     return new Complex({ r: Math.exp(this.re), p: this.im });
@@ -253,9 +260,96 @@ export default class Complex {
 
   /**
    * Calculates the principal value of Ln(z).
+   * https://en.wikipedia.org/wiki/Complex_logarithm#Definition_of_principal_value
    */
   log(): Complex {
+    if (this.isNaN() || this.isZero()) return Complex.NAN;
+    if (this.isInfinite()) return Complex.INFINITY;
+
     return new Complex(Math.log(this.modulus()), this.argument());
+  }
+
+  /**
+   * Calculates the sine of a Complex number.
+   */
+  sin(): Complex {
+    if (this.isInfinite() || this.isNaN()) return Complex.NAN;
+    if (this.isZero()) return Complex.ZERO;
+
+    const a: number = this.re;
+    const b: number = this.im;
+
+    return new Complex(Math.sin(a) * Math.cosh(b), Math.cos(a) * Math.sinh(b));
+  }
+
+  /**
+   * Calculates the cosine of a Complex number.
+   */
+  cos(): Complex {
+    if (this.isInfinite() || this.isNaN()) return Complex.NAN;
+    if (this.isZero()) return Complex.ONE;
+
+    const a: number = this.re;
+    const b: number = this.im;
+
+    return new Complex(Math.cos(a) * Math.cosh(b), -Math.sin(a) * Math.sinh(b));
+  }
+
+  /**
+   * Calculates the tangent of a Complex number.
+   */
+  tan(): Complex {
+    if (this.isInfinite() || this.isNaN()) return Complex.NAN;
+    if (this.isZero()) return Complex.ZERO;
+
+    // We avoid numeric cancellation by expanding the denominator and simplifying with trig rules.
+    const a2: number = 2 * this.re;
+    const b2: number = 2 * this.im;
+    const d: number = Math.cos(a2) + Math.cosh(b2);
+
+    return new Complex(Math.sin(a2) / d, Math.sinh(b2) / d);
+  }
+
+  /**
+   * Calculates the hyperbolic sine of a Complex number.
+   */
+  sinh(): Complex {
+    if (this.isInfinite() || this.isNaN()) return Complex.NAN;
+    if (this.isZero()) return Complex.ZERO;
+
+    const a: number = this.re;
+    const b: number = this.im;
+
+    return new Complex(Math.sinh(a) * Math.cos(b), Math.cosh(a) * Math.sin(b));
+  }
+
+  /**
+   * Calculates the hyperbolic cosine of a Complex number.
+   */
+  cosh(): Complex {
+    if (this.isInfinite() || this.isNaN()) return Complex.NAN;
+    if (this.isZero()) return Complex.ONE;
+
+    const a: number = this.re;
+    const b: number = this.im;
+
+    return new Complex(Math.cosh(a) * Math.cos(b), Math.sinh(a) * Math.sin(b));
+  }
+
+  /**
+   * Calculates the hyperbolic tangent of a Complex number.
+   */
+
+  tanh(): Complex {
+    if (this.isInfinite() || this.isNaN()) return Complex.NAN;
+    if (this.isZero()) return Complex.ZERO;
+
+    // We avoid numeric cancellation by expanding the denominator and simplifying with trig rules.
+    const a2: number = 2 * this.re;
+    const b2: number = 2 * this.im;
+    const d: number = Math.cosh(a2) + Math.cos(b2);
+
+    return new Complex(Math.sinh(a2) / d, Math.sin(b2) / d);
   }
 
   /**
@@ -374,43 +468,44 @@ export default class Complex {
   }
 
   /**
-   * Costant zero - z = 0.
+   * Costant zero: z = 0.
    */
   static ZERO: Complex = new Complex(0, 0);
 
   /**
-   * Constant one - z = 1.
+   * Constant one: z = 1.
    */
   static ONE: Complex = new Complex(1, 0);
 
   /**
-   * Constant i - z = i.
+   * Constant i: z = i.
    */
   static I: Complex = new Complex(0, 1);
 
   /**
-   * Constant pi - z = π.
+   * Constant pi: z = π.
    */
   static PI: Complex = new Complex(Math.PI, 0);
 
   /**
-   * Constant e - z = e.
+   * Constant e: z = e.
    */
   static E: Complex = new Complex(Math.E, 0);
 
   /**
-   * Infinity - z = ∞.
+   * Infinity: z = ∞.
+   * https://en.wikipedia.org/wiki/Riemann_sphere
    */
   static INFINITY: Complex = new Complex(Infinity, Infinity);
 
   /**
-   * Not a number - z = NaN.
+   * Not a number: z = NaN.
    */
   static NAN: Complex = new Complex(NaN, NaN);
 
   /**
    * Difference between 1 and the smallest floating point number greater than 1.
-   * Simply stores Number.EPSILON in a static property.
+   * Simply stores Number.EPSILON in a static property (ES5 might need a polyfill).
    */
   static EPSILON: number = Number.EPSILON;
 }

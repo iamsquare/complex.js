@@ -1,14 +1,15 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
-    "outDir": "lib",
+    "outFile": "lib/complex.js",
     "noImplicitAny": true,
     "sourceMap": true,
     "downlevelIteration": true,
-    "module": "commonjs",
-    "lib": ["es5", "es6"],
+    "removeComments": true,
+    "module": "system",
+    "lib": ["es6", "es5"],
     "target": "es5",
   },
-  "exclude": ["node_modules", "lib", "tests"]
+  "exclude": ["node_modules/**/*", "lib/**/*", "**/*.spec.ts"]
 }
 
