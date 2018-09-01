@@ -1,6 +1,6 @@
 {
   "name": "@iamsquare/complex.js",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "A simple complex numbers library written in Typescript",
   "main": "lib/complex.min.js",
   "types": "lib/complex.d.ts",
