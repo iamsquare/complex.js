@@ -11,6 +11,7 @@ const ONE = Complex.ONE;
 describe('Functions', () => {
   const z: Complex = new Complex(1, 1);
   const w: Complex = new Complex(2, 3);
+
   describe('Square Root', () => {
     const sz: Complex = z.sqrt();
     const sw: Complex = w.sqrt();
@@ -30,14 +31,15 @@ describe('Functions', () => {
       });
     });
   });
+
   describe('Logarithm', () => {
-    const sz: Complex = z.log();
-    const sw: Complex = w.log();
+    const lz: Complex = z.log();
+    const lw: Complex = w.log();
     test('log(z)', () => {
-      expect(sz.getRe()).toBeCloseTo(0.34657359027997265470861606072908828403775006718012762706, 10);
-      expect(sz.getIm()).toBeCloseTo(0.78539816339744830961566084581987572104929234984377645524, 10);
-      expect(sw.getRe()).toBeCloseTo(1.2824746787307683680267437207826593024026339723801035582, 10);
-      expect(sw.getIm()).toBeCloseTo(0.98279372324732906798571061101466601449687745363162855676, 10);
+      expect(lz.getRe()).toBeCloseTo(0.34657359027997265470861606072908828403775006718012762706, 10);
+      expect(lz.getIm()).toBeCloseTo(0.78539816339744830961566084581987572104929234984377645524, 10);
+      expect(lw.getRe()).toBeCloseTo(1.2824746787307683680267437207826593024026339723801035582, 10);
+      expect(lw.getIm()).toBeCloseTo(0.98279372324732906798571061101466601449687745363162855676, 10);
     });
 
     describe('Special Cases', () => {
@@ -54,13 +56,13 @@ describe('Functions', () => {
   });
 
   describe('Exponential', () => {
-    const sz: Complex = z.exp();
-    const sw: Complex = w.exp();
+    const ez: Complex = z.exp();
+    const ew: Complex = w.exp();
     test('exp(z)', () => {
-      expect(sz.getRe()).toBeCloseTo(1.46869393991588515713896759732660426132695673662900872279, 10);
-      expect(sz.getIm()).toBeCloseTo(2.28735528717884239120817190670050180895558625666835568093, 10);
-      expect(sw.getRe()).toBeCloseTo(-7.3151100949011025174865361510507893218698794489446322367, 10);
-      expect(sw.getIm()).toBeCloseTo(1.0427436562359044141015039404625521939183300604422348975, 10);
+      expect(ez.getRe()).toBeCloseTo(1.46869393991588515713896759732660426132695673662900872279, 10);
+      expect(ez.getIm()).toBeCloseTo(2.28735528717884239120817190670050180895558625666835568093, 10);
+      expect(ew.getRe()).toBeCloseTo(-7.3151100949011025174865361510507893218698794489446322367, 10);
+      expect(ew.getIm()).toBeCloseTo(1.0427436562359044141015039404625521939183300604422348975, 10);
     });
 
     describe('Special Cases', () => {
@@ -72,6 +74,78 @@ describe('Functions', () => {
       });
       test('NaN', () => {
         expect(NAN.exp()).toEqual(NAN);
+      });
+    });
+  });
+
+  describe('Hyperbolic', () => {
+    describe('sinh', () => {
+      test('Complex', () => {
+        const sz: Complex = z.sinh();
+        const sw: Complex = w.sinh();
+
+        expect(sz.getRe()).toBeCloseTo(0.63496391478473610825508220299150978151708195141937941052, 10);
+        expect(sz.getIm()).toBeCloseTo(1.2984575814159772948260423658078156203134365616352080734, 10);
+        expect(sw.getRe()).toBeCloseTo(-3.590564589985779952012565447794816793194913675729301509, 10);
+        expect(sw.getIm()).toBeCloseTo(0.53092108624851980526704009066067655967277345095149103, 10);
+      });
+
+      describe('Special Cases', () => {
+        test('Infinity', () => {
+          expect(INFINITY.sinh()).toEqual(NAN);
+        });
+
+        test('NaN', () => {
+          expect(NAN.sinh()).toEqual(NAN);
+        });
+      });
+    });
+
+    describe('cosh', () => {
+      test('Complex', () => {
+        const cz: Complex = z.cosh();
+        const cw: Complex = w.cosh();
+
+        expect(cz.getRe()).toBeCloseTo(0.83373002513114904888388539433509447980987478520962931227, 10);
+        expect(cz.getIm()).toBeCloseTo(0.98889770576286509638212954089268618864214969503314760753, 10);
+        expect(cw.getRe()).toBeCloseTo(-3.724545504915322565473970703255972528674965773215330726, 10);
+        expect(cw.getIm()).toBeCloseTo(0.5118225699873846088344638498018756342455566094907438674, 10);
+      });
+
+      describe('Special Cases', () => {
+        test('Zero', () => {
+          expect(ZERO.cosh()).toEqual(ONE);
+        });
+
+        test('Infinity', () => {
+          expect(INFINITY.cosh()).toEqual(NAN);
+        });
+
+        test('NaN', () => {
+          expect(NAN.cosh()).toEqual(NAN);
+        });
+      });
+    });
+
+    describe('tanh', () => {
+      test('Complex', () => {
+        const tz: Complex = z.tanh();
+        const tw: Complex = w.tanh();
+
+        expect(tz.getRe()).toBeCloseTo(1.0839233273386945434757520612119717213449675274753898563, 10);
+        expect(tz.getIm()).toBeCloseTo(0.27175258531951171652884372249858892070946411146177945309, 10);
+        expect(tw.getRe()).toBeCloseTo(0.965385879022133124278480269394560685879729650005757773, 10);
+        expect(tw.getIm()).toBeCloseTo(-0.00988437503832249372031403430350121097961813353467039031, 10);
+      });
+
+      describe('Special Cases', () => {
+        test('Infinity', () => {
+          expect(INFINITY.tanh()).toEqual(NAN);
+        });
+
+        test('NaN', () => {
+          expect(NAN.tanh()).toEqual(NAN);
+        });
       });
     });
   });
