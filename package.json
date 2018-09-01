@@ -11,7 +11,7 @@
     "clean:docs": "rimraf ./docs",
     "clean:lib": "rimraf ./lib && rimraf ./types",
     "clean": "npm run clean:lib && npm run clean:docs",
-    "docs": "npm run clean:docs && typedoc --name complex.js --media ./media/ --readme ./README.md --mode file --theme default --hidegenerator --excludeexternals --tsconfig ./tsconfig.json --out ./docs ./src",
+    "docs": "npm run clean:docs && typedoc --name complex.js --readme ./README.md --mode file --theme minimal --hidegenerator --excludeexternals --tsconfig ./tsconfig.json --out ./docs ./src",
     "build": "npm run clean:lib && tsc -p ./tsconfig.d.json",
     "build:watch": "npm run clean:lib && tsc -w",
     "start": "npm run build:watch"
@@ -28,12 +28,7 @@
     "library"
   ],
   "author": "squaremarco",
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "https://www.opensource.org/licenses/mit-license.php"
-    }
-  ],
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/iamsquare/complex.js/issues"
   },

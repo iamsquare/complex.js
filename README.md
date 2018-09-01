@@ -1,4 +1,4 @@
-![Logo-Javascript](./media/logo.png)
+![Logo](https://raw.githubusercontent.com/iamsquare/complex.js/master/logo.png)
 
 # [ℂomplex.js](http://iamsquare.it/complex.js)
 
@@ -88,12 +88,20 @@ const d: Complex = z.divide(w);
 console.log(d); // => Complex {re: 0.39999999999999997, im: 0.2}
 ```
 
-These are just the four basic operators. Check the [documentation](https://www.iamsquare.it/complex.js/) to know more.
+These are just the four basic operations. Check the [documentation](https://www.iamsquare.it/complex.js/) to know more.
+
+# TODO
+
+- [ ] Support for trig functions (cos, sin, tan, acos, asin, atan).
+- [ ] Support for hyperbolic function (cosh, sinh, tanh, acosh, asinh, atanh)
+- [ ] Support for powers (z^a, z^ib, z^w).
+- [ ] Support for nth-roots (n√z).
 
 # Built With
 
 - [Typescript](https://www.typescriptlang.org/) ([github](https://github.com/Microsoft/TypeScript)) - Main language.
 - [Jest](https://jestjs.io/) ([github](https://github.com/facebook/jest)) - Testing framework.
+- [TypeDoc](https://typedoc.org/) ([github](https://github.com/TypeStrong/typedoc)) - Documentation generator for Typescript projects.
 - [Travis-CI](https://travis-ci.com) - Continuous Integration Service
 
 # Licensing
