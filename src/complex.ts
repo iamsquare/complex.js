@@ -270,6 +270,48 @@ export default class Complex {
   }
 
   /**
+   * Calculates the hyperbolic sine of a Complex number.
+   */
+  sinh(): Complex {
+    if (this.isInfinite() || this.isNaN()) return Complex.NAN;
+    if (this.isZero()) return Complex.ZERO;
+
+    const a: number = this.re;
+    const b: number = this.im;
+
+    return new Complex(Math.sinh(a) * Math.cos(b), Math.cosh(a) * Math.sin(b));
+  }
+
+  /**
+   * Calculates the hyperbolic cosine of a Complex number.
+   */
+  cosh(): Complex {
+    if (this.isInfinite() || this.isNaN()) return Complex.NAN;
+    if (this.isZero()) return Complex.ONE;
+
+    const a: number = this.re;
+    const b: number = this.im;
+
+    return new Complex(Math.cosh(a) * Math.cos(b), Math.sinh(a) * Math.sin(b));
+  }
+
+  /**
+   * Calculates the hyperbolic tangent of a Complex number.
+   */
+
+  tanh(): Complex {
+    if (this.isInfinite() || this.isNaN()) return Complex.NAN;
+    if (this.isZero()) return Complex.ZERO;
+
+    // We avoid numeric cancellation by expanding the denominator and simplifying with trig rules.
+    const a2: number = 2 * this.re;
+    const b2: number = 2 * this.im;
+    const d: number = Math.cosh(a2) + Math.cos(b2);
+
+    return new Complex(Math.sinh(a2) / d, Math.sin(b2) / d);
+  }
+
+  /**
    * Calculates z + w.
    */
   plus(z: Complex): Complex {
@@ -422,7 +464,7 @@ export default class Complex {
 
   /**
    * Difference between 1 and the smallest floating point number greater than 1.
-   * Simply stores Number.EPSILON in a static property.
+   * Simply stores Number.EPSILON in a static property (ES5 might need a polyfill).
    */
   static EPSILON: number = Number.EPSILON;
 }
