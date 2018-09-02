@@ -6,15 +6,23 @@ import { Cartesian, isCartesian, Polar, isPolar } from './helpers';
 /**
  * A class that descibes Complex numbers and their operations.
  * 
- * **For ES5 browsers you might need the following cs-core polyfills**:
+ * To define a new Complex:
+  ```
+  new Complex(1, -1); // Numeric arguments
+  new Complex({ x: 1, y: -3 }); // Cartesian argument
+  new Complex({ r: 1, p: Math.PI / 2 }); // Polar argument
+  new Complex(z); // Complex argument
+  ```
+ *
+ * **For ES5 browsers you might need the following core-js polyfills**:
  * - core-js/modules/es6.math.sinh
  * - core-js/modules/es6.math.cosh
  * - core-js/modules/es6.math.tanh
  * - core-js/modules/es6.math.hypot
  * - core-js/modules/es6.math.sign
  * - core-js/modules/es6.number.epsilon
- * 
- * [Here](https://babeljs.io/docs/en/babel-preset-env.html#include)'s a guide about including built-ins with babel.
+ *
+ * *[Here](https://babeljs.io/docs/en/babel-preset-env.html#include)'s a guide about including built-ins with babel.*
  */
 export class Complex {
   /**
@@ -330,6 +338,75 @@ export class Complex {
   }
 
   /**
+   * Calculates the inverse sine of a Complex number.
+   */
+  asin(): Complex {
+    if (this.isInfinite() || this.isNaN()) return Complex.NAN;
+    if (this.isZero()) return Complex.ZERO;
+
+    const a: number = this.re;
+    const b: number = this.im;
+
+    const sqrt: Complex = new Complex(1 - a * a + b * b, -2 * a * b).sqrt();
+    const log: Complex = new Complex(sqrt.re - b, sqrt.im + a).log();
+
+    return new Complex(log.im, -log.re);
+  }
+
+  /**
+   * Calculates the inverse cosine of a Complex number.
+   */
+  acos(): Complex {
+    if (this.isInfinite() || this.isNaN()) return Complex.NAN;
+    if (this.isZero()) return new Complex(Math.PI / 2, 0);
+
+    const a: number = this.re;
+    const b: number = this.im;
+
+    const sqrt: Complex = new Complex(a * a - b * b - 1, 2 * a * b).sqrt();
+    const log: Complex = new Complex(sqrt.re + a, sqrt.im + b).log();
+
+    return new Complex(log.im, -log.re);
+  }
+
+  /**
+   * Calculates the inverse tangent of a Complex number.
+   * @todo Find a way to avoid divide()
+   */
+  atan(): Complex {
+    if (this.isInfinite() || this.isNaN()) return Complex.NAN;
+    if (this.isZero()) return Complex.ZERO;
+
+    const a: number = this.re;
+    const b: number = this.im;
+    const n: Complex = new Complex(1 + b, -a);
+    const d: Complex = new Complex(1 - b, a);
+
+    const div: Complex = n.divide(d);
+    const log: Complex = div.log();
+
+    return new Complex(-log.im / 2, log.re / 2);
+  }
+
+  /**
+   * Calculates the inverse cotangent of a Complex number.
+   */
+  acot(): Complex {
+    if (this.isInfinite() || this.isNaN()) return Complex.NAN;
+    if (this.isZero()) return new Complex(Math.PI / 2, 0);
+
+    const a: number = this.re;
+    const b: number = this.im;
+    const n: Complex = new Complex(a, b - 1);
+    const d: Complex = new Complex(a, b + 1);
+
+    const div: Complex = n.divide(d);
+    const log: Complex = div.log();
+
+    return new Complex(-log.im / 2, log.re / 2);
+  }
+
+  /**
    * Calculates the hyperbolic sine of a Complex number.
    */
   sinh(): Complex {
@@ -403,9 +480,7 @@ export class Complex {
   }
 
   /**
-   * Calculates z / w using a modified Smith's Method.
-   * 
-   * @link http://forge.scilab.org/index.php/p/compdiv/source/tree/21/doc/improved_cdiv.pdf
+   * Calculates z / w using a [modified Smith's Method](http://forge.scilab.org/index.php/p/compdiv/source/tree/21/doc/improved_cdiv.pdf).
    * @todo Test if this implementation is actually SO better than the original Smith's method.
    * */
   divide(z: Complex): Complex {
@@ -513,8 +588,7 @@ export class Complex {
   static E: Complex = new Complex(Math.E, 0);
 
   /**
-   * Infinity: z = ∞.
-   * https://en.wikipedia.org/wiki/Riemann_sphere
+   * Infinity: [z = ∞](https://en.wikipedia.org/wiki/Riemann_sphere).
    */
   static INFINITY: Complex = new Complex(Infinity, Infinity);
 

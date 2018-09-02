@@ -30,7 +30,7 @@ cd complex.js/
 npm i
 npm run build
 ```
-> Even though Typescript compiler target is set to ES5, polyfills are not included (read [Usage](#usage) to learn more).
+> Polyfills are not included (read [Usage](#usage) to learn more).
 
 # Usage
 
@@ -48,7 +48,7 @@ import { Complex } from '@iamsquare/complex';
 var Complex = require('@iamsquare/complex');
 ```
 
-**Note**: for ES5 (e.g IE<=11) you will probably need to polyfill the following methods and properties:
+**Note**: for ES5 you will probably need to polyfill the following methods and properties:
 
 - *core-js/modules/es6.math.sinh*
 - *core-js/modules/es6.math.cosh*
@@ -106,7 +106,7 @@ These are just the four basic operations. Check the [documentation](https://www.
 
 # TODO
 
-- [ ] Support for trig functions (~~cos, sin, tan, cot, sec,~~ acos, asin, atan, ...).
+- [ ] Support for trig functions (~~cos, sin, tan, cot, sec, acos, asin, atan, acot~~, ...).
 - [ ] Support for hyperbolic functions (~~cosh, sinh, tanh,~~ coth, sech, acosh, asinh, atanh, ...)
 - [ ] Support for powers (z^a, z^ib, z^w).
 - [ ] Support for nth-roots (n√z).

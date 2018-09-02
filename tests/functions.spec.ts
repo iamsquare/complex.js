@@ -1,9 +1,10 @@
 import { Complex } from '../src/complex';
 
-const INFINITY = Complex.INFINITY;
-const NAN = Complex.NAN;
-const ZERO = Complex.ZERO;
-const ONE = Complex.ONE;
+const INFINITY :Complex= Complex.INFINITY;
+const NAN :Complex= Complex.NAN;
+const ZERO :Complex= Complex.ZERO;
+const ONE :Complex= Complex.ONE;
+const PIHALF :Complex= new Complex(Math.PI / 2, 0);
 
 // Numerical values are calculated with wolframalpha online calculator
 // http://www.wolframalpha.com/
@@ -19,6 +20,10 @@ describe('Functions', () => {
     expect(Complex.prototype.cot).toBeDefined();
     expect(Complex.prototype.sec).toBeDefined();
     expect(Complex.prototype.csc).toBeDefined();
+    expect(Complex.prototype.asin).toBeDefined();
+    expect(Complex.prototype.acos).toBeDefined();
+    expect(Complex.prototype.atan).toBeDefined();
+    expect(Complex.prototype.acot).toBeDefined();
     expect(Complex.prototype.sinh).toBeDefined();
     expect(Complex.prototype.cosh).toBeDefined();
     expect(Complex.prototype.tanh).toBeDefined();
@@ -93,7 +98,7 @@ describe('Functions', () => {
     });
   });
 
-  describe('Trigonometric', () => {
+  describe('Trigonometric Functions', () => {
     describe('sin', () => {
       const sz: Complex = z.sin();
       const sw: Complex = w.sin();
@@ -222,7 +227,6 @@ describe('Functions', () => {
       });
     });
 
-
     describe('csc', () => {
       const sz: Complex = z.csc();
       const sw: Complex = w.csc();
@@ -245,6 +249,112 @@ describe('Functions', () => {
 
         test('NaN', () => {
           expect(NAN.csc()).toEqual(NAN);
+        });
+      });
+    });
+  });
+
+  describe('Inverse Trigonometric Functions', () => {
+    describe('asin', () => {
+      const sz: Complex = z.asin();
+      const sw: Complex = w.asin();
+
+      test('asin(z)', () => {
+        expect(sz.getRe()).toBeCloseTo(0.66623943249251525510400489597779272066749013872594784283, 10);
+        expect(sz.getIm()).toBeCloseTo(1.0612750619050356520330189162135734858067854989386336963, 10);
+        expect(sw.getRe()).toBeCloseTo(0.57065278432109940071028387968566965018280324509604013653, 10);
+        expect(sw.getIm()).toBeCloseTo(1.9833870299165354323470769028940395650142483029093453561, 10);
+      });
+
+      describe('Special Cases', () => {
+        test('Zero', () => {
+          expect(ZERO.asin()).toEqual(ZERO);
+        });
+
+        test('Infinity', () => {
+          expect(INFINITY.asin()).toEqual(NAN);
+        });
+
+        test('NaN', () => {
+          expect(NAN.asin()).toEqual(NAN);
+        });
+      });
+    });
+
+    describe('acos', () => {
+      const sz: Complex = z.acos();
+      const sw: Complex = w.acos();
+
+      test('acos(z)', () => {
+        expect(sz.getRe()).toBeCloseTo(0.90455689430238136412731679566195872143109456096160506765, 10);
+        expect(sz.getIm()).toBeCloseTo(-1.0612750619050356520330189162135734858067854989386336963, 10);
+        expect(sw.getRe()).toBeCloseTo(1.00014354247379721852103781195408179191578145459151277395, 10);
+        expect(sw.getIm()).toBeCloseTo(-1.98338702991653543234707690289403956501424830290934535612, 10);
+      });
+
+      describe('Special Cases', () => {
+        test('Zero', () => {
+          expect(ZERO.acos()).toEqual(PIHALF);
+        });
+
+        test('Infinity', () => {
+          expect(INFINITY.acos()).toEqual(NAN);
+        });
+
+        test('NaN', () => {
+          expect(NAN.acos()).toEqual(NAN);
+        });
+      });
+    });
+
+    describe('atan', () => {
+      const sz: Complex = z.atan();
+      const sw: Complex = w.atan();
+
+      test('atan(z)', () => {
+        expect(sz.getRe()).toBeCloseTo(1.0172219678978513677227889615504829220635608769868365871, 10);
+        expect(sz.getIm()).toBeCloseTo(0.40235947810852509365018983330654690988140033856712943047, 10);
+        expect(sw.getRe()).toBeCloseTo(1.4099210495965755225306193844604207825882070519087248147, 10);
+        expect(sw.getIm()).toBeCloseTo(0.22907268296853876629588180294200276786252530497706561694, 10);
+      });
+
+      describe('Special Cases', () => {
+        test('Zero', () => {
+          expect(ZERO.atan()).toEqual(ZERO);
+        });
+
+        test('Infinity', () => {
+          expect(INFINITY.atan()).toEqual(NAN);
+        });
+
+        test('NaN', () => {
+          expect(NAN.atan()).toEqual(NAN);
+        });
+      });
+    });
+
+    describe('acot', () => {
+      const sz: Complex = z.acot();
+      const sw: Complex = w.acot();
+
+      test('acot(z)', () => {
+        expect(sz.getRe()).toBeCloseTo(0.55357435889704525150853273008926852003502382270071632333, 10);
+        expect(sz.getIm()).toBeCloseTo(-0.40235947810852509365018983330654690988140033856712943047, 10);
+        expect(sw.getRe()).toBeCloseTo(0.16087527719832109670070230717933065951037764777882809571, 10);
+        expect(sw.getIm()).toBeCloseTo(-0.22907268296853876629588180294200276786252530497706561694, 10);
+      });
+
+      describe('Special Cases', () => {
+        test('Zero', () => {
+          expect(ZERO.acot()).toEqual(PIHALF);
+        });
+
+        test('Infinity', () => {
+          expect(INFINITY.acot()).toEqual(NAN);
+        });
+
+        test('NaN', () => {
+          expect(NAN.acot()).toEqual(NAN);
         });
       });
     });
