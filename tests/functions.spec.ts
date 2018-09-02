@@ -16,6 +16,9 @@ describe('Functions', () => {
     expect(Complex.prototype.sin).toBeDefined();
     expect(Complex.prototype.cos).toBeDefined();
     expect(Complex.prototype.tan).toBeDefined();
+    expect(Complex.prototype.cot).toBeDefined();
+    expect(Complex.prototype.sec).toBeDefined();
+    expect(Complex.prototype.csc).toBeDefined();
     expect(Complex.prototype.sinh).toBeDefined();
     expect(Complex.prototype.cosh).toBeDefined();
     expect(Complex.prototype.tanh).toBeDefined();
@@ -94,7 +97,7 @@ describe('Functions', () => {
     describe('sin', () => {
       const sz: Complex = z.sin();
       const sw: Complex = w.sin();
-      
+
       test('sin(z)', () => {
         expect(sz.getRe()).toBeCloseTo(1.2984575814159772948260423658078156203134365616352080734, 10);
         expect(sz.getIm()).toBeCloseTo(0.63496391478473610825508220299150978151708195141937941052, 10);
@@ -103,6 +106,10 @@ describe('Functions', () => {
       });
 
       describe('Special Cases', () => {
+        test('Zero', () => {
+          expect(ZERO.sin()).toEqual(ZERO);
+        });
+
         test('Infinity', () => {
           expect(INFINITY.sin()).toEqual(NAN);
         });
@@ -124,6 +131,10 @@ describe('Functions', () => {
       });
 
       describe('Special Cases', () => {
+        test('Zero', () => {
+          expect(ZERO.cos()).toEqual(ONE);
+        });
+
         test('Infinity', () => {
           expect(INFINITY.cos()).toEqual(NAN);
         });
@@ -145,12 +156,95 @@ describe('Functions', () => {
       });
 
       describe('Special Cases', () => {
+        test('Zero', () => {
+          expect(ZERO.tan()).toEqual(ZERO);
+        });
+
         test('Infinity', () => {
           expect(INFINITY.tan()).toEqual(NAN);
         });
 
         test('NaN', () => {
           expect(NAN.tan()).toEqual(NAN);
+        });
+      });
+    });
+
+    describe('cot', () => {
+      const sz: Complex = z.cot();
+      const sw: Complex = w.cot();
+
+      test('cot(z)', () => {
+        expect(sz.getRe()).toBeCloseTo(0.21762156185440268136513424360523807352075436916785404091, 10);
+        expect(sz.getIm()).toBeCloseTo(-0.86801414289592494863584920891627388827343874994609327121, 10);
+        expect(sw.getRe()).toBeCloseTo(-0.0037397103763369566601174086919025762400058903825787505, 10);
+        expect(sw.getIm()).toBeCloseTo(-0.99675779656935831046096879711747071833201292579034236, 10);
+      });
+
+      describe('Special Cases', () => {
+        test('Zero', () => {
+          expect(ZERO.cot()).toEqual(INFINITY);
+        });
+
+        test('Infinity', () => {
+          expect(INFINITY.cot()).toEqual(NAN);
+        });
+
+        test('NaN', () => {
+          expect(NAN.cot()).toEqual(NAN);
+        });
+      });
+    });
+
+    describe('sec', () => {
+      const sz: Complex = z.sec();
+      const sw: Complex = w.sec();
+
+      test('sec(z)', () => {
+        expect(sz.getRe()).toBeCloseTo(0.49833703055518678521380589177216953443287793247109398814, 10);
+        expect(sz.getIm()).toBeCloseTo(0.59108384172104504805039169297433507150365868212588646424, 10);
+        expect(sw.getRe()).toBeCloseTo(-0.0416749644111442700483499083803288960718713703427135394, 10);
+        expect(sw.getIm()).toBeCloseTo(0.0906111371962375965296611983372727984226074826771616783, 10);
+      });
+
+      describe('Special Cases', () => {
+        test('Zero', () => {
+          expect(ZERO.sec()).toEqual(ONE);
+        });
+
+        test('Infinity', () => {
+          expect(INFINITY.sec()).toEqual(NAN);
+        });
+
+        test('NaN', () => {
+          expect(NAN.sec()).toEqual(NAN);
+        });
+      });
+    });
+
+
+    describe('csc', () => {
+      const sz: Complex = z.csc();
+      const sw: Complex = w.csc();
+
+      test('sec(z)', () => {
+        expect(sz.getRe()).toBeCloseTo(0.62151801717042842123490780585592014816751214181074260992, 10);
+        expect(sz.getIm()).toBeCloseTo(-0.30393100162842645033448560450970327348872988190146275166, 10);
+        expect(sw.getRe()).toBeCloseTo(0.09047320975320743980579047913588321135593772687324480684, 10);
+        expect(sw.getIm()).toBeCloseTo(0.04120098628857412646300981299403968750528596447974263627, 10);
+      });
+
+      describe('Special Cases', () => {
+        test('Zero', () => {
+          expect(ZERO.csc()).toEqual(INFINITY);
+        });
+
+        test('Infinity', () => {
+          expect(INFINITY.csc()).toEqual(NAN);
+        });
+
+        test('NaN', () => {
+          expect(NAN.csc()).toEqual(NAN);
         });
       });
     });

@@ -5,6 +5,16 @@ import { Cartesian, isCartesian, Polar, isPolar } from './helpers';
 
 /**
  * A class that descibes Complex numbers and their operations.
+ * 
+ * **For ES5 browsers you might need the following cs-core polyfills**:
+ * - core-js/modules/es6.math.sinh
+ * - core-js/modules/es6.math.cosh
+ * - core-js/modules/es6.math.tanh
+ * - core-js/modules/es6.math.hypot
+ * - core-js/modules/es6.math.sign
+ * - core-js/modules/es6.number.epsilon
+ * 
+ * [Here](https://babeljs.io/docs/en/babel-preset-env.html#include)'s a guide about including built-ins with babel.
  */
 export class Complex {
   /**
@@ -213,7 +223,7 @@ export class Complex {
   }
 
   /**
-   * Calculates e^z, where z is the Complex number from which the method is called.
+   * Calculates e^z.
    */
   exp(): Complex {
     if (this.isNaN() || this.isInfinite()) return Complex.NAN;
@@ -272,6 +282,51 @@ export class Complex {
     const d: number = Math.cos(a2) + Math.cosh(b2);
 
     return new Complex(Math.sin(a2) / d, Math.sinh(b2) / d);
+  }
+
+  /**
+   * Calculates the cotangent of a Complex number.
+   */
+  cot(): Complex {
+    if (this.isInfinite() || this.isNaN()) return Complex.NAN;
+    if (this.isZero()) return Complex.INFINITY;
+
+    // We avoid numeric cancellation by expanding the denominator and simplifying with trig rules.
+    const a2: number = 2 * this.re;
+    const b2: number = 2 * this.im;
+    const d: number = Math.cosh(b2) - Math.cos(a2);
+
+    return new Complex(Math.sin(a2) / d, -Math.sinh(b2) / d);
+  }
+
+  /**
+   * Calculates the secant of a Complex number.
+   */
+  sec(): Complex {
+    if (this.isInfinite() || this.isNaN()) return Complex.NAN;
+    if (this.isZero()) return Complex.ONE;
+
+    // We avoid numeric cancellation by expanding the denominator and simplifying with trig rules.
+    const a: number = this.re;
+    const b: number = this.im;
+    const d: number = Math.cos(2 * a) + Math.cosh(2 * b);
+
+    return new Complex((2 * (Math.cos(a) * Math.cosh(b))) / d, (2 * (Math.sin(a) * Math.sinh(b))) / d);
+  }
+
+  /**
+   * Calculates the cosecant of a Complex number.
+   */
+  csc(): Complex {
+    if (this.isInfinite() || this.isNaN()) return Complex.NAN;
+    if (this.isZero()) return Complex.INFINITY;
+
+    // We avoid numeric cancellation by expanding the denominator and simplifying with trig rules.
+    const a: number = this.re;
+    const b: number = this.im;
+    const d: number = Math.cosh(2 * b) - Math.cos(2 * a);
+
+    return new Complex((2 * (Math.sin(a) * Math.cosh(b))) / d, -(2 * (Math.cos(a) * Math.sinh(b))) / d);
   }
 
   /**
@@ -349,7 +404,8 @@ export class Complex {
 
   /**
    * Calculates z / w using a modified Smith's Method.
-   * http://forge.scilab.org/index.php/p/compdiv/source/tree/21/doc/improved_cdiv.pdf
+   * 
+   * @link http://forge.scilab.org/index.php/p/compdiv/source/tree/21/doc/improved_cdiv.pdf
    * @todo Test if this implementation is actually SO better than the original Smith's method.
    * */
   divide(z: Complex): Complex {
@@ -412,7 +468,7 @@ export class Complex {
 
     const re: string = this.re !== 0 || this.isReal() ? `${this.re}` : '';
     const im: string = !this.isReal() ? `${Math.abs(this.im)} i` : '';
-    const sign: string = !this.isReal() ? (Math.sign(this.im) ? ' + ' : ' - ') : '';
+    const sign: string = !this.isReal() ? (Math.sign(this.im) > 0 ? ' + ' : ' - ') : '';
 
     return `${re}${sign}${im}`;
   }
@@ -469,7 +525,7 @@ export class Complex {
 
   /**
    * Difference between 1 and the smallest floating point number greater than 1.
-   * Simply stores Number.EPSILON in a static property (ES5 might need a polyfill).
+   * Simply stores Number.EPSILON in a static property.
    */
   static EPSILON: number = Number.EPSILON;
 }
