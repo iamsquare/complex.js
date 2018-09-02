@@ -1,5 +1,6 @@
 import babel from 'rollup-plugin-babel';
 import commonjs from 'rollup-plugin-commonjs';
+import resolve from 'rollup-plugin-node-resolve';
 import { terser } from 'rollup-plugin-terser';
 
 module.exports = {
@@ -8,11 +9,18 @@ module.exports = {
     file: 'complex.js',
     name: 'complex.js',
     dir: 'lib',
-    format: 'umd',
+    format: 'umd'
   },
   plugins: [
+    resolve({
+      jsnext: true,
+      main: true,
+      browser: true
+    }),
     commonjs(),
     babel(),
-    terser()
+    terser({
+      mangle: false
+    })
   ]
-}
+};

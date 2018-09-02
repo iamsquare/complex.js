@@ -1,4 +1,4 @@
-import { Complex } from '../src/complex';
+import Complex from '../src/complex';
 
 const NAN = Complex.NAN;
 const INFINITY = Complex.INFINITY;
@@ -21,6 +21,12 @@ describe('Operators', () => {
     expect(Complex.prototype.plus).toBeDefined();
     expect(Complex.prototype.times).toBeDefined();
     expect(Complex.prototype.unit).toBeDefined();
+    expect(Complex.prototype.pythagoras).toBeDefined();
+    expect(Complex.prototype.isPureImaginary).toBeDefined();
+    expect(Complex.prototype.isReal).toBeDefined();
+    expect(Complex.prototype.isInfinite).toBeDefined();
+    expect(Complex.prototype.isNaN).toBeDefined();
+    expect(Complex.prototype.isZero).toBeDefined();
   });
 
   let z: Complex = new Complex(1, 1);
@@ -276,6 +282,23 @@ describe('Operators', () => {
 
       test('NaN', () => {
         expect(NAN.unit()).toEqual(NAN);
+      });
+    });
+  });
+
+  describe('Pythagoras', () => {
+    test('a^2 + b^2', () => {
+      expect(z.pythagoras()).toEqual(2);
+      expect(w.pythagoras()).toEqual(13);
+    });
+
+    describe('Special Cases', () => {
+      test('Infinity', () => {
+        expect(INFINITY.pythagoras()).toEqual(Infinity);
+      });
+
+      test('NaN', () => {
+        expect(NAN.pythagoras()).toEqual(NaN);
       });
     });
   });

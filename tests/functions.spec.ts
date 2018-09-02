@@ -1,10 +1,10 @@
 import { Complex } from '../src/complex';
 
-const INFINITY :Complex= Complex.INFINITY;
-const NAN :Complex= Complex.NAN;
-const ZERO :Complex= Complex.ZERO;
-const ONE :Complex= Complex.ONE;
-const PIHALF :Complex= new Complex(Math.PI / 2, 0);
+const INFINITY: Complex = Complex.INFINITY;
+const NAN: Complex = Complex.NAN;
+const ZERO: Complex = Complex.ZERO;
+const ONE: Complex = Complex.ONE;
+const PIHALF: Complex = new Complex(Math.PI / 2, 0);
 
 // Numerical values are calculated with wolframalpha online calculator
 // http://www.wolframalpha.com/
