@@ -7,8 +7,7 @@
     "downlevelIteration": true,
     "module": "none",
     "lib": ["esnext"],
-    "target": "esnext",
-    "esModuleInterop": true //important! from https://github.com/Microsoft/TypeScript-Node-Starter
+    "target": "esnext"
   },
   "exclude": ["node_modules/**/*", "temp/**/*", "lib/**/*", "**/*.spec.ts"]
 }

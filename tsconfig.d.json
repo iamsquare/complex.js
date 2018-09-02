@@ -3,5 +3,11 @@
   "compilerOptions": {
     "declaration": true,
     "declarationDir": "lib/types"
-  }
+  },
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "src/**/index.ts"
+  ]
 }

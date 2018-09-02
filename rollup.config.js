@@ -1,21 +1,26 @@
 import babel from 'rollup-plugin-babel';
 import commonjs from 'rollup-plugin-commonjs';
+import resolve from 'rollup-plugin-node-resolve';
 import { terser } from 'rollup-plugin-terser';
 
 module.exports = {
-  input: 'temp/complex.js',
+  input: 'temp/index.js',
   output: {
     file: 'complex.js',
     name: 'complex.js',
     dir: 'lib',
-    format: 'umd',
+    format: 'umd'
   },
   plugins: [
-    babel(),
+    resolve({
+      jsnext: true,
+      main: true,
+      browser: true
+    }),
     commonjs(),
-    terser()
-  ],
-  treeshake: {
-    pureExternalModules: true
-  }
-}
+    babel(),
+    terser({
+      mangle: false
+    })
+  ]
+};

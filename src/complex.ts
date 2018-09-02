@@ -1,11 +1,11 @@
 //TODO: test and fix eventual precision errors
-//TODO: rounding function
+//TODO: add rounding function
 
 import { Cartesian, isCartesian, Polar, isPolar } from './helpers';
 
 /**
  * A class that descibes Complex numbers and their operations.
- * 
+ *
  * **For ES5 browsers you might need the following cs-core polyfills**:
  * - core-js/modules/es6.math.sinh
  * - core-js/modules/es6.math.cosh
@@ -13,10 +13,10 @@ import { Cartesian, isCartesian, Polar, isPolar } from './helpers';
  * - core-js/modules/es6.math.hypot
  * - core-js/modules/es6.math.sign
  * - core-js/modules/es6.number.epsilon
- * 
+ *
  * [Here](https://babeljs.io/docs/en/babel-preset-env.html#include)'s a guide about including built-ins with babel.
  */
-export default class Complex {
+export class Complex {
   /**
    * Creates an instance of Complex from another Complex number.
    * @param z - The complex number
@@ -404,7 +404,7 @@ export default class Complex {
 
   /**
    * Calculates z / w using a modified Smith's Method.
-   * 
+   *
    * @link http://forge.scilab.org/index.php/p/compdiv/source/tree/21/doc/improved_cdiv.pdf
    * @todo Test if this implementation is actually SO better than the original Smith's method.
    * */
