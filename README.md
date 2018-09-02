@@ -106,8 +106,8 @@ These are just the four basic operations. Check the [documentation](https://www.
 
 # TODO
 
-- [ ] Support for trig functions (~~cos, sin, tan,~~ acos, asin, atan, ...).
-- [ ] Support for hyperbolic functions (~~cosh, sinh, tanh,~~ acosh, asinh, atanh, ...)
+- [ ] Support for trig functions (~~cos, sin, tan, cot, sec,~~ acos, asin, atan, ...).
+- [ ] Support for hyperbolic functions (~~cosh, sinh, tanh,~~ coth, sech, acosh, asinh, atanh, ...)
 - [ ] Support for powers (z^a, z^ib, z^w).
 - [ ] Support for nth-roots (n√z).
 
