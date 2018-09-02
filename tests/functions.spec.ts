@@ -94,7 +94,7 @@ describe('Functions', () => {
     describe('sin', () => {
       const sz: Complex = z.sin();
       const sw: Complex = w.sin();
-      
+
       test('sin(z)', () => {
         expect(sz.getRe()).toBeCloseTo(1.2984575814159772948260423658078156203134365616352080734, 10);
         expect(sz.getIm()).toBeCloseTo(0.63496391478473610825508220299150978151708195141937941052, 10);

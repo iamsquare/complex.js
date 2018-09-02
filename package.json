@@ -10,7 +10,7 @@
     "test:watch": "npm run test -- --watch",
     "clean:docs": "rimraf ./docs",
     "clean:lib": "rimraf ./lib && rimraf ./temp",
-    "clean": "npm run clean:lib && npm run clean:docs",
+    "clean": "npm run clean:lib && npm run clean:docs && rimraf ./coverage",
     "docs": "npm run clean:docs && typedoc --name complex.js --readme ./README.md --mode file --theme minimal --hidegenerator --excludeexternals --tsconfig ./tsconfig.json --out ./docs ./src",
     "build": "npm run clean:lib && tsc -p ./tsconfig.d.json && rollup -c",
     "build:watch": "npm run clean:lib && tsc -w",

@@ -203,7 +203,7 @@ export default class Complex {
     const r: number = this.modulus();
     const p: number = this.argument();
 
-    return new Complex(r / Math.sqrt(r) * Math.cos(p / 2), r / Math.sqrt(r) * Math.sin(p / 2));
+    return new Complex((r / Math.sqrt(r)) * Math.cos(p / 2), (r / Math.sqrt(r)) * Math.sin(p / 2));
 
     /*const a: number = Math.SQRT1_2; //0.5 * sqrt(2)
       const m: number = this.modulus();
