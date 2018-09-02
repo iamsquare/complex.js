@@ -1,4 +1,4 @@
-import Complex from '../src/complex';
+import { Complex } from '../src/complex';
 
 const INFINITY = Complex.INFINITY;
 const NAN = Complex.NAN;
