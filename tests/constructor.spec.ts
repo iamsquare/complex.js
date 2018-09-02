@@ -1,5 +1,5 @@
-import { Complex } from '../src/complex';
-import { isCartesian, Cartesian, isPolar, Polar } from '../src/helpers'
+import Complex from '../src/complex';
+import { isCartesian, Cartesian, isPolar, Polar } from '../src/helpers';
 
 const ONE = Complex.ONE;
 const ZERO = Complex.ZERO;

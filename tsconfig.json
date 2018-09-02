@@ -6,13 +6,9 @@
     "sourceMap": false,
     "downlevelIteration": true,
     "module": "none",
-    "lib": ["es6", "es5"],
-    "target": "es6",
-    "allowJs": true
+    "lib": ["esnext"],
+    "target": "esnext",
+    "esModuleInterop": true //important! from https://github.com/Microsoft/TypeScript-Node-Starter
   },
-  "include": [
-    "src/**/*.js"
-  ],
   "exclude": ["node_modules/**/*", "temp/**/*", "lib/**/*", "**/*.spec.ts"]
 }
-

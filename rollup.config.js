@@ -3,7 +3,7 @@ import commonjs from 'rollup-plugin-commonjs';
 import { terser } from 'rollup-plugin-terser';
 
 module.exports = {
-  input: 'temp/index.js',
+  input: 'temp/complex.js',
   output: {
     file: 'complex.js',
     name: 'complex.js',
@@ -11,8 +11,11 @@ module.exports = {
     format: 'umd',
   },
   plugins: [
-    commonjs(),
     babel(),
+    commonjs(),
     terser()
-  ]
+  ],
+  treeshake: {
+    pureExternalModules: true
+  }
 }

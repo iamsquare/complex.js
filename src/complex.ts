@@ -6,7 +6,7 @@ import { Cartesian, isCartesian, Polar, isPolar } from './helpers';
 /**
  * A class that descibes Complex numbers and their operations.
  */
-export class Complex {
+export default class Complex {
   /**
    * Creates an instance of Complex from another Complex number.
    * @param z - The complex number
@@ -203,7 +203,7 @@ export class Complex {
     const r: number = this.modulus();
     const p: number = this.argument();
 
-    return new Complex(Math.sqrt(r) * Math.cos(p / 2), Math.sqrt(r) * Math.sin(p / 2));
+    return new Complex(r / Math.sqrt(r) * Math.cos(p / 2), r / Math.sqrt(r) * Math.sin(p / 2));
 
     /*const a: number = Math.SQRT1_2; //0.5 * sqrt(2)
       const m: number = this.modulus();
