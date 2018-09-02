@@ -1,17 +1,21 @@
 node_modules
-media
 tests
 docs
 src
+temp
 
+logo.png
 iamsquare-complex.js-*.tgz
 
 .npmignore
 tsconfig.json
 tsconfig.d.json
 .travis.yml
-.nojekill
 jest.config.js
+.editorconfig
+.babelrc
+rollup.config.js
+
 
 .vscode/*
 logs
