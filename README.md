@@ -39,7 +39,7 @@ Just import the library in your Javascript (ES5/ES6) or Typescript project:
 **ES6/Typescript**
 
 ```js
-import Complex from '@iamsquare/complex';
+import { Complex } from '@iamsquare/complex';
 ```
 
 **ES5**
@@ -57,7 +57,7 @@ var Complex = require('@iamsquare/complex');
 - *core-js/modules/es6.math.sign*
 - *core-js/modules/es6.number.epsilon*
 
-To keep the build as little as possible, and to let old tech die, these polyfills are NOT included in the bundle. You almost surely use Babel in your workflow anyway, so it's useless to polyfill the library beforehand.
+To keep the build as little as possible, and to let old tech die, these polyfills are NOT included in the bundle. You almost surely use Babel in your workflow anyway, so it's useless to polyfill the library beforehand (you can find a guide about how to include built-ins [here](https://babeljs.io/docs/en/babel-preset-env.html#include)).
 
 ## Documentation
 

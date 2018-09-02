@@ -1,48 +1,12 @@
 //TODO: test and fix eventual precision errors
 //TODO: rounding function
 
-/**
- * Cartesian Coordinate type definition
- */
-export type Cartesian = {
-  x: number;
-  y: number;
-};
-
-/**
- * An helper function that checks if an object is a Cartesian coordinate
- *
- * @export
- * @param x
- */
-export function isCartesian(x: any): x is Cartesian {
-  if (x === undefined) return false;
-  return x.x !== undefined && x.y !== undefined;
-}
-
-/**
- * Polar coordinate type definition
- */
-export type Polar = {
-  r: number;
-  p: number;
-};
-
-/**
- * An helper function that checks if an object is a Polar coordinate
- *
- * @export
- * @param x
- */
-export function isPolar(x: any): x is Polar {
-  if (x === undefined) return false;
-  return x.r !== undefined && x.p !== undefined;
-}
+import { Cartesian, isCartesian, Polar, isPolar } from './helpers';
 
 /**
  * A class that descibes Complex numbers and their operations.
  */
-export default class Complex {
+export class Complex {
   /**
    * Creates an instance of Complex from another Complex number.
    * @param z - The complex number
@@ -242,10 +206,10 @@ export default class Complex {
     return new Complex(Math.sqrt(r) * Math.cos(p / 2), Math.sqrt(r) * Math.sin(p / 2));
 
     /*const a: number = Math.SQRT1_2; //0.5 * sqrt(2)
-    const m: number = this.modulus();
-    const is: number = Math.sign(this.im);
-
-    return new Complex(a * Math.sqrt(m + this.re), a * is * Math.sqrt(m - this.re));*/
+      const m: number = this.modulus();
+      const is: number = Math.sign(this.im);
+  
+      return new Complex(a * Math.sqrt(m + this.re), a * is * Math.sqrt(m - this.re));*/
   }
 
   /**

@@ -3,6 +3,7 @@ node_modules
 coverage
 types
 docs
+temp
 
 .vscode/*
 logs
