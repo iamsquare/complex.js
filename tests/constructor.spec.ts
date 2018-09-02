@@ -1,4 +1,4 @@
-import Complex from '../src/complex';
+import { Complex } from '../src/complex';
 import { isCartesian, Cartesian, isPolar, Polar } from '../src/helpers';
 
 const ONE = Complex.ONE;
