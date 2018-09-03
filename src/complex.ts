@@ -193,8 +193,9 @@ export class Complex {
 
     const a: number = this.re;
     const b: number = this.im;
+    const d: number = a * a + b * b;
 
-    return new Complex(1 / (a * (1 + Math.pow(b / a, 2))), -1 / (b * (1 + Math.pow(a / b, 2))));
+    return new Complex(a / d, -b / d);
   }
 
   /**
@@ -284,7 +285,7 @@ export class Complex {
     if (this.isInfinite() || this.isNaN()) return Complex.NAN;
     if (this.isZero()) return Complex.ZERO;
 
-    // We avoid numeric cancellation by expanding the denominator and simplifying with trig rules.
+    // We avoid numeric cancellation by expanding the denominator and simplifying with trigonometric rules.
     const a2: number = 2 * this.re;
     const b2: number = 2 * this.im;
     const d: number = Math.cos(a2) + Math.cosh(b2);
@@ -299,7 +300,7 @@ export class Complex {
     if (this.isInfinite() || this.isNaN()) return Complex.NAN;
     if (this.isZero()) return Complex.INFINITY;
 
-    // We avoid numeric cancellation by expanding the denominator and simplifying with trig rules.
+    // We avoid numeric cancellation by expanding the denominator and simplifying with trigonometric rules.
     const a2: number = 2 * this.re;
     const b2: number = 2 * this.im;
     const d: number = Math.cosh(b2) - Math.cos(a2);
@@ -314,7 +315,7 @@ export class Complex {
     if (this.isInfinite() || this.isNaN()) return Complex.NAN;
     if (this.isZero()) return Complex.ONE;
 
-    // We avoid numeric cancellation by expanding the denominator and simplifying with trig rules.
+    // We avoid numeric cancellation by expanding the denominator and simplifying with trigonometric rules.
     const a: number = this.re;
     const b: number = this.im;
     const d: number = Math.cos(2 * a) + Math.cosh(2 * b);
@@ -329,7 +330,7 @@ export class Complex {
     if (this.isInfinite() || this.isNaN()) return Complex.NAN;
     if (this.isZero()) return Complex.INFINITY;
 
-    // We avoid numeric cancellation by expanding the denominator and simplifying with trig rules.
+    // We avoid numeric cancellation by expanding the denominator and simplifying with trigonometric rules.
     const a: number = this.re;
     const b: number = this.im;
     const d: number = Math.cosh(2 * b) - Math.cos(2 * a);
@@ -357,33 +358,21 @@ export class Complex {
    * Calculates the inverse cosine of a Complex number.
    */
   acos(): Complex {
-    if (this.isInfinite() || this.isNaN()) return Complex.NAN;
-    if (this.isZero()) return new Complex(Math.PI / 2, 0);
-
-    const a: number = this.re;
-    const b: number = this.im;
-
-    const sqrt: Complex = new Complex(a * a - b * b - 1, 2 * a * b).sqrt();
-    const log: Complex = new Complex(sqrt.re + a, sqrt.im + b).log();
-
-    return new Complex(log.im, -log.re);
+    return Complex.HALFPI.minus(this.asin());
   }
 
   /**
    * Calculates the inverse tangent of a Complex number.
-   * @todo Find a way to avoid divide()
    */
   atan(): Complex {
     if (this.isInfinite() || this.isNaN()) return Complex.NAN;
     if (this.isZero()) return Complex.ZERO;
 
+    // We can avoid using divide() by refactoring the denominator.
     const a: number = this.re;
     const b: number = this.im;
-    const n: Complex = new Complex(1 + b, -a);
-    const d: Complex = new Complex(1 - b, a);
-
-    const div: Complex = n.divide(d);
-    const log: Complex = div.log();
+    const d: number = a * a + (1 - b) * (1 - b);
+    const log: Complex = new Complex((1 - a * a - b * b) / d, (-2 * a) / d).log();
 
     return new Complex(-log.im / 2, log.re / 2);
   }
@@ -392,18 +381,21 @@ export class Complex {
    * Calculates the inverse cotangent of a Complex number.
    */
   acot(): Complex {
-    if (this.isInfinite() || this.isNaN()) return Complex.NAN;
-    if (this.isZero()) return new Complex(Math.PI / 2, 0);
+    return Complex.HALFPI.minus(this.atan());
+  }
 
-    const a: number = this.re;
-    const b: number = this.im;
-    const n: Complex = new Complex(a, b - 1);
-    const d: Complex = new Complex(a, b + 1);
+  /**
+   * Calculates the inverse secant of a Complex number.
+   */
+  asec(): Complex {
+    return this.inverse().acos();
+  }
 
-    const div: Complex = n.divide(d);
-    const log: Complex = div.log();
-
-    return new Complex(-log.im / 2, log.re / 2);
+  /**
+   * Calculates the inverse cosecant of a Complex number.
+   */
+  acsc(): Complex {
+    return this.inverse().asin();
   }
 
   /**
@@ -581,6 +573,11 @@ export class Complex {
    * Constant pi: z = π.
    */
   static PI: Complex = new Complex(Math.PI, 0);
+
+  /**
+   * Constant pi: z = π / 2.
+   */
+  static HALFPI: Complex = new Complex(Math.PI / 2, 0);
 
   /**
    * Constant e: z = e.
