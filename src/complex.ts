@@ -441,6 +441,54 @@ class Complex {
   }
 
   /**
+   * Calculates the hyperbolic cotangent of a Complex number.
+   */
+
+  coth(): Complex {
+    if (this.isInfinite() || this.isNaN()) return Complex.NAN;
+    if (this.isZero()) return Complex.INFINITY;
+
+    // We avoid numeric cancellation by expanding the denominator and simplifying with trig rules.
+    const a2: number = 2 * this.re;
+    const b2: number = 2 * this.im;
+    const d: number = Math.cos(b2) - Math.cosh(a2);
+
+    return new Complex(-Math.sinh(a2) / d, Math.sin(b2) / d);
+  }
+
+  /**
+   * Calculates the hyperbolic secant of a Complex number.
+   */
+
+  sech(): Complex {
+    if (this.isInfinite() || this.isNaN()) return Complex.NAN;
+    if (this.isZero()) return Complex.ONE;
+
+    // We avoid numeric cancellation by expanding the denominator and simplifying with trig rules.
+    const a: number = this.re;
+    const b: number = this.im;
+    const d: number = Math.cosh(2 * a) + Math.cos(2 * b);
+
+    return new Complex((2 * Math.cosh(a) * Math.cos(b)) / d, (-2 * Math.sinh(a) * Math.sin(b)) / d);
+  }
+
+  /**
+   * Calculates the hyperbolic cosecant of a Complex number.
+   */
+
+  csch(): Complex {
+    if (this.isInfinite() || this.isNaN()) return Complex.NAN;
+    if (this.isZero()) return Complex.INFINITY;
+
+    // We avoid numeric cancellation by expanding the denominator and simplifying with trig rules.
+    const a: number = this.re;
+    const b: number = this.im;
+    const d: number = Math.cos(2 * b) - Math.cosh(2 * a);
+
+    return new Complex((-2 * Math.sinh(a) * Math.cos(b)) / d, (2 * Math.cosh(a) * Math.sin(b)) / d);
+  }
+
+  /**
    * Calculates z + w.
    */
   plus(z: Complex): Complex {
