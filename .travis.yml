@@ -25,7 +25,7 @@ deploy:
 - provider: releases
   api_key: $GIT_KEY
   file_glob: true
-  file: "{YOURLIB}-*.tgz"
+  file: "iamsquare-complex.js-*.tgz"
   skip_cleanup: true
   on:
     tags: true

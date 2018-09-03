@@ -4,7 +4,7 @@ const INFINITY: Complex = Complex.INFINITY;
 const NAN: Complex = Complex.NAN;
 const ZERO: Complex = Complex.ZERO;
 const ONE: Complex = Complex.ONE;
-const PIHALF: Complex = new Complex(Math.PI / 2, 0);
+const HALFPI: Complex = Complex.HALFPI;
 
 // Numerical values are calculated with wolframalpha online calculator
 // http://www.wolframalpha.com/
@@ -24,6 +24,8 @@ describe('Functions', () => {
     expect(Complex.prototype.acos).toBeDefined();
     expect(Complex.prototype.atan).toBeDefined();
     expect(Complex.prototype.acot).toBeDefined();
+    expect(Complex.prototype.asec).toBeDefined();
+    expect(Complex.prototype.acsc).toBeDefined();
     expect(Complex.prototype.sinh).toBeDefined();
     expect(Complex.prototype.cosh).toBeDefined();
     expect(Complex.prototype.tanh).toBeDefined();
@@ -294,7 +296,7 @@ describe('Functions', () => {
 
       describe('Special Cases', () => {
         test('Zero', () => {
-          expect(ZERO.acos()).toEqual(PIHALF);
+          expect(ZERO.acos()).toEqual(HALFPI);
         });
 
         test('Infinity', () => {
@@ -346,7 +348,7 @@ describe('Functions', () => {
 
       describe('Special Cases', () => {
         test('Zero', () => {
-          expect(ZERO.acot()).toEqual(PIHALF);
+          expect(ZERO.acot()).toEqual(HALFPI);
         });
 
         test('Infinity', () => {
@@ -355,6 +357,50 @@ describe('Functions', () => {
 
         test('NaN', () => {
           expect(NAN.acot()).toEqual(NAN);
+        });
+      });
+    });
+    
+    describe('asec', () => {
+      const sz: Complex = z.asec();
+      const sw: Complex = w.asec();
+
+      test('asec(z)', () => {
+        expect(sz.getRe()).toBeCloseTo(1.1185178796437059371676632938087720813830374192067503766, 10);
+        expect(sz.getIm()).toBeCloseTo(0.53063753095251782601650945810678674290339274946931684819, 10);
+        expect(sw.getRe()).toBeCloseTo(1.420410722467034655979845270384446098088561447594643043, 10);
+        expect(sw.getIm()).toBeCloseTo(0.23133469857397331454695145510960989630673868362559657012, 10);
+      });
+
+      describe('Special Cases', () => {
+        test('Infinity', () => {
+          expect(INFINITY.asec()).toEqual(HALFPI);
+        });
+
+        test('NaN', () => {
+          expect(NAN.asec()).toEqual(NAN);
+        });
+      });
+    });
+
+    describe('acsc', () => {
+      const sz: Complex = z.acsc();
+      const sw: Complex = w.acsc();
+
+      test('acsc(z)', () => {
+        expect(sz.getRe()).toBeCloseTo(0.45227844715119068206365839783097936071554728048080253382, 10);
+        expect(sz.getIm()).toBeCloseTo(-0.53063753095251782601650945810678674290339274946931684819, 10);
+        expect(sw.getRe()).toBeCloseTo(0.15038560432786196325147642125530534401002325209290986747, 10);
+        expect(sw.getIm()).toBeCloseTo(-0.23133469857397331454695145510960989630673868362559657012, 10);
+      });
+
+      describe('Special Cases', () => {
+        test('Infinity', () => {
+          expect(INFINITY.acsc()).toEqual(ZERO);
+        });
+
+        test('NaN', () => {
+          expect(NAN.acsc()).toEqual(NAN);
         });
       });
     });
