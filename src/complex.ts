@@ -24,7 +24,7 @@ import { Cartesian, isCartesian, Polar, isPolar } from './helpers';
  *
  * *[Here](https://babeljs.io/docs/en/babel-preset-env.html#include)'s a guide about including built-ins with babel.*
  */
-export class Complex {
+class Complex {
   /**
    * Creates an instance of Complex from another Complex number.
    * @param z - The complex number
@@ -603,3 +603,5 @@ export class Complex {
    */
   static EPSILON: number = Number.EPSILON;
 }
+
+export { Complex };

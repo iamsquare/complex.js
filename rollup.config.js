@@ -1,7 +1,7 @@
 import babel from 'rollup-plugin-babel';
 import commonjs from 'rollup-plugin-commonjs';
-import resolve from 'rollup-plugin-node-resolve';
 import { terser } from 'rollup-plugin-terser';
+// import resolve from 'rollup-plugin-node-resolve';
 
 module.exports = {
   input: 'temp/index.js',
@@ -12,11 +12,6 @@ module.exports = {
     format: 'umd'
   },
   plugins: [
-    resolve({
-      jsnext: true,
-      main: true,
-      browser: true
-    }),
     commonjs(),
     babel(),
     terser({
