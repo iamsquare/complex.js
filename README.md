@@ -30,8 +30,7 @@ cd complex.js/
 npm i
 npm run prod
 ```
-
-These commands will run Jest and build the library only if passes all tests. To build without testing:
+```npm run prod``` will run Jest and build the library only if it passes all tests. To build without testing:
 
 ```shell
 npm run build
@@ -41,7 +40,7 @@ npm run build
 
 # Usage
 
-Just import the library in your Javascript (ES5/ES6/ESnext) or Typescript project:
+Just import the library in your Javascript (ES5/ES6/ES7) or Typescript project:
 
 **ES6/ES7/Typescript**
 
@@ -121,7 +120,7 @@ These are just the four basic operations. Check the [documentation](https://www.
 # TODO
 
 - [*] ~~Support for trig functions.~~
-- [ ] Support for hyperbolic functions (~~cosh, sinh, tanh,~~ coth, sech, acosh, asinh, atanh, ...)
+- [*] ~~Support for hyperbolic functions.~~
 - [ ] Support for powers (z^a, z^ib, z^w).
 - [ ] Support for nth-roots (n√z).
 

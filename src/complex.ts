@@ -489,6 +489,81 @@ class Complex {
   }
 
   /**
+   * Calculates the inverse hyperbolic sine of a Complex number.
+   */
+
+  asinh(): Complex {
+    if (this.isInfinite() || this.isNaN()) return Complex.NAN;
+    if (this.isZero()) return Complex.ZERO;
+
+    const a: number = this.re;
+    const b: number = this.im;
+
+    const sqrt: Complex = new Complex(a * a - b * b + 1, 2 * a * b).sqrt();
+    const log: Complex = new Complex(sqrt.re + a, sqrt.im + b).log();
+
+    return new Complex(log.re, log.im);
+  }
+
+  /**
+   * Calculates the inverse hyperbolic cosine of a Complex number.
+   */
+
+  acosh(): Complex {
+    if (this.isInfinite() || this.isNaN()) return Complex.NAN;
+    if (this.isZero()) return new Complex(0, Math.PI / 2);
+
+    const a: number = this.re;
+    const b: number = this.im;
+
+    const sqrt: Complex = new Complex(a * a - b * b - 1, 2 * a * b).sqrt();
+    const log: Complex = new Complex(sqrt.re + a, sqrt.im + b).log();
+
+    return new Complex(log.re, log.im);
+  }
+
+  /**
+   * Calculates the inverse hyperbolic tangent of a Complex number.
+   */
+
+  atanh(): Complex {
+    if (this.isInfinite() || this.isNaN()) return Complex.NAN;
+    if (this.isZero()) return Complex.ZERO;
+
+    const a: number = this.re;
+    const b: number = this.im;
+    const d: number = (1 - a) * (1 - a) + b * b;
+
+    const log: Complex = new Complex((1 - a * a - b * b) / d, (2 * b) / d).log();
+
+    return new Complex(log.re / 2, log.im / 2);
+  }
+
+  /**
+   * Calculates the inverse hyperbolic cotangent of a Complex number.
+   */
+
+  acoth(): Complex {
+    return this.inverse().atanh();
+  }
+
+  /**
+   * Calculates the inverse hyperbolic secant of a Complex number.
+   */
+
+  asech(): Complex {
+    return this.inverse().acosh();
+  }
+
+  /**
+   * Calculates the inverse hyperbolic cosecant of a Complex number.
+   */
+
+  acsch(): Complex {
+    return this.inverse().asinh();
+  }
+
+  /**
    * Calculates z + w.
    */
   plus(z: Complex): Complex {
