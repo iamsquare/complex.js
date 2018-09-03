@@ -1,12 +1,30 @@
 //TODO: test and fix eventual precision errors
-//TODO: rounding function
+//TODO: add rounding function
 
 import { Cartesian, isCartesian, Polar, isPolar } from './helpers';
 
 /**
  * A class that descibes Complex numbers and their operations.
+ * 
+ * To define a new Complex:
+  ```
+  new Complex(1, -1); // Numeric arguments
+  new Complex({ x: 1, y: -3 }); // Cartesian argument
+  new Complex({ r: 1, p: Math.PI / 2 }); // Polar argument
+  new Complex(z); // Complex argument
+  ```
+ *
+ * **For ES5 browsers you might need the following core-js polyfills**:
+ * - core-js/modules/es6.math.sinh
+ * - core-js/modules/es6.math.cosh
+ * - core-js/modules/es6.math.tanh
+ * - core-js/modules/es6.math.hypot
+ * - core-js/modules/es6.math.sign
+ * - core-js/modules/es6.number.epsilon
+ *
+ * *[Here](https://babeljs.io/docs/en/babel-preset-env.html#include)'s a guide about including built-ins with babel.*
  */
-export class Complex {
+class Complex {
   /**
    * Creates an instance of Complex from another Complex number.
    * @param z - The complex number
@@ -175,8 +193,9 @@ export class Complex {
 
     const a: number = this.re;
     const b: number = this.im;
+    const d: number = a * a + b * b;
 
-    return new Complex(1 / (a * (1 + Math.pow(b / a, 2))), -1 / (b * (1 + Math.pow(a / b, 2))));
+    return new Complex(a / d, -b / d);
   }
 
   /**
@@ -203,7 +222,7 @@ export class Complex {
     const r: number = this.modulus();
     const p: number = this.argument();
 
-    return new Complex(Math.sqrt(r) * Math.cos(p / 2), Math.sqrt(r) * Math.sin(p / 2));
+    return new Complex((r / Math.sqrt(r)) * Math.cos(p / 2), (r / Math.sqrt(r)) * Math.sin(p / 2));
 
     /*const a: number = Math.SQRT1_2; //0.5 * sqrt(2)
       const m: number = this.modulus();
@@ -213,7 +232,7 @@ export class Complex {
   }
 
   /**
-   * Calculates e^z, where z is the Complex number from which the method is called.
+   * Calculates e^z.
    */
   exp(): Complex {
     if (this.isNaN() || this.isInfinite()) return Complex.NAN;
@@ -266,12 +285,117 @@ export class Complex {
     if (this.isInfinite() || this.isNaN()) return Complex.NAN;
     if (this.isZero()) return Complex.ZERO;
 
-    // We avoid numeric cancellation by expanding the denominator and simplifying with trig rules.
+    // We avoid numeric cancellation by expanding the denominator and simplifying with trigonometric rules.
     const a2: number = 2 * this.re;
     const b2: number = 2 * this.im;
     const d: number = Math.cos(a2) + Math.cosh(b2);
 
     return new Complex(Math.sin(a2) / d, Math.sinh(b2) / d);
+  }
+
+  /**
+   * Calculates the cotangent of a Complex number.
+   */
+  cot(): Complex {
+    if (this.isInfinite() || this.isNaN()) return Complex.NAN;
+    if (this.isZero()) return Complex.INFINITY;
+
+    // We avoid numeric cancellation by expanding the denominator and simplifying with trigonometric rules.
+    const a2: number = 2 * this.re;
+    const b2: number = 2 * this.im;
+    const d: number = Math.cosh(b2) - Math.cos(a2);
+
+    return new Complex(Math.sin(a2) / d, -Math.sinh(b2) / d);
+  }
+
+  /**
+   * Calculates the secant of a Complex number.
+   */
+  sec(): Complex {
+    if (this.isInfinite() || this.isNaN()) return Complex.NAN;
+    if (this.isZero()) return Complex.ONE;
+
+    // We avoid numeric cancellation by expanding the denominator and simplifying with trigonometric rules.
+    const a: number = this.re;
+    const b: number = this.im;
+    const d: number = Math.cos(2 * a) + Math.cosh(2 * b);
+
+    return new Complex((2 * (Math.cos(a) * Math.cosh(b))) / d, (2 * (Math.sin(a) * Math.sinh(b))) / d);
+  }
+
+  /**
+   * Calculates the cosecant of a Complex number.
+   */
+  csc(): Complex {
+    if (this.isInfinite() || this.isNaN()) return Complex.NAN;
+    if (this.isZero()) return Complex.INFINITY;
+
+    // We avoid numeric cancellation by expanding the denominator and simplifying with trigonometric rules.
+    const a: number = this.re;
+    const b: number = this.im;
+    const d: number = Math.cosh(2 * b) - Math.cos(2 * a);
+
+    return new Complex((2 * (Math.sin(a) * Math.cosh(b))) / d, -(2 * (Math.cos(a) * Math.sinh(b))) / d);
+  }
+
+  /**
+   * Calculates the inverse sine of a Complex number.
+   */
+  asin(): Complex {
+    if (this.isInfinite() || this.isNaN()) return Complex.NAN;
+    if (this.isZero()) return Complex.ZERO;
+
+    const a: number = this.re;
+    const b: number = this.im;
+
+    const sqrt: Complex = new Complex(1 - a * a + b * b, -2 * a * b).sqrt();
+    const log: Complex = new Complex(sqrt.re - b, sqrt.im + a).log();
+
+    return new Complex(log.im, -log.re);
+  }
+
+  /**
+   * Calculates the inverse cosine of a Complex number.
+   */
+  acos(): Complex {
+    return Complex.HALFPI.minus(this.asin());
+  }
+
+  /**
+   * Calculates the inverse tangent of a Complex number.
+   */
+  atan(): Complex {
+    if (this.isInfinite() || this.isNaN()) return Complex.NAN;
+    if (this.isZero()) return Complex.ZERO;
+
+    // We can avoid using divide() by refactoring the denominator.
+    const a: number = this.re;
+    const b: number = this.im;
+    const d: number = a * a + (1 - b) * (1 - b);
+    const log: Complex = new Complex((1 - a * a - b * b) / d, (-2 * a) / d).log();
+
+    return new Complex(-log.im / 2, log.re / 2);
+  }
+
+  /**
+   * Calculates the inverse cotangent of a Complex number.
+   */
+  acot(): Complex {
+    return Complex.HALFPI.minus(this.atan());
+  }
+
+  /**
+   * Calculates the inverse secant of a Complex number.
+   */
+  asec(): Complex {
+    return this.inverse().acos();
+  }
+
+  /**
+   * Calculates the inverse cosecant of a Complex number.
+   */
+  acsc(): Complex {
+    return this.inverse().asin();
   }
 
   /**
@@ -317,6 +441,129 @@ export class Complex {
   }
 
   /**
+   * Calculates the hyperbolic cotangent of a Complex number.
+   */
+
+  coth(): Complex {
+    if (this.isInfinite() || this.isNaN()) return Complex.NAN;
+    if (this.isZero()) return Complex.INFINITY;
+
+    // We avoid numeric cancellation by expanding the denominator and simplifying with trig rules.
+    const a2: number = 2 * this.re;
+    const b2: number = 2 * this.im;
+    const d: number = Math.cos(b2) - Math.cosh(a2);
+
+    return new Complex(-Math.sinh(a2) / d, Math.sin(b2) / d);
+  }
+
+  /**
+   * Calculates the hyperbolic secant of a Complex number.
+   */
+
+  sech(): Complex {
+    if (this.isInfinite() || this.isNaN()) return Complex.NAN;
+    if (this.isZero()) return Complex.ONE;
+
+    // We avoid numeric cancellation by expanding the denominator and simplifying with trig rules.
+    const a: number = this.re;
+    const b: number = this.im;
+    const d: number = Math.cosh(2 * a) + Math.cos(2 * b);
+
+    return new Complex((2 * Math.cosh(a) * Math.cos(b)) / d, (-2 * Math.sinh(a) * Math.sin(b)) / d);
+  }
+
+  /**
+   * Calculates the hyperbolic cosecant of a Complex number.
+   */
+
+  csch(): Complex {
+    if (this.isInfinite() || this.isNaN()) return Complex.NAN;
+    if (this.isZero()) return Complex.INFINITY;
+
+    // We avoid numeric cancellation by expanding the denominator and simplifying with trig rules.
+    const a: number = this.re;
+    const b: number = this.im;
+    const d: number = Math.cos(2 * b) - Math.cosh(2 * a);
+
+    return new Complex((-2 * Math.sinh(a) * Math.cos(b)) / d, (2 * Math.cosh(a) * Math.sin(b)) / d);
+  }
+
+  /**
+   * Calculates the inverse hyperbolic sine of a Complex number.
+   */
+
+  asinh(): Complex {
+    if (this.isInfinite() || this.isNaN()) return Complex.NAN;
+    if (this.isZero()) return Complex.ZERO;
+
+    const a: number = this.re;
+    const b: number = this.im;
+
+    const sqrt: Complex = new Complex(a * a - b * b + 1, 2 * a * b).sqrt();
+    const log: Complex = new Complex(sqrt.re + a, sqrt.im + b).log();
+
+    return new Complex(log.re, log.im);
+  }
+
+  /**
+   * Calculates the inverse hyperbolic cosine of a Complex number.
+   */
+
+  acosh(): Complex {
+    if (this.isInfinite() || this.isNaN()) return Complex.NAN;
+    if (this.isZero()) return new Complex(0, Math.PI / 2);
+
+    const a: number = this.re;
+    const b: number = this.im;
+
+    const sqrt: Complex = new Complex(a * a - b * b - 1, 2 * a * b).sqrt();
+    const log: Complex = new Complex(sqrt.re + a, sqrt.im + b).log();
+
+    return new Complex(log.re, log.im);
+  }
+
+  /**
+   * Calculates the inverse hyperbolic tangent of a Complex number.
+   */
+
+  atanh(): Complex {
+    if (this.isInfinite() || this.isNaN()) return Complex.NAN;
+    if (this.isZero()) return Complex.ZERO;
+
+    const a: number = this.re;
+    const b: number = this.im;
+    const d: number = (1 - a) * (1 - a) + b * b;
+
+    const log: Complex = new Complex((1 - a * a - b * b) / d, (2 * b) / d).log();
+
+    return new Complex(log.re / 2, log.im / 2);
+  }
+
+  /**
+   * Calculates the inverse hyperbolic cotangent of a Complex number.
+   */
+
+  acoth(): Complex {
+    return this.inverse().atanh();
+  }
+
+  /**
+   * Calculates the inverse hyperbolic secant of a Complex number.
+   */
+
+  asech(): Complex {
+    return this.inverse().acosh();
+  }
+
+  /**
+   * Calculates the inverse hyperbolic cosecant of a Complex number.
+   */
+
+  acsch(): Complex {
+    return this.inverse().asinh();
+  }
+
+  /**
    * Calculates z + w.
    */
   plus(z: Complex): Complex {
@@ -348,8 +595,7 @@ export class Complex {
   }
 
   /**
-   * Calculates z / w using a modified Smith's Method.
-   * http://forge.scilab.org/index.php/p/compdiv/source/tree/21/doc/improved_cdiv.pdf
+   * Calculates z / w using a [modified Smith's Method](http://forge.scilab.org/index.php/p/compdiv/source/tree/21/doc/improved_cdiv.pdf).
    * @todo Test if this implementation is actually SO better than the original Smith's method.
    * */
   divide(z: Complex): Complex {
@@ -412,7 +658,7 @@ export class Complex {
 
     const re: string = this.re !== 0 || this.isReal() ? `${this.re}` : '';
     const im: string = !this.isReal() ? `${Math.abs(this.im)} i` : '';
-    const sign: string = !this.isReal() ? (Math.sign(this.im) ? ' + ' : ' - ') : '';
+    const sign: string = !this.isReal() ? (Math.sign(this.im) > 0 ? ' + ' : ' - ') : '';
 
     return `${re}${sign}${im}`;
   }
@@ -452,13 +698,17 @@ export class Complex {
   static PI: Complex = new Complex(Math.PI, 0);
 
   /**
+   * Constant pi: z = π / 2.
+   */
+  static HALFPI: Complex = new Complex(Math.PI / 2, 0);
+
+  /**
    * Constant e: z = e.
    */
   static E: Complex = new Complex(Math.E, 0);
 
   /**
-   * Infinity: z = ∞.
-   * https://en.wikipedia.org/wiki/Riemann_sphere
+   * Infinity: [z = ∞](https://en.wikipedia.org/wiki/Riemann_sphere).
    */
   static INFINITY: Complex = new Complex(Infinity, Infinity);
 
@@ -469,7 +719,9 @@ export class Complex {
 
   /**
    * Difference between 1 and the smallest floating point number greater than 1.
-   * Simply stores Number.EPSILON in a static property (ES5 might need a polyfill).
+   * Simply stores Number.EPSILON in a static property.
    */
   static EPSILON: number = Number.EPSILON;
 }
+
+export { Complex };

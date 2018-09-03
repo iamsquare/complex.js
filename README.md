@@ -22,42 +22,55 @@ npm i @iamsquare/complex.js
 
 ## Building
 
-Just clone this repo and build the library like so:
+Just clone this repo and build the library:
 
 ```shell
 git clone --depth=0 https://github.com/iamsquare/complex.js
 cd complex.js/
 npm i
+npm run prod
+```
+```npm run prod``` will run Jest and build the library only if it passes all tests. To build without testing:
+
+```shell
 npm run build
 ```
-> Even though Typescript compiler target is set to ES5, polyfills are not included (read [Usage](#usage) to learn more).
+
+> Polyfills are not included (read [Usage](#usage) to learn more).
 
 # Usage
 
-Just import the library in your Javascript (ES5/ES6) or Typescript project:
+Just import the library in your Javascript (ES5/ES6/ES7) or Typescript project:
 
-**ES6/Typescript**
+**ES6/ES7/Typescript**
 
 ```js
-import { Complex } from '@iamsquare/complex';
+import { Complex } from '@iamsquare/complex.js';
 ```
 
 **ES5**
 
 ```js
-var Complex = require('@iamsquare/complex');
+var ComplexJS = require('@iamsquare/complex.js');
+var Complex = ComplexJS.Complex; // This line assigns the Complex constructor to the Complex constant.
 ```
 
-**Note**: for ES5 (e.g IE<=11) you will probably need to polyfill the following methods and properties:
+or the shorthanded declaration:
 
-- *core-js/modules/es6.math.sinh*
-- *core-js/modules/es6.math.cosh*
-- *core-js/modules/es6.math.tanh*
-- *core-js/modules/es6.math.hypot*
-- *core-js/modules/es6.math.sign*
-- *core-js/modules/es6.number.epsilon*
+```js
+var Complex = require('@iamsquare/complex.js').Complex;
+```
 
-To keep the build as little as possible, and to let old tech die, these polyfills are NOT included in the bundle. You almost surely use Babel in your workflow anyway, so it's useless to polyfill the library beforehand (you can find a guide about how to include built-ins [here](https://babeljs.io/docs/en/babel-preset-env.html#include)).
+**Note**: for ES5 you will probably need to polyfill the following methods and properties:
+
+- _core-js/modules/es6.math.sinh_
+- _core-js/modules/es6.math.cosh_
+- _core-js/modules/es6.math.tanh_
+- _core-js/modules/es6.math.hypot_
+- _core-js/modules/es6.math.sign_
+- _core-js/modules/es6.number.epsilon_
+
+To keep the build as little as possible - and to let old tech die - these polyfills are NOT included in the bundle. You almost surely use Babel in your workflow anyway, so it's useless to polyfill the library beforehand (you can find a guide on how to include built-ins [here](https://babeljs.io/docs/en/babel-preset-env.html#include)).
 
 ## Documentation
 
@@ -106,8 +119,8 @@ These are just the four basic operations. Check the [documentation](https://www.
 
 # TODO
 
-- [ ] Support for trig functions (~~cos, sin, tan,~~ acos, asin, atan, ...).
-- [ ] Support for hyperbolic functions (~~cosh, sinh, tanh,~~ acosh, asinh, atanh, ...)
+- [*] ~~Support for trig functions.~~
+- [*] ~~Support for hyperbolic functions.~~
 - [ ] Support for powers (z^a, z^ib, z^w).
 - [ ] Support for nth-roots (n√z).
 

@@ -7,6 +7,7 @@ temp
 logo.png
 iamsquare-complex.js-*.tgz
 
+.browserslistrc
 .npmignore
 tsconfig.json
 tsconfig.d.json
