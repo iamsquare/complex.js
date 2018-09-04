@@ -2,11 +2,11 @@
 
 # [ℂomplex.js](http://iamsquare.it/complex.js)
 
-[![NPM](https://img.shields.io/npm/v/@iamsquare/complex.js.svg?style=flat-square)](https://www.npmjs.com/package/@iamsquare/complex.js) [![Travis (.com) branch](https://img.shields.io/travis/iamsquare/complex.js/master.svg?style=flat-square)](https://travis-ci.org/iamsquare/complex.js/branches) [![GitHub issues](https://img.shields.io/github/issues-raw/iamsquare/complex.js.svg?style=flat-square)](https://github.com/iamsquare/complex.js/issues) [![GitHub License](https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square)](https://opensource.org/licenses/MIT) [![NPM](https://nodei.co/npm/@iamsquare/complex.js.png?mini=true)](https://nodei.co/npm/@iamsquare/complex.js)
+[![NPM](https://img.shields.io/npm/v/@iamsquare/complex.js.svg?style=flat-square)](https://www.npmjs.com/package/@iamsquare/complex.js) [![Travis (.com) branch](https://img.shields.io/travis/iamsquare/complex.js/master.svg?style=flat-square)](https://travis-ci.org/iamsquare/complex.js/branches) [![GitHub issues](https://img.shields.io/github/issues-raw/iamsquare/complex.js.svg?style=flat-square)](https://github.com/iamsquare/complex.js/issues) [![GitHub License](https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square)](https://github.com/iamsquare/complex.js/blob/master/LICENSE) [![NPM](https://nodei.co/npm/@iamsquare/complex.js.png?mini=true)](https://nodei.co/npm/@iamsquare/complex.js)
 
-> A simple complex-numbers library for Javascript and Node.js.
+> A simple complex-numbers library for browsers and Node.js.
 
-This library was created as solution for [this](http://www.rosettacode.org/wiki/Arithmetic/Complex) Rosetta Code task. It has been moved to its own repo as a way to learn TDD with Travis-CI.
+This library was created as solution for [this](http://www.rosettacode.org/wiki/Arithmetic/Complex) RosettaCode task. It has been moved to its own repo as a way to learn TDD with Travis-CI.
 
 # Getting started
 
@@ -35,7 +35,12 @@ npm run prod
 ```shell
 npm run build
 ```
-
+The library is compiled to UMD against this [browserslist](https://github.com/browserslist/browserslist):
+```
+> 1%
+not dead
+maintained node versions
+```
 > Polyfills are not included (read [Usage](#usage) to learn more).
 
 # Usage
@@ -69,6 +74,9 @@ var Complex = require('@iamsquare/complex.js').Complex;
 - _core-js/modules/es6.math.hypot_
 - _core-js/modules/es6.math.sign_
 - _core-js/modules/es6.number.epsilon_
+- _core-js/modules/es6.number.is-nan_
+- _core-js/modules/es6.number.is-finite_
+- _core-js/modules/es6.number.is-integer_
 
 To keep the build as little as possible - and to let old tech die - these polyfills are NOT included in the bundle. You almost surely use Babel in your workflow anyway, so it's useless to polyfill the library beforehand (you can find a guide on how to include built-ins [here](https://babeljs.io/docs/en/babel-preset-env.html#include)).
 
@@ -119,10 +127,12 @@ These are just the four basic operations. Check the [documentation](https://www.
 
 # TODO
 
-- [*] ~~Support for trig functions.~~
-- [*] ~~Support for hyperbolic functions.~~
-- [ ] Support for powers (z^a, z^ib, z^w).
+- [x] ~~Support for trig functions.~~
+- [x] ~~Support for hyperbolic functions.~~
+- [x] Support for powers.
 - [ ] Support for nth-roots (n√z).
+- [ ] Refactor tests.
+- [ ] Refactor the Complex class.
 
 # Built With
 

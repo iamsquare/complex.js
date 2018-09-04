@@ -7,9 +7,7 @@ type Cartesian = {
 };
 
 /**
- * An helper function that checks if an object is a Cartesian coordinate
- *
- * @export
+ * An helper function that checks if an object is a Cartesian coordinate.
  * @param x
  */
 function isCartesian(x: any): x is Cartesian {
@@ -26,9 +24,7 @@ type Polar = {
 };
 
 /**
- * An helper function that checks if an object is a Polar coordinate
- *
- * @export
+ * An helper function that checks if an object is a Polar coordinate.
  * @param x
  */
 function isPolar(x: any): x is Polar {

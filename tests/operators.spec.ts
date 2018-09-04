@@ -87,8 +87,11 @@ describe('Operators', () => {
   describe('Multiplication', () => {
     test('z * w', () => {
       let c: Complex = z.times(w);
+      let d: Complex = z.times(2);
       expect(c.getRe()).toEqual(-1);
       expect(c.getIm()).toEqual(5);
+      expect(d.getRe()).toEqual(2);
+      expect(d.getIm()).toEqual(2);
     });
 
     describe('Special cases', () => {
@@ -113,8 +116,11 @@ describe('Operators', () => {
   describe('Division', () => {
     test('z / w', () => {
       let c: Complex = z.divide(w);
+      let d: Complex = z.divide(2);
       expect(c.getRe()).toBeCloseTo(5 / 13, 10);
       expect(c.getIm()).toBeCloseTo(-1 / 13, 10);
+      expect(d.getRe()).toEqual(0.5);
+      expect(d.getIm()).toEqual(0.5);
     });
 
     describe('Special Cases', () => {

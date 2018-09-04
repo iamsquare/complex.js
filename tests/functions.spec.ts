@@ -14,6 +14,8 @@ describe('Functions', () => {
     expect(Complex.prototype.sqrt).toBeDefined();
     expect(Complex.prototype.log).toBeDefined();
     expect(Complex.prototype.exp).toBeDefined();
+    expect(Complex.prototype.pow).toBeDefined();
+    //expect(Complex.prototype.root).toBeDefined();
     expect(Complex.prototype.sin).toBeDefined();
     expect(Complex.prototype.cos).toBeDefined();
     expect(Complex.prototype.tan).toBeDefined();
@@ -105,6 +107,54 @@ describe('Functions', () => {
       });
       test('NaN', () => {
         expect(NAN.exp()).toEqual(NAN);
+      });
+    });
+  });
+
+  describe('Exponentiation', () => {
+    const ez: Complex = z.pow(w);
+    const en: Complex = z.pow(3);
+    const ei: Complex = z.pow(new Complex(0,4));
+    test('z^w', () => {
+      expect(ez.getRe()).toBeCloseTo(-0.163450932107354980775160670016733431436618517751780613, 10);
+      expect(ez.getIm()).toBeCloseTo(0.0960049836089488857637305260166438329767859619495163582, 10);
+      expect(en.getRe()).toBeCloseTo(-2, 10);
+      expect(en.getIm()).toBeCloseTo(2, 10);
+      expect(ei.getRe()).toBeCloseTo(0.00792789471147596867707293596691392242441194951611723415, 10);
+      expect(ei.getIm()).toBeCloseTo(0.0424804804251522110983614991496454374843832377622877467, 10);
+    });
+
+    describe('Special Cases', () => {
+      test('0^z', () => {
+        expect(ZERO.pow(z)).toEqual(ZERO);
+      });
+
+      test('z^0', () => {
+        expect(z.pow(ZERO)).toEqual(ONE);
+      });
+
+      test('0^0', () => {
+        expect(ZERO.pow(ZERO)).toEqual(NAN);
+      });
+
+      test('∞^0', () => {
+        expect(INFINITY.pow(ZERO)).toEqual(NAN);
+      });
+
+      test('0^∞', () => {
+        expect(ZERO.pow(INFINITY)).toEqual(ZERO);
+      });
+
+      test('1^∞', () => {
+        expect(ONE.pow(INFINITY)).toEqual(NAN);
+      });
+
+      test('∞^∞', () => {
+        expect(INFINITY.pow(INFINITY)).toEqual(INFINITY);
+      });
+
+      test('z^∞', () => {
+        expect(z.pow(INFINITY)).toEqual(INFINITY);
       });
     });
   });

@@ -27,27 +27,27 @@ import { Cartesian, isCartesian, Polar, isPolar } from './helpers';
 class Complex {
   /**
    * Creates an instance of Complex from another Complex number.
-   * @param z - The complex number
+   * @param z - The Complex number.
    */
   constructor(z: Complex);
 
   /**
    * Creates an instance of Complex from a Cartesian coordinate.
-   * @param c - The cartesian coordinate
+   * @param c - The Cartesian coordinate.
    */
   constructor(c: Cartesian);
 
   /**
    * Creates an instance of Complex from a Polar coordinate.
-   * @param p - The polar coordinate
+   * @param p - The Polar coordinate.
    */
   constructor(p: Polar);
 
   /**
    * Creates an instance of Complex from two optional values.
    * If a value is omitted it's considered 0.
-   * @param re - The real part
-   * @param im - The imaginary part
+   * @param re - The real part.
+   * @param im - The imaginary part.
    */
   constructor(re?: number, im?: number);
   constructor(r: number | Polar | Cartesian | Complex = 0, i: number = 0) {
@@ -60,10 +60,10 @@ class Complex {
     } else if (r instanceof Complex) {
       this.re = r.re;
       this.im = r.im;
-    } else if (isNaN(r) || isNaN(i)) {
+    } else if (Number.isNaN(r) || Number.isNaN(i)) {
       this.re = NaN;
       this.im = NaN;
-    } else if (!isFinite(r) || !isFinite(i)) {
+    } else if (!Number.isFinite(r) || !Number.isFinite(i)) {
       this.re = Infinity;
       this.im = Infinity;
     } else {
@@ -101,7 +101,7 @@ class Complex {
   }
 
   /**
-   * Calculates the modulus squared of a complex number.
+   * Calculates the modulus squared of a Complex number.
    */
   pythagoras(): number {
     return this.re * this.re + this.im * this.im;
@@ -109,7 +109,6 @@ class Complex {
 
   /**
    * Calculates the modulus of a Complex number.
-   * @todo Test if this implementation easily overflows
    */
   modulus(): number {
     return Math.hypot(this.re, this.im);
@@ -150,14 +149,14 @@ class Complex {
    * Returns true when a Complex number is ∞.
    */
   isInfinite(): boolean {
-    return this.re === Infinity || this.im === Infinity;
+    return !this.isNaN() && (!Number.isFinite(this.re) || !Number.isFinite(this.im));
   }
 
   /**
    * Returns true when a Complex number is NaN.
    */
   isNaN(): boolean {
-    return isNaN(this.re) || isNaN(this.im);
+    return Number.isNaN(this.re) || Number.isNaN(this.im);
   }
 
   /**
@@ -184,7 +183,6 @@ class Complex {
 
   /**
    * Calculates 1 / z.
-   * @todo Test if this implementation easily overflows.
    */
   inverse(): Complex {
     if (this.isNaN()) return Complex.NAN;
@@ -211,7 +209,7 @@ class Complex {
   }
 
   /**
-   * Calculates the square-root of a Complex number.
+   * Calculates the [principal value](https://en.wikipedia.org/wiki/Principal_value) of the square-root of a Complex number.
    * @todo Test if this implementation is better than the commented algebraic formula.
    */
   sqrt(): Complex {
@@ -242,14 +240,32 @@ class Complex {
   }
 
   /**
-   * Calculates the principal value of Ln(z).
-   * https://en.wikipedia.org/wiki/Complex_logarithm#Definition_of_principal_value
+   * Calculates the [principal value](https://en.wikipedia.org/wiki/Principal_value) of Ln(z).
    */
   log(): Complex {
     if (this.isNaN() || this.isZero()) return Complex.NAN;
     if (this.isInfinite()) return Complex.INFINITY;
+    if (this.equals(Complex.ONE)) return Complex.ZERO;
 
     return new Complex(Math.log(this.modulus()), this.argument());
+  }
+
+  pow(z: Complex | number): Complex {
+    if (typeof z === 'number') {
+      z = new Complex(z, 0);
+    }
+
+    if (this.isZero() && !z.isZero()) return Complex.ZERO;
+    if (!this.isZero() && !this.isInfinite() && z.isZero()) return Complex.ONE;
+    if (!this.isZero() && this.notEquals(Complex.ONE) && z.isInfinite()) return Complex.INFINITY;
+    if (
+      (this.equals(Complex.ONE) && z.isInfinite()) ||
+      (this.isZero() && z.isZero()) ||
+      (this.isInfinite() && z.isZero())
+    )
+      return Complex.NAN;
+
+    return z.times(this.log()).exp();
   }
 
   /**
@@ -585,7 +601,11 @@ class Complex {
   /**
    * Calculates z * w.
    */
-  times(z: Complex): Complex {
+  times(z: Complex | number): Complex {
+    if (typeof z === 'number') {
+      z = new Complex(z, 0);
+    }
+
     if ((this.isZero() && z.isInfinite()) || (this.isInfinite() && z.isZero())) return Complex.NAN;
     if (this.isInfinite() || z.isInfinite()) return Complex.INFINITY;
     if (this.isZero() || z.isZero()) return Complex.ZERO;
@@ -598,7 +618,11 @@ class Complex {
    * Calculates z / w using a [modified Smith's Method](http://forge.scilab.org/index.php/p/compdiv/source/tree/21/doc/improved_cdiv.pdf).
    * @todo Test if this implementation is actually SO better than the original Smith's method.
    * */
-  divide(z: Complex): Complex {
+  divide(z: Complex | number): Complex {
+    if (typeof z === 'number') {
+      z = new Complex(z, 0);
+    }
+
     if ((this.isZero() && z.isZero()) || (this.isInfinite() && z.isInfinite()) || this.isNaN() || z.isNaN())
       return Complex.NAN;
     if (this.isInfinite() || z.isZero()) return Complex.INFINITY;
