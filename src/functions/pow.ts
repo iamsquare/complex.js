@@ -5,7 +5,6 @@ import {
   equals,
   notEquals,
   multiply,
-  exp,
   pythagoras,
   argument
 } from '../';
