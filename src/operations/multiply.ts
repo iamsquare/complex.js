@@ -24,8 +24,13 @@ export default function multiply(
   if (isZero(zc) || isZero(wc)) return Complex.ZERO;
   if (isReal(zc) && isReal(wc)) return new Complex(zc.getRe() * wc.getRe(), 0);
 
+  const a: number = zc.getRe();
+  const b: number = zc.getIm();
+  const c: number = wc.getRe();
+  const d: number = wc.getIm();
+
   return new Complex(
-    zc.getRe() * wc.getRe() - zc.getIm() * wc.getIm(),
-    zc.getRe() * wc.getRe() + zc.getIm() * wc.getIm()
+    a * c - b * d,
+    a * d + b * c
   );
 }

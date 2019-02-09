@@ -26,26 +26,6 @@ const ONE = Complex.ONE;
 const I = Complex.I;
 
 describe('Operators', () => {
-  test('They should exist', () => {
-    expect(argument).toBeDefined();
-    expect(conjugate).toBeDefined();
-    expect(divide).toBeDefined();
-    expect(equals).toBeDefined();
-    expect(notEquals).toBeDefined();
-    expect(subtract).toBeDefined();
-    expect(modulus).toBeDefined();
-    expect(negate).toBeDefined();
-    expect(add).toBeDefined();
-    expect(multiply).toBeDefined();
-    expect(unit).toBeDefined();
-    expect(pythagoras).toBeDefined();
-    expect(isPureImaginary).toBeDefined();
-    expect(isReal).toBeDefined();
-    expect(isInfinite).toBeDefined();
-    expect(isNaNC).toBeDefined();
-    expect(isZero).toBeDefined();
-  });
-
   const z: Complex = new Complex(1, 1);
   const w: Complex = new Complex(2, 3);
 

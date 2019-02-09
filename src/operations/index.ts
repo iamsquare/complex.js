@@ -1,37 +1,17 @@
-import pythagoras from './pythagoras';
-import modulus from './modulus';
-import argument from './argument';
-import isReal from './isReal';
-import isPureImaginary from './isPureImaginary';
-import isInfinite from './isInfinite';
-import isZero from './isZero';
-import isNaNC from './isNaNC';
-import negate from './negate';
-import conjugate from './conjugate';
-import unit from './unit';
-import add from './add';
-import multiply from './multiply';
-import subtract from './subtract';
-import divide from './divide';
-import equals from './equals';
-import notEquals from './notEquals';
-
-export {
-  pythagoras,
-  modulus,
-  argument,
-  isReal,
-  isPureImaginary,
-  isZero,
-  isInfinite,
-  isNaNC,
-  negate,
-  conjugate,
-  unit,
-  add,
-  multiply,
-  subtract,
-  divide,
-  equals,
-  notEquals
-};
+export { default as pythagoras } from './pythagoras';
+export { default as modulus } from './modulus';
+export { default as argument } from './argument';
+export { default as isReal } from './isReal';
+export { default as isPureImaginary } from './isPureImaginary';
+export { default as isInfinite } from './isInfinite';
+export { default as isZero } from './isZero';
+export { default as isNaNC } from './isNaNC';
+export { default as negate } from './negate';
+export { default as conjugate } from './conjugate';
+export { default as unit } from './unit';
+export { default as add } from './add';
+export { default as multiply } from './multiply';
+export { default as subtract } from './subtract';
+export { default as divide } from './divide';
+export { default as equals } from './equals';
+export { default as notEquals } from './notEquals';
