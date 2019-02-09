@@ -1,4 +1,4 @@
-import { Complex } from '../';
+import Complex from '../complex';
 
 /**
  * Calculates the modulus of a Complex number.

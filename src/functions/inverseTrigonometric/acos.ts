@@ -1,4 +1,6 @@
-import { Complex, subtract, asin } from '../../';
+import Complex from '../../complex';
+import subtract from '../../operations/subtract';
+import asin from '../inverseTrigonometric/asin';
 
 /**
  * Calculates the inverse cosine of a Complex number.

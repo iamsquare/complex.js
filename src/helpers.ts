@@ -1,7 +1,7 @@
 /**
  * Cartesian Coordinate type definition
  */
-type Cartesian = {
+export type Cartesian = {
   x: number;
   y: number;
 };
@@ -9,7 +9,7 @@ type Cartesian = {
 /**
  * An helper function that checks if an object is a Cartesian coordinate.
  */
-function isCartesian(x: any): x is Cartesian {
+export function isCartesian(x: any): x is Cartesian {
   if (x === undefined) return false;
   return !!x.x && !!x.y && typeof x.x === 'number' && typeof x.y === 'number';
 }
@@ -17,7 +17,7 @@ function isCartesian(x: any): x is Cartesian {
 /**
  * Polar coordinate type definition
  */
-type Polar = {
+export type Polar = {
   r: number;
   p: number;
 };
@@ -25,9 +25,7 @@ type Polar = {
 /**
  * An helper function that checks if an object is a Polar coordinate.
  */
-function isPolar(x: any): x is Polar {
+export function isPolar(x: any): x is Polar {
   if (x === undefined) return false;
   return !!x.r && !!x.p && typeof x.r === 'number' && typeof x.p === 'number';
 }
-
-export { Cartesian, isCartesian, Polar, isPolar };

@@ -1,4 +1,5 @@
-import { Complex, isNaNC, isInfinite, isZero, modulus, argument } from '../';
+import Complex from '../complex';
+import { isNaNC, isInfinite, isZero, modulus, argument } from '../operations';
 
 // tslint:disable:max-line-length
 /**

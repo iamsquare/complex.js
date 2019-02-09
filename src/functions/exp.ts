@@ -1,4 +1,5 @@
-import { Complex, isNaNC, isInfinite, isZero } from '../';
+import Complex from '../complex';
+import { isNaNC, isInfinite, isZero } from '../operations';
 
 /**
  * Calculates e^z.

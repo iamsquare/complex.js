@@ -1,4 +1,8 @@
-import { Complex, isZero, isInfinite, isReal } from '../';
+import Complex from '../complex';
+import isNaNC from './isNaNC';
+import isReal from './isReal';
+import isInfinite from './isInfinite';
+import isZero from './isZero';
 
 /**
  * Calculates z * w.
@@ -16,7 +20,7 @@ export default function multiply(
   if (typeof w === 'number') wc = new Complex(w, 0);
   if (w instanceof Complex) wc = w;
 
-  if ((isZero(zc) && isInfinite(wc)) || (isInfinite(zc) && isZero(wc))) {
+  if (isNaNC(zc) || isNaNC(wc) || (isZero(zc) && isInfinite(wc)) || (isInfinite(zc) && isZero(wc))) {
     return Complex.NAN;
   }
 
@@ -29,8 +33,5 @@ export default function multiply(
   const c: number = wc.getRe();
   const d: number = wc.getIm();
 
-  return new Complex(
-    a * c - b * d,
-    a * d + b * c
-  );
+  return new Complex(a * c - b * d, a * d + b * c);
 }

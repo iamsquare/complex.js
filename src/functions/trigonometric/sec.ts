@@ -1,4 +1,5 @@
-import { Complex, isInfinite, isZero, isNaNC } from '../../';
+import Complex from '../../complex';
+import { isInfinite, isZero, isNaNC } from '../../operations';
 
 /**
  * Calculates the secant of a Complex number.

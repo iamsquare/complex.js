@@ -1,12 +1,13 @@
+import Complex from '../complex';
+
 import {
-  Complex,
   isNaNC,
   isZero,
   isInfinite,
   equals,
   modulus,
   argument
-} from '../';
+} from '../operations';
 
 /**
  * Calculates the [principal value](https://en.wikipedia.org/wiki/Principal_value) of Ln(z).

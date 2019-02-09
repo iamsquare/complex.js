@@ -1,4 +1,6 @@
-import { Complex, isInfinite, isNaNC } from '../';
+import Complex from '../complex';
+import isNaNC from './isNaNC';
+import isInfinite from './isInfinite';
 
 /**
  * Returns true when z === w.
@@ -14,7 +16,6 @@ export default function equals(z: Complex, w: Complex): boolean {
 
   // TODO: check if it should be done like this
   return (
-    Math.abs(a - c) <= Complex.EPSILON &&
-    Math.abs(b - d) <= Complex.EPSILON
+    Math.abs(a - c) <= Complex.EPSILON && Math.abs(b - d) <= Complex.EPSILON
   );
 }

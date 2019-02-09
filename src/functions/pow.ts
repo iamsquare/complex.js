@@ -1,5 +1,6 @@
+import Complex from '../complex';
+
 import {
-  Complex,
   isZero,
   isInfinite,
   equals,
@@ -7,7 +8,7 @@ import {
   multiply,
   pythagoras,
   argument
-} from '../';
+} from '../operations';
 
 export default function pow(z: Complex | number, w: Complex | number): Complex {
   let zc: Complex;
@@ -36,7 +37,7 @@ export default function pow(z: Complex | number, w: Complex | number): Complex {
 
   const pyt: number = pythagoras(zc);
   const arg: number = argument(zc);
-  const par: number = c * arg + d / 2 * Math.log(pyt);
+  const par: number = c * arg + (d / 2) * Math.log(pyt);
 
   const m: number = Math.pow(pyt, c / 2) * Math.exp(-d * arg);
 

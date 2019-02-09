@@ -50,15 +50,19 @@ Just import the Complex class and the operations/functions you want to use in yo
 **ES6/ES7/Typescript**
 
 ```js
-import { Complex, add, log, asinh, ... } from '@iamsquare/complex.js';
+import { Complex } from '@iamsquare/complex.js';
+import { add } from '@iamsquare/complex.js/operations';
+import { log, pow } from '@iamsquare/complex.js/functions';
+import { asinh } from '@iamsquare/complex.js/functions/inverseHyperbolic';
+...
 ```
 
 **ES5**
 
 ```js
-var ComplexJS = require('@iamsquare/complex.js');
+var ComplexJS = require('@iamsquare/complex.js/lib/umd');
 var Complex = ComplexJS.Complex; // This line assigns the Complex constructor to the Complex variable.
-var add = ComplexJS.add; // This line assigns the add operation to the add variable.
+var add = ComplexJS.default.add; // This line assigns the add operation to the add variable.
 ...
 ```
 
