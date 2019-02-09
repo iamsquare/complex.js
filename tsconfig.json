@@ -2,6 +2,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "outDir": "temp/",
+    "esModuleInterop": true,
     "noImplicitAny": true,
     "sourceMap": false,
     "downlevelIteration": true,

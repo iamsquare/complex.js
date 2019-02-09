@@ -15,7 +15,7 @@ describe('Functions', () => {
     expect(Complex.prototype.log).toBeDefined();
     expect(Complex.prototype.exp).toBeDefined();
     expect(Complex.prototype.pow).toBeDefined();
-    //expect(Complex.prototype.root).toBeDefined();
+    // expect(Complex.prototype.root).toBeDefined();
     expect(Complex.prototype.sin).toBeDefined();
     expect(Complex.prototype.cos).toBeDefined();
     expect(Complex.prototype.tan).toBeDefined();

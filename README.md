@@ -127,9 +127,9 @@ These are just the four basic operations. Check the [documentation](https://www.
 
 # TODO
 
-- [x] ~~Support for trig functions.~~
-- [x] ~~Support for hyperbolic functions.~~
-- [x] Support for powers.
+- [*] ~~Support for trig functions.~~
+- [*] ~~Support for hyperbolic functions.~~
+- [*] Support for powers.
 - [ ] Support for nth-roots (n√z).
 - [ ] Refactor tests.
 - [ ] Refactor the Complex class.

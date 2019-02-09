@@ -29,12 +29,12 @@ describe('Operators', () => {
     expect(Complex.prototype.isZero).toBeDefined();
   });
 
-  let z: Complex = new Complex(1, 1);
-  let w: Complex = new Complex(2, 3);
+  const z: Complex = new Complex(1, 1);
+  const w: Complex = new Complex(2, 3);
 
   describe('Addition', () => {
     test('z + w', () => {
-      let c: Complex = z.plus(w);
+      const c: Complex = z.plus(w);
       expect(c.getRe()).toEqual(3);
       expect(c.getIm()).toEqual(4);
     });
@@ -60,7 +60,7 @@ describe('Operators', () => {
 
   describe('Subtraction', () => {
     test('z - w', () => {
-      let c: Complex = z.minus(w);
+      const c: Complex = z.minus(w);
       expect(c.getRe()).toEqual(-1);
       expect(c.getIm()).toEqual(-2);
     });
@@ -86,8 +86,8 @@ describe('Operators', () => {
 
   describe('Multiplication', () => {
     test('z * w', () => {
-      let c: Complex = z.times(w);
-      let d: Complex = z.times(2);
+      const c: Complex = z.times(w);
+      const d: Complex = z.times(2);
       expect(c.getRe()).toEqual(-1);
       expect(c.getIm()).toEqual(5);
       expect(d.getRe()).toEqual(2);
@@ -115,8 +115,8 @@ describe('Operators', () => {
 
   describe('Division', () => {
     test('z / w', () => {
-      let c: Complex = z.divide(w);
-      let d: Complex = z.divide(2);
+      const c: Complex = z.divide(w);
+      const d: Complex = z.divide(2);
       expect(c.getRe()).toBeCloseTo(5 / 13, 10);
       expect(c.getIm()).toBeCloseTo(-1 / 13, 10);
       expect(d.getRe()).toEqual(0.5);
@@ -144,7 +144,7 @@ describe('Operators', () => {
 
   describe('Negation', () => {
     test('-z', () => {
-      let c: Complex = z.negate();
+      const c: Complex = z.negate();
       expect(c.getRe()).toEqual(-1);
       expect(c.getIm()).toEqual(-1);
     });
@@ -162,7 +162,7 @@ describe('Operators', () => {
 
   describe('Conjugate', () => {
     test('Conj(z)', () => {
-      let c: Complex = z.conjugate();
+      const c: Complex = z.conjugate();
       expect(c.getRe()).toEqual(z.getRe());
       expect(c.getIm()).toEqual(-z.getIm());
     });

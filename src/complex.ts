@@ -1,11 +1,11 @@
-//TODO: test and fix eventual precision errors
-//TODO: add rounding function
+// TODO: test and fix eventual precision errors
+// TODO: add rounding function
 
 import { Cartesian, isCartesian, Polar, isPolar } from './helpers';
 
 /**
  * A class that descibes Complex numbers and their operations.
- * 
+ *
  * To define a new Complex:
   ```
   new Complex(1, -1); // Numeric arguments
@@ -149,7 +149,9 @@ class Complex {
    * Returns true when a Complex number is ∞.
    */
   isInfinite(): boolean {
-    return !this.isNaN() && (!Number.isFinite(this.re) || !Number.isFinite(this.im));
+    return (
+      !this.isNaN() && (!Number.isFinite(this.re) || !Number.isFinite(this.im))
+    );
   }
 
   /**
@@ -208,10 +210,12 @@ class Complex {
     return new Complex(this.re / m, this.im / m);
   }
 
+  // tslint:disable:max-line-length
   /**
    * Calculates the [principal value](https://en.wikipedia.org/wiki/Principal_value) of the square-root of a Complex number.
    * @todo Test if this implementation is better than the commented algebraic formula.
    */
+  // tslint:enable:max-line-length
   sqrt(): Complex {
     if (this.isNaN()) return Complex.NAN;
     if (this.isInfinite()) return Complex.INFINITY;
@@ -220,12 +224,14 @@ class Complex {
     const r: number = this.modulus();
     const p: number = this.argument();
 
-    return new Complex((r / Math.sqrt(r)) * Math.cos(p / 2), (r / Math.sqrt(r)) * Math.sin(p / 2));
+    return new Complex(
+      (r / Math.sqrt(r)) * Math.cos(p / 2),
+      (r / Math.sqrt(r)) * Math.sin(p / 2)
+    );
 
     /*const a: number = Math.SQRT1_2; //0.5 * sqrt(2)
       const m: number = this.modulus();
       const is: number = Math.sign(this.im);
-  
       return new Complex(a * Math.sqrt(m + this.re), a * is * Math.sqrt(m - this.re));*/
   }
 
@@ -251,21 +257,30 @@ class Complex {
   }
 
   pow(z: Complex | number): Complex {
+    let zc: Complex;
+
+    if (z instanceof Complex) {
+      zc = z;
+    }
     if (typeof z === 'number') {
-      z = new Complex(z, 0);
+      zc = new Complex(z, 0);
     }
 
-    if (this.isZero() && !z.isZero()) return Complex.ZERO;
-    if (!this.isZero() && !this.isInfinite() && z.isZero()) return Complex.ONE;
-    if (!this.isZero() && this.notEquals(Complex.ONE) && z.isInfinite()) return Complex.INFINITY;
-    if (
-      (this.equals(Complex.ONE) && z.isInfinite()) ||
-      (this.isZero() && z.isZero()) ||
-      (this.isInfinite() && z.isZero())
-    )
-      return Complex.NAN;
+    if (this.isZero() && !zc.isZero()) return Complex.ZERO;
+    if (!this.isZero() && !this.isInfinite() && zc.isZero()) return Complex.ONE;
+    if (!this.isZero() && this.notEquals(Complex.ONE) && zc.isInfinite()) {
+      return Complex.INFINITY;
+    }
 
-    return z.times(this.log()).exp();
+    if (
+      (this.equals(Complex.ONE) && zc.isInfinite()) ||
+      (this.isZero() && zc.isZero()) ||
+      (this.isInfinite() && zc.isZero())
+    ) {
+      return Complex.NAN;
+    }
+
+    return zc.times(this.log()).exp();
   }
 
   /**
@@ -336,7 +351,10 @@ class Complex {
     const b: number = this.im;
     const d: number = Math.cos(2 * a) + Math.cosh(2 * b);
 
-    return new Complex((2 * (Math.cos(a) * Math.cosh(b))) / d, (2 * (Math.sin(a) * Math.sinh(b))) / d);
+    return new Complex(
+      (2 * (Math.cos(a) * Math.cosh(b))) / d,
+      (2 * (Math.sin(a) * Math.sinh(b))) / d
+    );
   }
 
   /**
@@ -351,7 +369,10 @@ class Complex {
     const b: number = this.im;
     const d: number = Math.cosh(2 * b) - Math.cos(2 * a);
 
-    return new Complex((2 * (Math.sin(a) * Math.cosh(b))) / d, -(2 * (Math.cos(a) * Math.sinh(b))) / d);
+    return new Complex(
+      (2 * (Math.sin(a) * Math.cosh(b))) / d,
+      -(2 * (Math.cos(a) * Math.sinh(b))) / d
+    );
   }
 
   /**
@@ -388,7 +409,10 @@ class Complex {
     const a: number = this.re;
     const b: number = this.im;
     const d: number = a * a + (1 - b) * (1 - b);
-    const log: Complex = new Complex((1 - a * a - b * b) / d, (-2 * a) / d).log();
+    const log: Complex = new Complex(
+      (1 - a * a - b * b) / d,
+      (-2 * a) / d
+    ).log();
 
     return new Complex(-log.im / 2, log.re / 2);
   }
@@ -485,7 +509,10 @@ class Complex {
     const b: number = this.im;
     const d: number = Math.cosh(2 * a) + Math.cos(2 * b);
 
-    return new Complex((2 * Math.cosh(a) * Math.cos(b)) / d, (-2 * Math.sinh(a) * Math.sin(b)) / d);
+    return new Complex(
+      (2 * Math.cosh(a) * Math.cos(b)) / d,
+      (-2 * Math.sinh(a) * Math.sin(b)) / d
+    );
   }
 
   /**
@@ -501,7 +528,10 @@ class Complex {
     const b: number = this.im;
     const d: number = Math.cos(2 * b) - Math.cosh(2 * a);
 
-    return new Complex((-2 * Math.sinh(a) * Math.cos(b)) / d, (2 * Math.cosh(a) * Math.sin(b)) / d);
+    return new Complex(
+      (-2 * Math.sinh(a) * Math.cos(b)) / d,
+      (2 * Math.cosh(a) * Math.sin(b)) / d
+    );
   }
 
   /**
@@ -550,7 +580,10 @@ class Complex {
     const b: number = this.im;
     const d: number = (1 - a) * (1 - a) + b * b;
 
-    const log: Complex = new Complex((1 - a * a - b * b) / d, (2 * b) / d).log();
+    const log: Complex = new Complex(
+      (1 - a * a - b * b) / d,
+      (2 * b) / d
+    ).log();
 
     return new Complex(log.re / 2, log.im / 2);
   }
@@ -583,7 +616,9 @@ class Complex {
    * Calculates z + w.
    */
   plus(z: Complex): Complex {
-    if (this.isNaN() || z.isNaN() || (this.isInfinite() && z.isInfinite())) return Complex.NAN;
+    if (this.isNaN() || z.isNaN() || (this.isInfinite() && z.isInfinite())) {
+      return Complex.NAN;
+    }
     if (this.isInfinite() || z.isInfinite()) return Complex.INFINITY;
 
     return new Complex(this.re + z.re, this.im + z.im);
@@ -593,7 +628,9 @@ class Complex {
    * Calculates z - w.
    */
   minus(z: Complex): Complex {
-    if (this.isNaN() || z.isNaN() || (this.isInfinite() && z.isInfinite())) return Complex.NAN;
+    if (this.isNaN() || z.isNaN() || (this.isInfinite() && z.isInfinite())) {
+      return Complex.NAN;
+    }
 
     return new Complex(this.re - z.re, this.im - z.im);
   }
@@ -602,56 +639,72 @@ class Complex {
    * Calculates z * w.
    */
   times(z: Complex | number): Complex {
-    if (typeof z === 'number') {
-      z = new Complex(z, 0);
+    let zc: Complex;
+    if (typeof z === 'number') zc = new Complex(z, 0);
+    if (z instanceof Complex) zc = z;
+
+    if (
+      (this.isZero() && zc.isInfinite()) ||
+      (this.isInfinite() && zc.isZero())
+    ) {
+      return Complex.NAN;
     }
+    if (this.isInfinite() || zc.isInfinite()) return Complex.INFINITY;
+    if (this.isZero() || zc.isZero()) return Complex.ZERO;
+    if (this.isReal() && zc.isReal()) return new Complex(this.re * zc.re, 0);
 
-    if ((this.isZero() && z.isInfinite()) || (this.isInfinite() && z.isZero())) return Complex.NAN;
-    if (this.isInfinite() || z.isInfinite()) return Complex.INFINITY;
-    if (this.isZero() || z.isZero()) return Complex.ZERO;
-    if (this.isReal() && z.isReal()) return new Complex(this.re * z.re, 0);
-
-    return new Complex(this.re * z.re - this.im * z.im, this.re * z.im + this.im * z.re);
+    return new Complex(
+      this.re * zc.re - this.im * zc.im,
+      this.re * zc.im + this.im * zc.re
+    );
   }
 
+  // tslint:disable:max-line-length
   /**
    * Calculates z / w using a [modified Smith's Method](http://forge.scilab.org/index.php/p/compdiv/source/tree/21/doc/improved_cdiv.pdf).
    * @todo Test if this implementation is actually SO better than the original Smith's method.
    * */
+  // tslint:enable:max-line-length
   divide(z: Complex | number): Complex {
-    if (typeof z === 'number') {
-      z = new Complex(z, 0);
-    }
+    let zc: Complex;
+    if (typeof z === 'number') zc = new Complex(z, 0);
+    if (z instanceof Complex) zc = z;
 
-    if ((this.isZero() && z.isZero()) || (this.isInfinite() && z.isInfinite()) || this.isNaN() || z.isNaN())
+    if (
+      (this.isZero() && zc.isZero()) ||
+      (this.isInfinite() && zc.isInfinite()) ||
+      this.isNaN() ||
+      zc.isNaN()
+    ) {
       return Complex.NAN;
-    if (this.isInfinite() || z.isZero()) return Complex.INFINITY;
-    if (this.isZero() || z.isInfinite()) return Complex.ZERO;
+    }
+    if (this.isInfinite() || zc.isZero()) return Complex.INFINITY;
+    if (this.isZero() || zc.isInfinite()) return Complex.ZERO;
 
     const a: number = this.re;
     const b: number = this.im;
-    const c: number = z.re;
-    const d: number = z.im;
+    const c: number = zc.re;
+    const d: number = zc.im;
+    let r: number;
+    let t: number;
 
     if (Math.abs(d) < Math.abs(c)) {
-      const r: number = d / c;
-      const t: number = 1 / (c + d * r);
+      r = d / c;
+      t = 1 / (c + d * r);
 
       if (r === 0) {
         return new Complex((a + d * (b / c)) * t, (b - d * (a / c)) * t);
-      } else {
-        return new Complex((a + b * r) * t, (b - a * r) * t);
       }
-    } else {
-      const r: number = c / d;
-      const t: number = 1 / (c * r + d);
-
-      if (r === 0) {
-        return new Complex((c * (a / d) + b) * t, (c * (b / d) - a) * t);
-      } else {
-        return new Complex((a * r + b) * t, (b * r - a) * t);
-      }
+      return new Complex((a + b * r) * t, (b - a * r) * t);
     }
+
+    r = c / d;
+    t = 1 / (c * r + d);
+
+    if (r === 0) {
+      return new Complex((c * (a / d) + b) * t, (c * (b / d) - a) * t);
+    }
+    return new Complex((a * r + b) * t, (b * r - a) * t);
   }
 
   /**
@@ -661,7 +714,10 @@ class Complex {
     if (this.isInfinite() && z.isInfinite()) return true;
     if (this.isNaN() || z.isNaN()) return false;
 
-    return Math.abs(this.re - z.re) <= Complex.EPSILON && Math.abs(this.im - z.im) <= Complex.EPSILON;
+    return (
+      Math.abs(this.re - z.re) <= Complex.EPSILON &&
+      Math.abs(this.im - z.im) <= Complex.EPSILON
+    );
   }
 
   /**
@@ -682,7 +738,11 @@ class Complex {
 
     const re: string = this.re !== 0 || this.isReal() ? `${this.re}` : '';
     const im: string = !this.isReal() ? `${Math.abs(this.im)} i` : '';
-    const sign: string = !this.isReal() ? (Math.sign(this.im) > 0 ? ' + ' : ' - ') : '';
+    const sign: string = !this.isReal()
+      ? Math.sign(this.im) > 0
+        ? ' + '
+        : ' - '
+      : '';
 
     return `${re}${sign}${im}`;
   }
