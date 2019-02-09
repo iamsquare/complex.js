@@ -13,8 +13,7 @@ script:
 after_success:
   - npm run docs
   - npm pack
-
-
+  
 deploy:
 - provider: pages
   skip_cleanup: true

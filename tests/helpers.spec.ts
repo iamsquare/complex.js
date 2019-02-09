@@ -1,4 +1,4 @@
-import { Cartesian, Polar, isCartesian, isPolar } from '../src/helpers';
+import { Cartesian, Polar, isCartesian, isPolar } from '../src';
 
 describe('Helpers', () => {
   test('They should exist', () => {

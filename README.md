@@ -2,11 +2,11 @@
 
 # [ℂomplex.js](http://iamsquare.it/complex.js)
 
-[![NPM](https://img.shields.io/npm/v/@iamsquare/complex.js.svg?style=flat-square)](https://www.npmjs.com/package/@iamsquare/complex.js) [![Travis (.com) branch](https://img.shields.io/travis/iamsquare/complex.js/master.svg?style=flat-square)](https://travis-ci.org/iamsquare/complex.js/branches) [![GitHub issues](https://img.shields.io/github/issues-raw/iamsquare/complex.js.svg?style=flat-square)](https://github.com/iamsquare/complex.js/issues) [![GitHub License](https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square)](https://opensource.org/licenses/MIT) [![NPM](https://nodei.co/npm/@iamsquare/complex.js.png?mini=true)](https://nodei.co/npm/@iamsquare/complex.js)
+[![NPM](https://img.shields.io/npm/v/@iamsquare/complex.js.svg?style=flat-square)](https://www.npmjs.com/package/@iamsquare/complex.js) [![Travis (.com) branch](https://img.shields.io/travis/iamsquare/complex.js/master.svg?style=flat-square)](https://travis-ci.org/iamsquare/complex.js/branches) [![GitHub issues](https://img.shields.io/github/issues-raw/iamsquare/complex.js.svg?style=flat-square)](https://github.com/iamsquare/complex.js/issues) [![GitHub License](https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square)](https://github.com/iamsquare/complex.js/blob/master/LICENSE) [![NPM](https://nodei.co/npm/@iamsquare/complex.js.png?mini=true)](https://nodei.co/npm/@iamsquare/complex.js)
 
-> A simple complex-numbers library for Javascript and Node.js.
+> A simple complex-numbers library for browsers and Node.js.
 
-This library was created as solution for [this](http://www.rosettacode.org/wiki/Arithmetic/Complex) Rosetta Code task. It has been moved to its own repo as a way to learn TDD with Travis-CI.
+This library was created as solution for [this](http://www.rosettacode.org/wiki/Arithmetic/Complex) RosettaCode task. It has been moved to its own repo as a way to learn TDD with Travis-CI.
 
 # Getting started
 
@@ -35,30 +35,31 @@ npm run prod
 ```shell
 npm run build
 ```
-
+The library is compiled to UMD against this [browserslist](https://github.com/browserslist/browserslist):
+```
+> 1%
+not dead
+maintained node versions
+```
 > Polyfills are not included (read [Usage](#usage) to learn more).
 
 # Usage
 
-Just import the library in your Javascript (ES5/ES6/ES7) or Typescript project:
+Just import the Complex class and the operations/functions you want to use in your Javascript (ES5/ES6/ES7) or Typescript project:
 
 **ES6/ES7/Typescript**
 
 ```js
-import { Complex } from '@iamsquare/complex.js';
+import { Complex, add, log, asinh, ... } from '@iamsquare/complex.js';
 ```
 
 **ES5**
 
 ```js
 var ComplexJS = require('@iamsquare/complex.js');
-var Complex = ComplexJS.Complex; // This line assigns the Complex constructor to the Complex constant.
-```
-
-or the shorthanded declaration:
-
-```js
-var Complex = require('@iamsquare/complex.js').Complex;
+var Complex = ComplexJS.Complex; // This line assigns the Complex constructor to the Complex variable.
+var add = ComplexJS.add; // This line assigns the add operation to the add variable.
+...
 ```
 
 **Note**: for ES5 you will probably need to polyfill the following methods and properties:
@@ -69,6 +70,9 @@ var Complex = require('@iamsquare/complex.js').Complex;
 - _core-js/modules/es6.math.hypot_
 - _core-js/modules/es6.math.sign_
 - _core-js/modules/es6.number.epsilon_
+- _core-js/modules/es6.number.is-nan_
+- _core-js/modules/es6.number.is-finite_
+- _core-js/modules/es6.number.is-integer_
 
 To keep the build as little as possible - and to let old tech die - these polyfills are NOT included in the bundle. You almost surely use Babel in your workflow anyway, so it's useless to polyfill the library beforehand (you can find a guide on how to include built-ins [here](https://babeljs.io/docs/en/babel-preset-env.html#include)).
 
@@ -90,28 +94,28 @@ const zz: Complex = new Complex(z); // Complex argument
 ### Addition
 
 ```typescript
-const a: Complex = z.plus(w);
+const a: Complex = add(z, w);
 console.log(a); // => Complex {re: 2, im: -4}
 ```
 
 ### Subtraction
 
 ```typescript
-const s: Complex = z.minus(w);
+const s: Complex = subtract(z, w);
 console.log(s); // => Complex {re: 0, im: 2}
 ```
 
 ### Multiplication
 
 ```typescript
-const m: Complex = z.times(w);
+const m: Complex = multiply(z, w);
 console.log(m); // => Complex {re: -2, im: -4}
 ```
 
 ### Division
 
 ```typescript
-const d: Complex = z.divide(w);
+const d: Complex = divide(z, w);
 console.log(d); // => Complex {re: 0.39999999999999997, im: 0.2}
 ```
 
@@ -119,10 +123,12 @@ These are just the four basic operations. Check the [documentation](https://www.
 
 # TODO
 
-- [*] ~~Support for trig functions.~~
-- [*] ~~Support for hyperbolic functions.~~
-- [ ] Support for powers (z^a, z^ib, z^w).
+- [x] ~~Support for trig functions.~~
+- [x] ~~Support for hyperbolic functions.~~
+- [x] ~~Support for powers.~~
 - [ ] Support for nth-roots (n√z).
+- [ ] Refactor tests.
+- [x] ~~Refactor the Complex class.~~
 
 # Built With
 

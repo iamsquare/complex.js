@@ -2,10 +2,12 @@
   "compilerOptions": {
     "baseUrl": ".",
     "outDir": "temp/",
+    "esModuleInterop": true,
     "noImplicitAny": true,
     "sourceMap": false,
     "downlevelIteration": true,
     "module": "none",
+    "moduleResolution": "node",
     "lib": ["esnext"],
     "target": "esnext"
   },
