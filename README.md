@@ -45,25 +45,21 @@ maintained node versions
 
 # Usage
 
-Just import the library in your Javascript (ES5/ES6/ES7) or Typescript project:
+Just import the Complex class and the operations/functions you want to use in your Javascript (ES5/ES6/ES7) or Typescript project:
 
 **ES6/ES7/Typescript**
 
 ```js
-import { Complex } from '@iamsquare/complex.js';
+import { Complex, add, log, asinh, ... } from '@iamsquare/complex.js';
 ```
 
 **ES5**
 
 ```js
 var ComplexJS = require('@iamsquare/complex.js');
-var Complex = ComplexJS.Complex; // This line assigns the Complex constructor to the Complex constant.
-```
-
-or the shorthanded declaration:
-
-```js
-var Complex = require('@iamsquare/complex.js').Complex;
+var Complex = ComplexJS.Complex; // This line assigns the Complex constructor to the Complex variable.
+var add = ComplexJS.add; // This line assigns the add operation to the add variable.
+...
 ```
 
 **Note**: for ES5 you will probably need to polyfill the following methods and properties:
@@ -98,28 +94,28 @@ const zz: Complex = new Complex(z); // Complex argument
 ### Addition
 
 ```typescript
-const a: Complex = z.plus(w);
+const a: Complex = add(z, w);
 console.log(a); // => Complex {re: 2, im: -4}
 ```
 
 ### Subtraction
 
 ```typescript
-const s: Complex = z.minus(w);
+const s: Complex = subtract(z, w);
 console.log(s); // => Complex {re: 0, im: 2}
 ```
 
 ### Multiplication
 
 ```typescript
-const m: Complex = z.times(w);
+const m: Complex = multiply(z, w);
 console.log(m); // => Complex {re: -2, im: -4}
 ```
 
 ### Division
 
 ```typescript
-const d: Complex = z.divide(w);
+const d: Complex = divide(z, w);
 console.log(d); // => Complex {re: 0.39999999999999997, im: 0.2}
 ```
 
@@ -129,10 +125,10 @@ These are just the four basic operations. Check the [documentation](https://www.
 
 - [x] ~~Support for trig functions.~~
 - [x] ~~Support for hyperbolic functions.~~
-- [x] Support for powers.
+- [x] ~~Support for powers.~~
 - [ ] Support for nth-roots (n√z).
 - [ ] Refactor tests.
-- [ ] Refactor the Complex class.
+- [x] ~~Refactor the Complex class.~~
 
 # Built With
 
