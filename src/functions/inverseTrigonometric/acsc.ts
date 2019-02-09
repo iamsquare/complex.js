@@ -1,4 +1,6 @@
-import { Complex, inverse, asin } from '../../';
+import Complex from '../../complex';
+import inverse from '../inverse';
+import asin from '../inverseTrigonometric/asin';
 
 /**
  * Calculates the inverse cosecant of a Complex number.

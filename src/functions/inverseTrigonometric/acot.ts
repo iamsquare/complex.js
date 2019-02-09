@@ -1,4 +1,6 @@
-import { Complex, subtract, atan } from '../../';
+import Complex from '../../complex';
+import subtract from '../../operations/subtract';
+import atan from '../inverseTrigonometric/atan';
 
 /**
  * Calculates the inverse cotangent of a Complex number.

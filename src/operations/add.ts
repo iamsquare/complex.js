@@ -1,5 +1,6 @@
-import { Complex, isNaNC, isInfinite } from '../';
-
+import Complex from '../complex';
+import isNaNC from './isNaNC';
+import isInfinite from './isInfinite';
 /**
  * Calculates z + w.
  */

@@ -1,5 +1,5 @@
-import {
-  Complex,
+import { Complex } from '../src/';
+import{
   sqrt,
   log,
   pow,
@@ -29,7 +29,7 @@ import {
   acoth,
   asech,
   acsch
-} from '../src';
+} from '../src/functions';
 
 const INFINITY: Complex = Complex.INFINITY;
 const NAN: Complex = Complex.NAN;

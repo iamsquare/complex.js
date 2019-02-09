@@ -1,21 +1,34 @@
 import babel from 'rollup-plugin-babel';
 import commonjs from 'rollup-plugin-commonjs';
 import { terser } from 'rollup-plugin-terser';
-// import resolve from 'rollup-plugin-node-resolve';
+import resolve from 'rollup-plugin-node-resolve';
 
-module.exports = {
-  input: 'temp/index.js',
-  output: {
-    file: 'complex.js',
-    name: 'complex.js',
-    dir: 'lib',
-    format: 'umd'
+module.exports = [
+  {
+    input: 'temp/index.js',
+    output: {
+      dir: 'lib/esm',
+      sourcemap: true,
+      format: 'esm'
+    },
+    plugins: [resolve(), commonjs(), babel()]
   },
-  plugins: [
-    commonjs(),
-    babel(),
-    terser({
-      mangle: false
-    })
-  ]
-};
+  {
+    input: 'temp/index.js',
+    output: {
+      name: 'complex.js',
+      dir: 'lib/umd',
+      sourcemap: true,
+      format: 'umd',
+      exports: 'named'
+    },
+    plugins: [
+      resolve(),
+      commonjs(),
+      babel(),
+      terser({
+        mangle: false
+      })
+    ]
+  }
+];

@@ -1,4 +1,7 @@
-import { Complex, isInfinite, isZero, isNaNC } from '../';
+import Complex from '../complex';
+import isNaNC from './isNaNC';
+import isInfinite from './isInfinite';
+import isZero from './isZero';
 
 /**
  * Negates a Complex number.

@@ -1,4 +1,5 @@
-import { Complex, equals } from '../';
+import Complex from '../complex';
+import equals from './equals';
 
 /**
    * Returns true when z !== w.

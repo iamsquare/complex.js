@@ -1,4 +1,5 @@
-import { Complex, isNaNC } from '../';
+import Complex from '../complex';
+import isNaNC from './isNaNC';
 
 /**
  * Returns true when a Complex number is ∞.

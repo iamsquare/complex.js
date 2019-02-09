@@ -1,4 +1,7 @@
-import { Complex, isNaNC, isInfinite, isZero } from '../';
+import Complex from '../complex';
+import isNaNC from './isNaNC';
+import isInfinite from './isInfinite';
+import isZero from './isZero';
 
 /**
  * Calculates the Complex-conjugate of a Complex number.

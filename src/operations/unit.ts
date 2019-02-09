@@ -1,4 +1,8 @@
-import { Complex, isNaNC, isZero, isInfinite, modulus } from '../';
+import Complex from '../complex';
+import isNaNC from './isNaNC';
+import isInfinite from './isInfinite';
+import isZero from './isZero';
+import modulus from './modulus';
 
 /**
  * Calculates the unit vector of a Complex number.

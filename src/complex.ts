@@ -2,7 +2,12 @@
 // TODO: add rounding function
 
 import { Cartesian, isCartesian, Polar, isPolar } from './helpers';
-import { isNaNC, isInfinite, isZero, isReal, modulus, argument } from './operations';
+import isNaNC from './operations/isNaNC';
+import isInfinite from './operations/isInfinite';
+import isZero from './operations/isZero';
+import isReal from './operations/isReal';
+import modulus from './operations/modulus';
+import argument from './operations/argument';
 
 /**
  * A class that descibes Complex numbers and their operations.
@@ -16,7 +21,7 @@ import { isNaNC, isInfinite, isZero, isReal, modulus, argument } from './operati
   ```
  *
  */
-class Complex {
+export default class Complex {
   /**
    * Creates an instance of Complex from another Complex number.
    * @param z - The Complex number.
@@ -172,5 +177,3 @@ class Complex {
    */
   static EPSILON: number = Number.EPSILON;
 }
-
-export { Complex };

@@ -1,4 +1,5 @@
-import { Complex, isInfinite, isNaNC, isZero } from '../../';
+import Complex from '../../complex';
+import { isInfinite, isNaNC, isZero } from '../../operations';
 
 /**
  * Calculates the hyperbolic tangent of a Complex number.

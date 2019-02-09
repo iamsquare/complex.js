@@ -1,4 +1,9 @@
-import { Complex, isInfinite, isZero, isNaNC, log, sqrt } from '../../';
+import Complex from '../../complex';
+import isInfinite from '../../operations/isInfinite';
+import isZero from '../../operations/isZero';
+import isNaNC from '../../operations/isNaNC';
+import log from '../log';
+import sqrt from '../sqrt';
 
 /**
  * Calculates the inverse sine of a Complex number.
