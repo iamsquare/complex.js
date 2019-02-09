@@ -52,17 +52,16 @@ Just import the Complex class and the operations/functions you want to use in yo
 ```js
 import { Complex } from '@iamsquare/complex.js';
 import { add } from '@iamsquare/complex.js/operations';
-import { log, pow } from '@iamsquare/complex.js/functions';
-import { asinh } from '@iamsquare/complex.js/functions/inverseHyperbolic';
+import { log, pow, asinh } from '@iamsquare/complex.js/functions';
 ...
 ```
 
 **ES5**
 
 ```js
-var ComplexJS = require('@iamsquare/complex.js/lib/umd');
+var ComplexJS = require('@iamsquare/complex.js/lib/umd').default;
 var Complex = ComplexJS.Complex; // This line assigns the Complex constructor to the Complex variable.
-var add = ComplexJS.default.add; // This line assigns the add operation to the add variable.
+var add = ComplexJS.add; // This line assigns the add operation to the add variable.
 ...
 ```
 
