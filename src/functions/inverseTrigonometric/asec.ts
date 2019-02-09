@@ -1,4 +1,6 @@
-import { Complex, inverse, acos } from '../../';
+import Complex from '../../complex';
+import inverse from '../inverse';
+import acos from '../inverseTrigonometric/acos';
 
 /**
  * Calculates the inverse secant of a Complex number.

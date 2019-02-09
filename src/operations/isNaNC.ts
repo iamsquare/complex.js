@@ -1,4 +1,4 @@
-import { Complex } from '..';
+import Complex from '../complex';
 
 /**
  * Returns true when a Complex number is NaN.

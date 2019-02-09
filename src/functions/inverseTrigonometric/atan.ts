@@ -1,4 +1,8 @@
-import { Complex, isInfinite, isZero, isNaNC, log } from '../../';
+import Complex from '../../complex';
+import isInfinite from '../../operations/isInfinite';
+import isZero from '../../operations/isZero';
+import isNaNC from '../../operations/isNaNC';
+import log from '../log';
 
 /**
  * Calculates the inverse tangent of a Complex number.

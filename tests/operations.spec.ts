@@ -1,5 +1,5 @@
+import { Complex } from '../src/';
 import {
-  Complex,
   argument,
   conjugate,
   modulus,
@@ -17,7 +17,7 @@ import {
   divide,
   equals,
   notEquals
-} from '../src';
+} from '../src/operations';
 
 const NAN = Complex.NAN;
 const INFINITY = Complex.INFINITY;

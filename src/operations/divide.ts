@@ -1,4 +1,7 @@
-import { Complex, isZero, isInfinite, isNaNC } from '../';
+import Complex from '../complex';
+import isNaNC from './isNaNC';
+import isInfinite from './isInfinite';
+import isZero from './isZero';
 
 // tslint:disable:max-line-length
 /**
