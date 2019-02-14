@@ -2,7 +2,9 @@
   "name": "@iamsquare/complex.js",
   "version": "1.0.0",
   "description": "A simple complex numbers library written in Typescript",
-  "main": "lib/esm/index.js",
+  "main": "lib/cjs/index.js",
+  "module": "lib/esm/index.js",
+  "types": "lib/types/index.d.ts",
   "scripts": {
     "setup": "npm install",
     "test": "jest",
