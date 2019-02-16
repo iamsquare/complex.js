@@ -1,15 +1,13 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
-    "outDir": "temp/",
-    "esModuleInterop": true,
+    "outDir": "dist/lib",
     "noImplicitAny": true,
     "sourceMap": false,
-    "downlevelIteration": true,
     "module": "none",
     "moduleResolution": "node",
-    "lib": ["esnext"],
+    "lib": ["esnext", "dom"],
     "target": "esnext"
   },
-  "exclude": ["node_modules/**/*", "temp/**/*", "lib/**/*", "**/*.spec.ts"]
+  "exclude": ["node_modules/**/*", "dist/**/*", "**/*.spec.ts"]
 }
