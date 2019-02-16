@@ -1,18 +1,17 @@
 {
   "name": "@iamsquare/complex.js",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A simple complex numbers library written in Typescript",
-  "main": "lib/cjs/index.js",
-  "module": "lib/esm/index.js",
-  "types": "lib/types/index.d.ts",
+  "main": "dist/lib/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/types/index.d.ts",
   "scripts": {
     "setup": "npm install",
     "test": "jest",
     "test:watch": "npm run test -- --watch",
     "test:coverage": "npm run test -- --coverage",
     "clean": "npm-run-all -p clean:*",
-    "clean:lib": "rimraf ./lib",
-    "clean:temp": "rimraf ./temp",
+    "clean:dist": "rimraf ./dist",
     "clean:docs": "rimraf ./docs",
     "clean:coverage": "rimraf ./coverage",
     "docs": "npm-run-all clean:docs docs:generate",
@@ -20,8 +19,8 @@
     "build:watch": "tsc -w",
     "build:bundle": "rollup -c",
     "build:dist": "tsc -p ./tsconfig.d.json",
-    "watch": "npm-run-all -p clean:lib clean:temp -s build:watch",
-    "build": "npm-run-all -p clean:lib clean:temp -s build:dist build:bundle",
+    "watch": "npm-run-all -s clean:dist build:watch",
+    "build": "npm-run-all -s clean:dist build:dist build:bundle",
     "dev": "npm-run-all watch test:watch",
     "prod": "npm-run-all clean test:coverage build docs:generate"
   },
@@ -43,9 +42,8 @@
   },
   "homepage": "https://github.com/iamsquare/complex.js",
   "private": false,
+  "dependencies": {},
   "devDependencies": {
-    "@babel/core": "^7.2.2",
-    "@babel/preset-env": "^7.3.1",
     "@types/jest": "^24.0.0",
     "@types/node": "^10.12.24",
     "concurrently": "^4.1.0",
@@ -53,10 +51,8 @@
     "npm-run-all": "^4.1.5",
     "rimraf": "^2.6.3",
     "rollup": "^1.1.2",
-    "rollup-plugin-babel": "^4.3.2",
     "rollup-plugin-commonjs": "^9.2.0",
     "rollup-plugin-node-resolve": "^4.0.0",
-    "rollup-plugin-terser": "^4.0.4",
     "serve": "^10.1.2",
     "ts-jest": "^23.10.5",
     "tslint": "^5.12.1",
@@ -65,11 +61,9 @@
     "typescript": "^3.3.3"
   },
   "directories": {
-    "lib": "lib",
-    "test": "tests"
+    "dist": "dist"
   },
   "publishConfig": {
     "access": "public"
-  },
-  "dependencies": {}
+  }
 }

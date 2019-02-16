@@ -2,7 +2,7 @@
 
 # [ℂomplex.js](http://iamsquare.it/complex.js)
 
-[![NPM](https://img.shields.io/npm/v/@iamsquare/complex.js.svg?style=flat-square)](https://www.npmjs.com/package/@iamsquare/complex.js) [![Travis (.com) branch](https://img.shields.io/travis/iamsquare/complex.js/master.svg?style=flat-square)](https://travis-ci.org/iamsquare/complex.js/branches) [![GitHub issues](https://img.shields.io/github/issues-raw/iamsquare/complex.js.svg?style=flat-square)](https://github.com/iamsquare/complex.js/issues) [![GitHub License](https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square)](https://github.com/iamsquare/complex.js/blob/master/LICENSE) [![NPM](https://nodei.co/npm/@iamsquare/complex.js.png?mini=true)](https://nodei.co/npm/@iamsquare/complex.js)
+[![NPM](https://img.shields.io/npm/v/@iamsquare/complex.js.svg?style=flat-square)](https://www.npmjs.com/package/@iamsquare/complex.js) [![Travis (.org) branch](https://img.shields.io/travis/iamsquare/complex.js/master.svg?style=flat-square)](https://travis-ci.org/iamsquare/complex.js/branches) [![GitHub issues](https://img.shields.io/github/issues-raw/iamsquare/complex.js.svg?style=flat-square)](https://github.com/iamsquare/complex.js/issues) [![GitHub License](https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square)](https://github.com/iamsquare/complex.js/blob/master/LICENSE) [![NPM](https://nodei.co/npm/@iamsquare/complex.js.png?mini=true)](https://nodei.co/npm/@iamsquare/complex.js)
 
 > A simple complex-numbers library for browsers and Node.js.
 
@@ -35,12 +35,6 @@ npm run prod
 ```shell
 npm run build
 ```
-The library is compiled to UMD against this [browserslist](https://github.com/browserslist/browserslist):
-```
-> 1%
-not dead
-maintained node versions
-```
 > Polyfills are not included (read [Usage](#usage) to learn more).
 
 # Usage
@@ -50,22 +44,19 @@ Just import the Complex class and the operations/functions you want to use in yo
 **ES6/ES7/Typescript**
 
 ```js
-import { Complex } from '@iamsquare/complex.js';
-import { add } from '@iamsquare/complex.js/operations';
-import { log, pow, asinh } from '@iamsquare/complex.js/functions';
-...
+import { Complex, add, log, pow, asinh, ...} from '@iamsquare/complex.js';
 ```
 
 **ES5**
 
 ```js
-var ComplexJS = require('@iamsquare/complex.js/lib/umd').default;
+var ComplexJS = require('@iamsquare/complex.js');
 var Complex = ComplexJS.Complex; // This line assigns the Complex constructor to the Complex variable.
 var add = ComplexJS.add; // This line assigns the add operation to the add variable.
 ...
 ```
 
-**Note**: for ES5 you will probably need to polyfill the following methods and properties:
+**Note**: for ES5 you will need to polyfill the following methods and properties when necessary:
 
 - _core-js/modules/es6.math.sinh_
 - _core-js/modules/es6.math.cosh_
