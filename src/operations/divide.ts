@@ -13,14 +13,8 @@ export default function divide(
   z: Complex | number,
   w: Complex | number
 ): Complex {
-  let zc: Complex;
-  let wc: Complex;
-
-  if (typeof z === 'number') zc = new Complex(z, 0);
-  if (z instanceof Complex) zc = z;
-
-  if (typeof w === 'number') wc = new Complex(w, 0);
-  if (w instanceof Complex) wc = w;
+  const zc: Complex | number = z instanceof Complex ? z : new Complex(z, 0);
+  const wc: Complex | number = w instanceof Complex ? w : new Complex(w, 0);
 
   if (
     (isZero(zc) && isZero(wc)) ||
