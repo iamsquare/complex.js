@@ -1,13 +1,20 @@
 {
   "compilerOptions": {
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "removeComments": true,
+    "sourceMap": true,
     "baseUrl": ".",
     "outDir": "dist/lib",
+    "allowJs": false,
+    "checkJs": false,
     "noImplicitAny": true,
-    "sourceMap": false,
-    "module": "none",
-    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "module": "ES2020",
+    "moduleResolution": "Node",
     "lib": ["esnext", "dom"],
-    "target": "esnext"
+    "target": "ES6"
   },
   "exclude": ["node_modules/**/*", "dist/**/*", "**/*.spec.ts"]
 }
