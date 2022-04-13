@@ -11,7 +11,7 @@ export type Cartesian = {
  */
 export function isCartesian(x: any): x is Cartesian {
   if (x === undefined) return false;
-  return !!x.x && !!x.y && typeof x.x === 'number' && typeof x.y === 'number';
+  return typeof x.x === 'number' && typeof x.y === 'number';
 }
 
 /**
@@ -27,5 +27,5 @@ export type Polar = {
  */
 export function isPolar(x: any): x is Polar {
   if (x === undefined) return false;
-  return !!x.r && !!x.p && typeof x.r === 'number' && typeof x.p === 'number';
+  return typeof x.r === 'number' && typeof x.p === 'number';
 }
