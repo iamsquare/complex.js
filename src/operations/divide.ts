@@ -1,7 +1,7 @@
-import Complex from '../complex';
-import isNaNC from './isNaNC';
-import isInfinite from './isInfinite';
-import isZero from './isZero';
+import Complex from '~/complex';
+import isInfinite from '~/operations/isInfinite';
+import isNaNC from '~/operations/isNaNC';
+import isZero from '~/operations/isZero';
 
 // tslint:disable:max-line-length
 /**
@@ -9,32 +9,24 @@ import isZero from './isZero';
  * @todo Test if this implementation is actually SO better than the original Smith's method.
  * */
 // tslint:enable:max-line-length
-export default function divide(
-  z: Complex | number,
-  w: Complex | number
-): Complex {
-  const zc: Complex | number = z instanceof Complex ? z : new Complex(z, 0);
-  const wc: Complex | number = w instanceof Complex ? w : new Complex(w, 0);
+export default function divide(z: Complex | number, w: Complex | number) {
+  const zc = z instanceof Complex ? z : new Complex(z, 0);
+  const wc = w instanceof Complex ? w : new Complex(w, 0);
 
-  if (
-    (isZero(zc) && isZero(wc)) ||
-    (isInfinite(zc) && isInfinite(wc)) ||
-    isNaNC(zc) ||
-    isNaNC(wc)
-  ) {
+  if ((isZero(zc) && isZero(wc)) || (isInfinite(zc) && isInfinite(wc)) || isNaNC(zc) || isNaNC(wc)) {
     return Complex.NAN;
   }
 
   if (isInfinite(zc) || isZero(wc)) return Complex.INFINITY;
   if (isZero(zc) || isInfinite(wc)) return Complex.ZERO;
 
-  const a: number = zc.getRe();
-  const b: number = zc.getIm();
-  const c: number = wc.getRe();
-  const d: number = wc.getIm();
+  const a = zc.getRe();
+  const b = zc.getIm();
+  const c = wc.getRe();
+  const d = wc.getIm();
 
-  let r: number;
-  let t: number;
+  let r;
+  let t;
 
   if (Math.abs(d) < Math.abs(c)) {
     r = d / c;

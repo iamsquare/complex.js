@@ -1,51 +1,38 @@
-dist
+# Dependencies
 node_modules
+
+# Build outputs
+dist
 coverage
-types
 docs
 temp
 
-.vscode/*
-logs
+# TypeScript
+tsconfig.*.tsbuildinfo
+
+# Cache
+.rollup.cache
+.eslintcache
+
+# Logs
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-pids
-*.pid
-*.seed
-*.pid.lock
+pnpm-debug.log*
+
+# Environment
 .env
-*.tmlanguage.cache
-*.tmPreferences.cache
-*.stTheme.cache
-*.sublime-workspace
-sftp-config.json
-Package Control.last-run
-Package Control.ca-list
-Package Control.ca-bundle
-Package Control.system-ca-bundle
-Package Control.cache/
-Package Control.ca-certs/
-Package Control.merged-ca-bundle
-Package Control.user-ca-bundle
-oscrypto-ca-bundle.crt
-bh_unicode_properties.cache
-GitHub.sublime-settings
-Thumbs.db
-ehthumbs.db
-ehthumbs_vista.db
-*.stackdump
-[Dd]esktop.ini
-$RECYCLE.BIN/
-*.cab
-*.msi
-*.msix
-*.msm
-*.msp
-*.lnk
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
 *~
-.fuse_hidden*
-.directory
-.Trash-*
-.nfs*
+
+# OS
+.DS_Store
+Thumbs.db

@@ -1,21 +1,19 @@
-import Complex from '../complex';
-import isNaNC from './isNaNC';
-import isInfinite from './isInfinite';
+import Complex from '~/complex';
+import isInfinite from '~/operations/isInfinite';
+import isNaNC from '~/operations/isNaNC';
 
 /**
  * Returns true when z === w.
  */
-export default function equals(z: Complex, w: Complex): boolean {
+export default function equals(z: Complex, w: Complex) {
   if (isInfinite(z) && isInfinite(w)) return true;
   if (isNaNC(z) || isNaNC(w)) return false;
 
-  const a: number = z.getRe();
-  const b: number = z.getIm();
-  const c: number = w.getRe();
-  const d: number = w.getIm();
+  const a = z.getRe();
+  const b = z.getIm();
+  const c = w.getRe();
+  const d = w.getIm();
 
   // TODO: check if it should be done like this
-  return (
-    Math.abs(a - c) <= Complex.EPSILON && Math.abs(b - d) <= Complex.EPSILON
-  );
+  return Math.abs(a - c) <= Complex.EPSILON && Math.abs(b - d) <= Complex.EPSILON;
 }

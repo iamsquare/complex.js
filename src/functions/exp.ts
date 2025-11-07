@@ -1,10 +1,10 @@
-import Complex from '../complex';
-import { isNaNC, isInfinite, isZero } from '../operations';
+import Complex from '~/complex';
+import { isInfinite, isNaNC, isZero } from '~/operations';
 
 /**
  * Calculates e^z.
  */
-export default function exp(z: Complex): Complex {
+export default function exp(z: Complex) {
   if (isNaNC(z) || isInfinite(z)) return Complex.NAN;
   if (isZero(z)) return Complex.ONE;
 
