@@ -6,6 +6,13 @@
   "module": "dist/esm/index.mjs",
   "types": "dist/types.d.ts",
   "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/types.d.ts",
+      "import": "./dist/esm/index.mjs",
+      "require": "./dist/cjs/index.js"
+    }
+  },
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "prepare": "husky || true",
