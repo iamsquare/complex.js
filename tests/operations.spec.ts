@@ -18,6 +18,7 @@ import {
   notEquals,
   pythagoras,
   subtract,
+  sum,
   unit,
 } from '~/operations';
 
@@ -79,6 +80,73 @@ describe('Operators', () => {
 
       test('Value - NaN', () => {
         expect(subtract(z, NAN)).toEqual(NAN);
+      });
+    });
+  });
+
+  describe('Sum', () => {
+    test('sum(z, w)', () => {
+      const c: Complex = sum(z, w);
+      expect(c.getRe()).toEqual(3);
+      expect(c.getIm()).toEqual(4);
+    });
+
+    test('sum(z, w, z)', () => {
+      const c: Complex = sum(z, w, z);
+      expect(c.getRe()).toEqual(4);
+      expect(c.getIm()).toEqual(5);
+    });
+
+    test('sum() - no arguments', () => {
+      const c: Complex = sum();
+      expect(c).toEqual(ZERO);
+    });
+
+    test('sum(z) - single argument', () => {
+      const c: Complex = sum(z);
+      expect(c).toEqual(z);
+    });
+
+    test('sum with negate - z + (-z) = 0', () => {
+      const negatedZ = negate(z);
+      const c: Complex = sum(z, negatedZ);
+      expect(c).toEqual(ZERO);
+    });
+
+    test('sum with negate - multiple numbers', () => {
+      const negatedZ = negate(z);
+      const negatedW = negate(w);
+      const c: Complex = sum(z, w, negatedZ, negatedW);
+      expect(c).toEqual(ZERO);
+    });
+
+    describe('Special Cases', () => {
+      test('Infinite + Infinite', () => {
+        expect(sum(INFINITY, INFINITY)).toEqual(INFINITY);
+      });
+
+      test('Value + Infinite', () => {
+        expect(sum(z, INFINITY)).toEqual(INFINITY);
+      });
+
+      test('Multiple values + Infinite', () => {
+        expect(sum(z, w, INFINITY)).toEqual(INFINITY);
+      });
+
+      test('NaN + NaN', () => {
+        expect(sum(NAN, NAN)).toEqual(NAN);
+      });
+
+      test('Value + NaN', () => {
+        expect(sum(z, NAN)).toEqual(NAN);
+      });
+
+      test('Multiple values + NaN', () => {
+        expect(sum(z, w, NAN)).toEqual(NAN);
+      });
+
+      test('NaN + Infinite (NaN takes precedence)', () => {
+        expect(sum(NAN, INFINITY)).toEqual(NAN);
       });
     });
   });

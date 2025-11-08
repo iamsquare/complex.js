@@ -14,4 +14,5 @@ export { negate } from '~/operations/negate';
 export { notEquals } from '~/operations/notEquals';
 export { pythagoras } from '~/operations/pythagoras';
 export { subtract } from '~/operations/subtract';
+export { sum } from '~/operations/sum';
 export { unit } from '~/operations/unit';

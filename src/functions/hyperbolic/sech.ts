@@ -1,4 +1,5 @@
 import { Complex } from '~/complex';
+import { addStable } from '~/helpers';
 import { isInfinite, isNaNC, isZero } from '~/operations';
 
 /**
@@ -24,7 +25,7 @@ export function sech(z: Complex) {
   // We avoid numeric cancellation by expanding the denominator and simplifying with trig rules.
   const a = z.getRe();
   const b = z.getIm();
-  const d = Math.cosh(2 * a) + Math.cos(2 * b);
+  const d = addStable(Math.cosh(2 * a), Math.cos(2 * b));
 
   return new Complex((2 * Math.cosh(a) * Math.cos(b)) / d, (-2 * Math.sinh(a) * Math.sin(b)) / d);
 }

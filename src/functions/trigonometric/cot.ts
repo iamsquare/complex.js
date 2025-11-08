@@ -1,4 +1,5 @@
 import { Complex } from '~/complex';
+import { subtractStable } from '~/helpers';
 import { isInfinite, isNaNC, isZero } from '~/operations';
 
 /**
@@ -24,7 +25,7 @@ export function cot(z: Complex) {
   // We avoid numeric cancellation by expanding the denominator and simplifying with trigonometric rules.
   const a2 = 2 * z.getRe();
   const b2 = 2 * z.getIm();
-  const d = Math.cosh(b2) - Math.cos(a2);
+  const d = subtractStable(Math.cosh(b2), Math.cos(a2));
 
   return new Complex(Math.sin(a2) / d, -Math.sinh(b2) / d);
 }

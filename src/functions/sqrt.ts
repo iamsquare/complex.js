@@ -30,6 +30,7 @@ export function sqrt(z: Complex) {
 
   const r = modulus(z);
   const p = argument(z);
+  const sqrtR = Math.sqrt(r);
 
-  return new Complex((r / Math.sqrt(r)) * Math.cos(p / 2), (r / Math.sqrt(r)) * Math.sin(p / 2));
+  return new Complex(sqrtR * Math.cos(p / 2), sqrtR * Math.sin(p / 2));
 }

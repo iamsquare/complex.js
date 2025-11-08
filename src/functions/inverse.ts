@@ -24,7 +24,17 @@ export function inverse(z: Complex) {
 
   const a = z.getRe();
   const b = z.getIm();
-  const d = a * a + b * b;
+  const maxAbs = Math.max(Math.abs(a), Math.abs(b));
 
-  return new Complex(a / d, -b / d);
+  // Scale by the maximum absolute value to avoid numerical cancellation
+  const aScaled = a / maxAbs;
+  const bScaled = b / maxAbs;
+  const modulusSquaredScaled = aScaled * aScaled + bScaled * bScaled;
+
+  // Divide scaled values by scaled modulus squared, then divide by maxAbs to scale back
+  // aScaled / modulusSquaredScaled / maxAbs = (a / maxAbs) / ((a² + b²) / maxAbs²) / maxAbs
+  // = a * maxAbs / (a² + b²) / maxAbs = a / (a² + b²) ✓
+  const scaleFactor = 1 / (modulusSquaredScaled * maxAbs);
+
+  return new Complex(aScaled * scaleFactor, -(bScaled * scaleFactor));
 }

@@ -2,7 +2,6 @@ import { Complex } from '~/complex';
 import { isInfinite } from '~/operations/isInfinite';
 import { isNaNC } from '~/operations/isNaNC';
 import { isZero } from '~/operations/isZero';
-import { modulus } from '~/operations/modulus';
 
 /**
  * Calculates the unit vector (normalized) of a complex number: z / |z|.
@@ -25,7 +24,14 @@ export function unit(z: Complex) {
   if (isNaNC(z) || isZero(z)) return Complex.NAN;
   if (isInfinite(z)) return Complex.INFINITY;
 
-  const m = modulus(z);
+  const a = z.getRe();
+  const b = z.getIm();
+  const maxAbs = Math.max(Math.abs(a), Math.abs(b));
 
-  return new Complex(z.getRe() / m, z.getIm() / m);
+  // Scale by the maximum absolute value to avoid numerical cancellation
+  const aScaled = a / maxAbs;
+  const bScaled = b / maxAbs;
+  const modulusScaled = Math.hypot(aScaled, bScaled);
+
+  return new Complex(aScaled / modulusScaled, bScaled / modulusScaled);
 }

@@ -1,4 +1,5 @@
 import { Complex } from '~/complex';
+import { addStable, subtractStable } from '~/helpers';
 import { isInfinite } from '~/operations/isInfinite';
 import { isNaNC } from '~/operations/isNaNC';
 import { isZero } from '~/operations/isZero';
@@ -49,19 +50,19 @@ export function divide(z: Complex | number, w: Complex | number) {
 
   if (Math.abs(d) < Math.abs(c)) {
     r = d / c;
-    t = 1 / (c + d * r);
+    t = 1 / addStable(c, d * r);
 
     if (r === 0) {
-      return new Complex((a + d * (b / c)) * t, (b - d * (a / c)) * t);
+      return new Complex(addStable(a, d * (b / c)) * t, subtractStable(b, d * (a / c)) * t);
     }
-    return new Complex((a + b * r) * t, (b - a * r) * t);
+    return new Complex(addStable(a, b * r) * t, subtractStable(b, a * r) * t);
   }
 
   r = c / d;
-  t = 1 / (c * r + d);
+  t = 1 / addStable(c * r, d);
 
   if (r === 0) {
-    return new Complex((c * (a / d) + b) * t, (c * (b / d) - a) * t);
+    return new Complex(addStable(c * (a / d), b) * t, subtractStable(c * (b / d), a) * t);
   }
-  return new Complex((a * r + b) * t, (b * r - a) * t);
+  return new Complex(addStable(a * r, b) * t, subtractStable(b * r, a) * t);
 }

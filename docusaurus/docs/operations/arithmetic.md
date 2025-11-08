@@ -40,6 +40,55 @@ console.log(sum.toString()); // => "4 + 6i"
 
 ---
 
+## sum
+
+Sums multiple complex numbers: $z_1 + z_2 + z_3 + \ldots + z_n$.
+
+Performs component-wise addition of all provided complex numbers. This is equivalent to repeatedly applying the `add` operation.
+
+```typescript
+sum(...numbers: Complex[]): Complex
+```
+
+### Parameters
+
+- `numbers` - The complex numbers to sum (zero or more arguments)
+
+### Returns
+
+A new Complex number representing the sum of all provided numbers.
+
+### Special Cases
+
+- Returns `Complex.ZERO` if no arguments are provided
+- Returns the single argument if only one is provided
+- Returns `Complex.NAN` if any number is NaN (NaN takes precedence over infinity)
+- Returns `Complex.INFINITY` if any number is infinite (and none are NaN)
+
+### Example
+
+```typescript
+import { Complex, sum, negate } from '@iamsquare/complex.js';
+
+const z1 = new Complex(1, 2);
+const z2 = new Complex(3, 4);
+const z3 = new Complex(5, 6);
+const result = sum(z1, z2, z3);
+console.log(result.toString()); // => "9 + 12i"
+
+// Sum with no arguments
+const zero = sum();
+console.log(zero.toString()); // => "0"
+
+// Sum with negate
+const z = new Complex(3, 4);
+const negatedZ = negate(z);
+const cancel = sum(z, negatedZ);
+console.log(cancel.toString()); // => "0"
+```
+
+---
+
 ## subtract
 
 Subtracts two complex numbers: $z - w$.

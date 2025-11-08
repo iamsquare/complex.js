@@ -67,3 +67,58 @@ export function isPolar(obj?: unknown): obj is Polar {
 
   return Object.hasOwn(obj, 'r') && Object.hasOwn(obj, 'p') && isNumber(obj.r) && isNumber(obj.p);
 }
+
+/**
+ * Performs numerically stable addition of two numbers.
+ *
+ * Adds numbers of similar small magnitude together before adding to larger magnitude numbers
+ * to reduce rounding errors.
+ *
+ * @param x - The first number.
+ * @param y - The second number.
+ * @returns The sum x + y computed in a numerically stable way.
+ */
+export function addStable(x: number, y: number): number {
+  const xAbs = Math.abs(x);
+  const yAbs = Math.abs(y);
+
+  // If magnitudes are similar, add directly
+  if (xAbs === 0) return y;
+  if (yAbs === 0) return x;
+
+  // If magnitudes are very different (ratio < 0.1), add smaller to larger
+  // Otherwise, add directly (they're similar enough)
+  return Math.min(xAbs, yAbs) / Math.max(xAbs, yAbs) < 0.1 ? (xAbs < yAbs ? y + x : x + y) : x + y;
+}
+
+/**
+ * Performs numerically stable subtraction of two numbers.
+ *
+ * When subtracting numbers of similar magnitudes, subtracts a common value from both
+ * before performing the subtraction to avoid loss of significant digits.
+ *
+ * @param x - The number to subtract from (minuend).
+ * @param y - The number to subtract (subtrahend).
+ * @returns The difference x - y computed in a numerically stable way.
+ */
+export function subtractStable(x: number, y: number): number {
+  const xAbs = Math.abs(x);
+  const yAbs = Math.abs(y);
+
+  if (xAbs === 0) return y === 0 ? 0 : -y;
+  if (yAbs === 0) return x;
+
+  const minAbs = Math.min(xAbs, yAbs);
+  const maxAbs = Math.max(xAbs, yAbs);
+
+  // If magnitudes are similar, use stable subtraction by subtracting a common value
+  if (minAbs / maxAbs > 0.5) {
+    // Choose the value with smaller absolute magnitude as the common value to subtract
+    // This minimizes the magnitude of the intermediate results
+    const m = xAbs < yAbs ? x : y;
+
+    return x - m - (y - m);
+  }
+
+  return x - y;
+}

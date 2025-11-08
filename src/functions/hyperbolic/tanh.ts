@@ -1,4 +1,5 @@
 import { Complex } from '~/complex';
+import { addStable } from '~/helpers';
 import { isInfinite, isNaNC, isZero } from '~/operations';
 
 /**
@@ -23,7 +24,7 @@ export function tanh(z: Complex) {
   // We avoid numeric cancellation by expanding the denominator and simplifying with trig rules.
   const a2 = 2 * z.getRe();
   const b2 = 2 * z.getIm();
-  const d = Math.cosh(a2) + Math.cos(b2);
+  const d = addStable(Math.cosh(a2), Math.cos(b2));
 
   return new Complex(Math.sinh(a2) / d, Math.sin(b2) / d);
 }

@@ -2,6 +2,7 @@
 // TODO: add rounding function
 
 import { type Cartesian, isCartesian, isPolar, type Polar } from '~/helpers';
+import { isPureImaginary } from '~/operations';
 import { argument } from '~/operations/argument';
 import { isInfinite } from '~/operations/isInfinite';
 import { isNaNC } from '~/operations/isNaNC';
@@ -179,19 +180,17 @@ export class Complex {
    * const z3 = new Complex(0, 3);
    * console.log(z3.toString()); // => "3i"
    * ```
-   *
-   * @todo Find a more elegant solution.
    */
   toString() {
     if (isNaNC(this)) return 'NaN';
     if (isInfinite(this)) return 'Infinite';
     if (isZero(this)) return '0';
+    if (isReal(this)) return `${this.re}`;
+    if (isPureImaginary(this)) return `${this.im} i`;
 
-    const re = this.re !== 0 || isReal(this) ? `${this.re}` : '';
-    const im = !isReal(this) ? `${Math.abs(this.im)} i` : '';
-    const sign = !isReal(this) ? (Math.sign(this.im) > 0 ? ' + ' : ' - ') : '';
+    const sign = this.im > 0 ? ' + ' : ' - ';
 
-    return `${re}${sign}${im}`;
+    return `${this.re}${sign}${this.im} i`;
   }
 
   /**

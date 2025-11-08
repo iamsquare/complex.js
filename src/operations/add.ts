@@ -1,4 +1,5 @@
 import { Complex } from '~/complex';
+import { addStable } from '~/helpers';
 import { isInfinite } from '~/operations/isInfinite';
 import { isNaNC } from '~/operations/isNaNC';
 
@@ -30,5 +31,5 @@ export function add(z: Complex, w: Complex) {
   const c = w.getRe();
   const d = w.getIm();
 
-  return new Complex(a + c, b + d);
+  return new Complex(addStable(a, c), addStable(b, d));
 }

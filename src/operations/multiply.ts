@@ -1,4 +1,5 @@
 import { Complex } from '~/complex';
+import { addStable, subtractStable } from '~/helpers';
 import { isInfinite } from '~/operations/isInfinite';
 import { isNaNC } from '~/operations/isNaNC';
 import { isReal } from '~/operations/isReal';
@@ -43,5 +44,20 @@ export function multiply(z: Complex | number, w: Complex | number) {
   const c = wc.getRe();
   const d = wc.getIm();
 
-  return new Complex(a * c - b * d, a * d + b * c);
+  const ac = a * c;
+  const bd = b * d;
+  const ad = a * d;
+  const bc = b * c;
+
+  const acAbs = Math.abs(ac);
+  const bdAbs = Math.abs(bd);
+  const minAbs = Math.min(acAbs, bdAbs);
+  const maxAbs = Math.max(acAbs, bdAbs);
+
+  // Use alternative formula when cancellation is likely, otherwise use stable subtraction
+  const realPart =
+    minAbs > 0 && maxAbs > 0 && minAbs / maxAbs > 0.5 ? (a - b) * (c + d) - ad + bc : subtractStable(ac, bd);
+  const imagPart = addStable(ad, bc);
+
+  return new Complex(realPart, imagPart);
 }
