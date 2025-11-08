@@ -1,6 +1,7 @@
 # Source files
 src
 tests
+.github
 
 # Documentation
 docs
@@ -21,6 +22,7 @@ commitlint.config.ts
 .lintstagedrc
 .prettierrc
 .prettierignore
+.editorconfig
 eslint.config.js
 docusaurus
 
