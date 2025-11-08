@@ -190,7 +190,7 @@ export class Complex {
 
     const sign = this.im > 0 ? ' + ' : ' - ';
 
-    return `${this.re}${sign}${this.im} i`;
+    return `${this.re}${sign}${Math.abs(this.im)} i`;
   }
 
   /**
