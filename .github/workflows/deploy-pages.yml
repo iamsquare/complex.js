@@ -1,25 +1,42 @@
 name: Deploy Pages
 
 on:
-  push:
-    tags:
-      - "*"
   workflow_dispatch:
 
 env:
   HUSKY: 0
 
 permissions:
-  contents: write
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
   deploy-pages:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
       - uses: pnpm/action-setup@v4
+
+      - id: pnpm-store
+        run: echo value=$(pnpm store path) >> $GITHUB_OUTPUT
+
+      - id: pnpm-cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.pnpm-store.outputs.value }}
+          key: pnpm-store-${{ runner.os }}-${{ hashFiles('./docusaurus/pnpm-lock.yaml') }}
+          restore-keys: |
+            pnpm-store-${{ runner.os }}-
 
       - name: Generate documentation
         working-directory: ./docusaurus
@@ -41,8 +58,14 @@ jobs:
           name: docs
           path: ./docs
 
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs
+          path: ./docs
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

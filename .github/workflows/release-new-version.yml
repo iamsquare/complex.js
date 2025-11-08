@@ -3,7 +3,7 @@ name: Release New Version
 on:
   push:
     tags:
-      - "*"
+      - "v*"
 
 env:
   HUSKY: 0
@@ -29,7 +29,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ${{ steps.pnpm-store.outputs.value }}
-          key: pnpm-store-${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          key: pnpm-store-${{ runner.os }}-${{ hashFiles('./pnpm-lock.yaml') }}
           restore-keys: |
             pnpm-store-${{ runner.os }}-
 
