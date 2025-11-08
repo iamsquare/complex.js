@@ -42,6 +42,21 @@ jobs:
         working-directory: ./docusaurus
         run: |
           pnpm install --frozen-lockfile
+
+      - id: docusaurus-cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ./docusaurus/.docusaurus
+            ./docusaurus/**/.cache
+          key: |
+            docusaurus-${{ runner.os }}-${{ hashFiles('./docusaurus/pnpm-lock.yaml') }}-${{ hashFiles('./docusaurus/**.[jt]s', './docusaurus/**.[jt]sx') }}
+          restore-keys: |
+            docusaurus-${{ runner.os }}-${{ hashFiles('./docusaurus/pnpm-lock.yaml') }}-
+
+      - name: Build documentation
+        working-directory: ./docusaurus
+        run: |
           pnpm build
 
       - name: Upload docs artifact

@@ -48,7 +48,32 @@ const config: Config = {
   ],
 
   themeConfig: {
-    image: 'img/docusaurus-social-card.jpg',
+    image: 'img/logo.png',
+    metadata: [
+      {
+        name: 'description',
+        content:
+          'A powerful, type-safe complex numbers library for JavaScript and TypeScript. Works seamlessly in browsers and Node.js.',
+      },
+      { property: 'og:type', content: 'website' },
+      { property: 'og:url', content: 'https://complex-js.iamsquare.it' },
+      { property: 'og:title', content: 'Complex.js - Complex Numbers Library for JavaScript' },
+      {
+        property: 'og:description',
+        content:
+          'A powerful, type-safe complex numbers library for JavaScript and TypeScript. Works seamlessly in browsers and Node.js.',
+      },
+      { property: 'og:image', content: 'https://complex-js.iamsquare.it/img/logo.png' },
+      { property: 'og:site_name', content: 'Complex.js' },
+      { name: 'twitter:card', content: 'summary_large_image' },
+      { name: 'twitter:title', content: 'Complex.js - Complex Numbers Library for JavaScript' },
+      {
+        name: 'twitter:description',
+        content:
+          'A powerful, type-safe complex numbers library for JavaScript and TypeScript. Works seamlessly in browsers and Node.js.',
+      },
+      { name: 'twitter:image', content: 'https://complex-js.iamsquare.it/img/logo.png' },
+    ],
     colorMode: {
       respectPrefersColorScheme: true,
     },
