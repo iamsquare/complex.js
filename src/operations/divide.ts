@@ -3,12 +3,31 @@ import isInfinite from '~/operations/isInfinite';
 import isNaNC from '~/operations/isNaNC';
 import isZero from '~/operations/isZero';
 
-// tslint:disable:max-line-length
 /**
- * Calculates z / w using a [modified Smith's Method](http://forge.scilab.org/index.php/p/compdiv/source/tree/21/doc/improved_cdiv.pdf).
+ * Divides two complex numbers or a complex number by a real number: z / w.
+ *
+ * Uses a [modified Smith's Method](http://forge.scilab.org/index.php/p/compdiv/source/tree/21/doc/improved_cdiv.pdf)
+ * to avoid numerical overflow and underflow issues in complex division.
+ * Also accepts real numbers, which are treated as complex numbers with zero imaginary part.
+ *
+ * @param z - The complex number to divide (dividend).
+ * @param w - The complex number or real number to divide by (divisor).
+ * @returns A new Complex number representing z / w.
+ *
+ * @example
+ * ```typescript
+ * const z = new Complex(1, 2);
+ * const w = new Complex(3, 4);
+ * const quotient = divide(z, w);
+ * console.log(quotient.toString()); // => "0.44 + 0.08i" (approximately)
+ *
+ * // Divide by a real number
+ * const realQuotient = divide(z, 2);
+ * console.log(realQuotient.toString()); // => "0.5 + 1i"
+ * ```
+ *
  * @todo Test if this implementation is actually SO better than the original Smith's method.
- * */
-// tslint:enable:max-line-length
+ */
 export default function divide(z: Complex | number, w: Complex | number) {
   const zc = z instanceof Complex ? z : new Complex(z, 0);
   const wc = w instanceof Complex ? w : new Complex(w, 0);

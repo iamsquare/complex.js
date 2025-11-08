@@ -6,7 +6,20 @@ import isNaNC from '~/operations/isNaNC';
 import isZero from '~/operations/isZero';
 
 /**
- * Calculates the inverse sine of a Complex number.
+ * Calculates the arcsine (inverse sine) of a complex number: arcsin(z).
+ *
+ * Returns the principal value of the inverse sine function. For real z in [-1, 1],
+ * this gives the standard arcsine. For complex z, it extends the function to the complex plane.
+ *
+ * @param z - The complex number.
+ * @returns A new Complex number representing arcsin(z).
+ *
+ * @example
+ * ```typescript
+ * const z = new Complex(1, 0);
+ * const result = asin(z);
+ * console.log(result.toString()); // => approximately "1.571 + 0i" (π/2)
+ * ```
  */
 export default function asin(z: Complex) {
   if (isInfinite(z) || isNaNC(z)) return Complex.NAN;

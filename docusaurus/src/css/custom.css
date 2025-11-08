@@ -4,6 +4,9 @@
  * work well for content-centric websites.
  */
 
+/* Import KaTeX CSS for math formula rendering */
+@import 'katex/dist/katex.min.css';
+
 /* You can override the default Infima variables here. */
 :root {
   --ifm-color-primary: #0d9488;

@@ -1,6 +1,8 @@
 import type * as Preset from '@docusaurus/preset-classic';
 import type { Config } from '@docusaurus/types';
 import { themes as prismThemes } from 'prism-react-renderer';
+import rehypeKatex from 'rehype-katex';
+import remarkMath from 'remark-math';
 
 const config: Config = {
   title: 'Complex.js',
@@ -32,6 +34,8 @@ const config: Config = {
           sidebarPath: './sidebars.ts',
           routeBasePath: '/',
           editUrl: 'https://github.com/iamsquare/complex.js/tree/refactor/v2-revamp/documentation/',
+          remarkPlugins: [remarkMath],
+          rehypePlugins: [rehypeKatex],
         },
         blog: false,
         theme: {

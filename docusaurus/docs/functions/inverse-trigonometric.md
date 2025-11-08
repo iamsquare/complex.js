@@ -8,7 +8,10 @@ Inverse trigonometric functions (arc functions) extended to complex numbers.
 
 ## asin
 
-Calculates the arcsine (inverse sine) of a complex number.
+Calculates the arcsine (inverse sine) of a complex number: $\arcsin(z)$.
+
+Returns the principal value of the inverse sine function. For real $z$ in $[-1, 1]$,
+this gives the standard arcsine. For complex $z$, it extends the function to the complex plane.
 
 ```typescript
 asin(z: Complex): Complex
@@ -20,24 +23,27 @@ asin(z: Complex): Complex
 
 ### Returns
 
-A new `Complex` number representing arcsin(z).
+A new Complex number representing $\arcsin(z)$.
 
 ### Example
 
 ```typescript
-import { Complex, sin, asin } from '@iamsquare/complex.js';
+import { Complex, asin } from '@iamsquare/complex.js';
 
 const z = new Complex(1, 0);
-const sine = sin(z);
-const arcsine = asin(sine);
-console.log(arcsine.toString()); // => "1 + 0i" (approximately)
+const result = asin(z);
+console.log(result.toString()); // => approximately "1.571 + 0i" (π/2)
 ```
 
 ---
 
 ## acos
 
-Calculates the arccosine (inverse cosine) of a complex number.
+Calculates the arccosine (inverse cosine) of a complex number: $\arccos(z)$.
+
+Returns the principal value of the inverse cosine function. Computed using the identity:
+
+$$\arccos(z) = \frac{\pi}{2} - \arcsin(z)$$
 
 ```typescript
 acos(z: Complex): Complex
@@ -49,24 +55,26 @@ acos(z: Complex): Complex
 
 ### Returns
 
-A new `Complex` number representing arccos(z).
+A new Complex number representing $\arccos(z)$.
 
 ### Example
 
 ```typescript
-import { Complex, cos, acos } from '@iamsquare/complex.js';
+import { Complex, acos } from '@iamsquare/complex.js';
 
-const z = new Complex(0, 0);
-const cosine = cos(z);
-const arccosine = acos(cosine);
-console.log(arccosine.toString()); // => "0 + 0i" (approximately)
+const z = new Complex(1, 0);
+const result = acos(z);
+console.log(result.toString()); // => approximately "0 + 0i"
 ```
 
 ---
 
 ## atan
 
-Calculates the arctangent (inverse tangent) of a complex number.
+Calculates the arctangent (inverse tangent) of a complex number: $\arctan(z)$.
+
+Returns the principal value of the inverse tangent function. For real $z$,
+this gives the standard arctangent. For complex $z$, it extends the function to the complex plane.
 
 ```typescript
 atan(z: Complex): Complex
@@ -78,24 +86,27 @@ atan(z: Complex): Complex
 
 ### Returns
 
-A new `Complex` number representing arctan(z).
+A new Complex number representing $\arctan(z)$.
 
 ### Example
 
 ```typescript
-import { Complex, tan, atan } from '@iamsquare/complex.js';
+import { Complex, atan } from '@iamsquare/complex.js';
 
 const z = new Complex(1, 0);
-const tangent = tan(z);
-const arctangent = atan(tangent);
-console.log(arctangent.toString()); // => "1 + 0i" (approximately)
+const result = atan(z);
+console.log(result.toString()); // => approximately "0.785 + 0i" (π/4)
 ```
 
 ---
 
 ## asec
 
-Calculates the arcsecant (inverse secant) of a complex number.
+Calculates the arcsecant (inverse secant) of a complex number: $\text{arcsec}(z)$.
+
+Returns the principal value of the inverse secant function. Computed using the identity:
+
+$$\text{arcsec}(z) = \arccos\left(\frac{1}{z}\right)$$
 
 ```typescript
 asec(z: Complex): Complex
@@ -107,7 +118,7 @@ asec(z: Complex): Complex
 
 ### Returns
 
-A new `Complex` number representing arcsec(z).
+A new `Complex` number representing $\text{arcsec}(z)$.
 
 ### Example
 
@@ -124,7 +135,11 @@ console.log(arcsecant.toString()); // => "0 + 0i" (approximately)
 
 ## acsc
 
-Calculates the arccosecant (inverse cosecant) of a complex number.
+Calculates the arccosecant (inverse cosecant) of a complex number: $\text{arccsc}(z)$.
+
+Returns the principal value of the inverse cosecant function. Computed using the identity:
+
+$$\text{arccsc}(z) = \arcsin\left(\frac{1}{z}\right)$$
 
 ```typescript
 acsc(z: Complex): Complex
@@ -136,7 +151,7 @@ acsc(z: Complex): Complex
 
 ### Returns
 
-A new `Complex` number representing arccsc(z).
+A new `Complex` number representing $\text{arccsc}(z)$.
 
 ### Example
 
@@ -153,7 +168,11 @@ console.log(arccosecant.toString()); // => "1 + 0i" (approximately)
 
 ## acot
 
-Calculates the arccotangent (inverse cotangent) of a complex number.
+Calculates the arccotangent (inverse cotangent) of a complex number: $\text{arccot}(z)$.
+
+Returns the principal value of the inverse cotangent function. Computed using the identity:
+
+$$\text{arccot}(z) = \frac{\pi}{2} - \arctan(z)$$
 
 ```typescript
 acot(z: Complex): Complex
@@ -165,7 +184,7 @@ acot(z: Complex): Complex
 
 ### Returns
 
-A new `Complex` number representing arccot(z).
+A new `Complex` number representing $\text{arccot}(z)$.
 
 ### Example
 
@@ -176,30 +195,4 @@ const z = new Complex(1, 0);
 const cotangent = cot(z);
 const arccotangent = acot(cotangent);
 console.log(arccotangent.toString()); // => "1 + 0i" (approximately)
-```
-
----
-
-## Round-trip Example
-
-```typescript
-import { Complex, sin, asin, cos, acos, tan, atan } from '@iamsquare/complex.js';
-
-// Verify inverse relationships
-const z = new Complex(0.5, 0.3);
-
-// sin(asin(z)) ≈ z
-const arcsine = asin(z);
-const sinResult = sin(arcsine);
-console.log(sinResult.toString()); // => "0.5 + 0.3i" (approximately)
-
-// cos(acos(z)) ≈ z
-const arccosine = acos(z);
-const cosResult = cos(arccosine);
-console.log(cosResult.toString()); // => "0.5 + 0.3i" (approximately)
-
-// tan(atan(z)) ≈ z
-const arctangent = atan(z);
-const tanResult = tan(arctangent);
-console.log(tanResult.toString()); // => "0.5 + 0.3i" (approximately)
 ```

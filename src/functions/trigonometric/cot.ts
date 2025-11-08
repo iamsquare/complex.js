@@ -2,7 +2,20 @@ import Complex from '~/complex';
 import { isInfinite, isNaNC, isZero } from '~/operations';
 
 /**
- * Calculates the cotangent of a Complex number.
+ * Calculates the cotangent of a complex number: cot(z).
+ *
+ * The cotangent is the reciprocal of tangent: cot(z) = 1 / tan(z) = cos(z) / sin(z).
+ * Uses optimized computation to avoid numerical cancellation.
+ *
+ * @param z - The complex number.
+ * @returns A new Complex number representing cot(z).
+ *
+ * @example
+ * ```typescript
+ * const z = new Complex(Math.PI / 2, 0);
+ * const result = cot(z);
+ * console.log(result.toString()); // => approximately "0 + 0i"
+ * ```
  */
 export default function cot(z: Complex) {
   if (isInfinite(z) || isNaNC(z)) return Complex.NAN;

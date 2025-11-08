@@ -8,7 +8,12 @@ Utility operations provide useful transformations and comparisons for complex nu
 
 ## modulus
 
-Calculates the modulus (absolute value or magnitude) of a complex number.
+Calculates the modulus (absolute value) of a complex number: $|z|$.
+
+The modulus is the distance from the origin to the point representing the complex number.
+For $z = a + ib$, the modulus is:
+
+$$|z| = \sqrt{a^2 + b^2}$$
 
 ```typescript
 modulus(z: Complex): number
@@ -20,7 +25,7 @@ modulus(z: Complex): number
 
 ### Returns
 
-A `number` representing the modulus (distance from origin in the complex plane).
+The modulus (magnitude) of z as a real number.
 
 ### Example
 
@@ -36,7 +41,11 @@ console.log(result); // => 5
 
 ## argument
 
-Calculates the argument (phase or angle) of a complex number.
+Gets the argument (phase angle) of a complex number: $\arg(z)$.
+
+The argument is the angle in radians between the positive real axis and the line
+from the origin to the point representing the complex number. It is computed using
+Math.atan2(imaginary, real), which returns a value in the range $[-\pi, \pi]$.
 
 ```typescript
 argument(z: Complex): number
@@ -48,7 +57,7 @@ argument(z: Complex): number
 
 ### Returns
 
-A `number` representing the argument in radians (angle from positive real axis).
+The argument (phase angle) in radians, or NaN/Infinity for special cases.
 
 ### Example
 
@@ -57,14 +66,16 @@ import { Complex, argument } from '@iamsquare/complex.js';
 
 const z = new Complex(1, 1);
 const result = argument(z);
-console.log(result); // => 0.7853981633974483 (π/4)
+console.log(result); // => ~0.785 (π/4 radians)
 ```
 
 ---
 
 ## conjugate
 
-Calculates the complex conjugate of a complex number.
+Calculates the complex conjugate of a complex number: $\overline{z}$.
+
+The complex conjugate of $a + ib$ is $a - ib$. It reflects the number across the real axis.
 
 ```typescript
 conjugate(z: Complex): Complex
@@ -76,7 +87,7 @@ conjugate(z: Complex): Complex
 
 ### Returns
 
-A new `Complex` number representing the conjugate (real part unchanged, imaginary part negated).
+A new Complex number representing the conjugate of z.
 
 ### Example
 
@@ -92,7 +103,10 @@ console.log(result.toString()); // => "3 - 4i"
 
 ## unit
 
-Calculates the unit vector (normalized) of a complex number.
+Calculates the unit vector (normalized) of a complex number: $\frac{z}{|z|}$.
+
+Returns a complex number with the same direction (argument) as $z$ but with modulus $1$.
+This is equivalent to dividing $z$ by its modulus.
 
 ```typescript
 unit(z: Complex): Complex
@@ -104,24 +118,28 @@ unit(z: Complex): Complex
 
 ### Returns
 
-A new `Complex` number with the same direction but magnitude of 1.
+A new Complex number with modulus 1 and the same argument as z, or Complex.NAN if z is zero or NaN.
 
 ### Example
 
 ```typescript
-import { Complex, unit } from '@iamsquare/complex.js';
+import { Complex, unit, modulus, argument } from '@iamsquare/complex.js';
 
 const z = new Complex(3, 4);
-const result = unit(z);
-console.log(result.toString()); // => "0.6 + 0.8i"
-console.log(modulus(result)); // => 1
+const u = unit(z);
+console.log(modulus(u)); // => 1 (approximately)
+console.log(argument(u)); // => same as argument(z)
 ```
 
 ---
 
 ## equals
 
-Checks if two complex numbers are equal.
+Checks if two complex numbers are equal: $z = w$.
+
+Uses floating-point comparison with epsilon tolerance (Complex.EPSILON) to account
+for floating-point precision errors. Two numbers are considered equal if both their
+real and imaginary parts differ by at most Complex.EPSILON.
 
 ```typescript
 equals(z: Complex, w: Complex): boolean
@@ -129,29 +147,33 @@ equals(z: Complex, w: Complex): boolean
 
 ### Parameters
 
-- `z` - First complex number
-- `w` - Second complex number
+- `z` - The first complex number
+- `w` - The second complex number
 
 ### Returns
 
-`true` if the numbers are equal, `false` otherwise.
+`true` if z and w are equal (within epsilon tolerance), `false` otherwise.
 
 ### Example
 
 ```typescript
 import { Complex, equals } from '@iamsquare/complex.js';
 
-const z = new Complex(3, 4);
-const w = new Complex(3, 4);
-const result = equals(z, w);
-console.log(result); // => true
+const z1 = new Complex(1, 2);
+const z2 = new Complex(1, 2);
+console.log(equals(z1, z2)); // => true
+
+const z3 = new Complex(1.0000001, 2);
+console.log(equals(z1, z3)); // => true (within epsilon)
 ```
 
 ---
 
 ## notEquals
 
-Checks if two complex numbers are not equal.
+Checks if two complex numbers are not equal: $z \neq w$.
+
+This is the logical negation of the `equals` function.
 
 ```typescript
 notEquals(z: Complex, w: Complex): boolean
@@ -159,20 +181,22 @@ notEquals(z: Complex, w: Complex): boolean
 
 ### Parameters
 
-- `z` - First complex number
-- `w` - Second complex number
+- `z` - The first complex number
+- `w` - The second complex number
 
 ### Returns
 
-`true` if the numbers are not equal, `false` otherwise.
+`true` if z and w are not equal, `false` if they are equal.
 
 ### Example
 
 ```typescript
 import { Complex, notEquals } from '@iamsquare/complex.js';
 
-const z = new Complex(3, 4);
-const w = new Complex(1, 2);
-const result = notEquals(z, w);
-console.log(result); // => true
+const z1 = new Complex(1, 2);
+const z2 = new Complex(3, 4);
+console.log(notEquals(z1, z2)); // => true
+
+const z3 = new Complex(1, 2);
+console.log(notEquals(z1, z3)); // => false
 ```

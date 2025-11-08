@@ -4,7 +4,7 @@ sidebar_position: 3
 
 # Working with Polar Coordinates
 
-Complex numbers can be represented in both Cartesian (x + yi) and polar (r·e^(iθ)) forms.
+Complex numbers can be represented in both Cartesian ($x + yi$) and polar ($r \cdot e^{i\theta}$) forms.
 
 ## Creating Complex Numbers from Polar Coordinates
 
@@ -40,7 +40,7 @@ console.log(z2.toString()); // => "3 + 4i" (approximately)
 ## Operations in Polar Form
 
 ```typescript
-import { Complex, multiply, divide, pow } from '@iamsquare/complex.js';
+import { Complex, multiply, divide, pow, modulus, argument } from '@iamsquare/complex.js';
 
 // Multiplication in polar form: multiply magnitudes, add angles
 const z1 = new Complex({ r: 2, p: Math.PI / 4 });

@@ -8,7 +8,10 @@ Inverse hyperbolic functions extended to complex numbers.
 
 ## asinh
 
-Calculates the inverse hyperbolic sine of a complex number.
+Calculates the inverse hyperbolic sine of a complex number: $\text{arsinh}(z)$.
+
+Returns the principal value of the inverse hyperbolic sine function. For real $z$,
+this gives the standard inverse hyperbolic sine. For complex $z$, it extends the function to the complex plane.
 
 ```typescript
 asinh(z: Complex): Complex
@@ -20,24 +23,26 @@ asinh(z: Complex): Complex
 
 ### Returns
 
-A new `Complex` number representing arcsinh(z).
+A new Complex number representing $\text{arsinh}(z)$.
 
 ### Example
 
 ```typescript
-import { Complex, sinh, asinh } from '@iamsquare/complex.js';
+import { Complex, asinh } from '@iamsquare/complex.js';
 
-const z = new Complex(1, 1);
-const hypSine = sinh(z);
-const invHypSine = asinh(hypSine);
-console.log(invHypSine.toString()); // => "1 + 1i" (approximately)
+const z = new Complex(0, 0);
+const result = asinh(z);
+console.log(result.toString()); // => "0"
 ```
 
 ---
 
 ## acosh
 
-Calculates the inverse hyperbolic cosine of a complex number.
+Calculates the inverse hyperbolic cosine of a complex number: $\text{arcosh}(z)$.
+
+Returns the principal value of the inverse hyperbolic cosine function. For real $z \geq 1$,
+this gives the standard inverse hyperbolic cosine. For complex $z$, it extends the function to the complex plane.
 
 ```typescript
 acosh(z: Complex): Complex
@@ -49,24 +54,26 @@ acosh(z: Complex): Complex
 
 ### Returns
 
-A new `Complex` number representing arccosh(z).
+A new Complex number representing $\text{arcosh}(z)$.
 
 ### Example
 
 ```typescript
-import { Complex, cosh, acosh } from '@iamsquare/complex.js';
+import { Complex, acosh } from '@iamsquare/complex.js';
 
 const z = new Complex(1, 0);
-const hypCosine = cosh(z);
-const invHypCosine = acosh(hypCosine);
-console.log(invHypCosine.toString()); // => "1 + 0i" (approximately)
+const result = acosh(z);
+console.log(result.toString()); // => approximately "0 + 0i"
 ```
 
 ---
 
 ## atanh
 
-Calculates the inverse hyperbolic tangent of a complex number.
+Calculates the inverse hyperbolic tangent of a complex number: $\text{artanh}(z)$.
+
+Returns the principal value of the inverse hyperbolic tangent function. For real $z$ in $(-1, 1)$,
+this gives the standard inverse hyperbolic tangent. For complex $z$, it extends the function to the complex plane.
 
 ```typescript
 atanh(z: Complex): Complex
@@ -78,24 +85,27 @@ atanh(z: Complex): Complex
 
 ### Returns
 
-A new `Complex` number representing arctanh(z).
+A new Complex number representing $\text{artanh}(z)$.
 
 ### Example
 
 ```typescript
-import { Complex, tanh, atanh } from '@iamsquare/complex.js';
+import { Complex, atanh } from '@iamsquare/complex.js';
 
-const z = new Complex(0.5, 0);
-const hypTangent = tanh(z);
-const invHypTangent = atanh(hypTangent);
-console.log(invHypTangent.toString()); // => "0.5 + 0i" (approximately)
+const z = new Complex(0, 0);
+const result = atanh(z);
+console.log(result.toString()); // => "0"
 ```
 
 ---
 
 ## asech
 
-Calculates the inverse hyperbolic secant of a complex number.
+Calculates the inverse hyperbolic secant of a complex number: $\text{arsech}(z)$.
+
+Returns the principal value of the inverse hyperbolic secant function. Computed using the identity:
+
+$$\text{arsech}(z) = \text{arcosh}\left(\frac{1}{z}\right)$$
 
 ```typescript
 asech(z: Complex): Complex
@@ -107,7 +117,7 @@ asech(z: Complex): Complex
 
 ### Returns
 
-A new `Complex` number representing arcsech(z).
+A new `Complex` number representing $\text{arsech}(z)$.
 
 ### Example
 
@@ -124,7 +134,11 @@ console.log(invHypSecant.toString()); // => "0.5 + 0i" (approximately)
 
 ## acsch
 
-Calculates the inverse hyperbolic cosecant of a complex number.
+Calculates the inverse hyperbolic cosecant of a complex number: $\text{arcsch}(z)$.
+
+Returns the principal value of the inverse hyperbolic cosecant function. Computed using the identity:
+
+$$\text{arcsch}(z) = \text{arsinh}\left(\frac{1}{z}\right)$$
 
 ```typescript
 acsch(z: Complex): Complex
@@ -136,7 +150,7 @@ acsch(z: Complex): Complex
 
 ### Returns
 
-A new `Complex` number representing arccsch(z).
+A new `Complex` number representing $\text{arcsch}(z)$.
 
 ### Example
 
@@ -153,7 +167,11 @@ console.log(invHypCosecant.toString()); // => "1 + 0i" (approximately)
 
 ## acoth
 
-Calculates the inverse hyperbolic cotangent of a complex number.
+Calculates the inverse hyperbolic cotangent of a complex number: $\text{arcoth}(z)$.
+
+Returns the principal value of the inverse hyperbolic cotangent function. Computed using the identity:
+
+$$\text{arcoth}(z) = \text{artanh}\left(\frac{1}{z}\right)$$
 
 ```typescript
 acoth(z: Complex): Complex
@@ -165,7 +183,7 @@ acoth(z: Complex): Complex
 
 ### Returns
 
-A new `Complex` number representing arccoth(z).
+A new `Complex` number representing $\text{arcoth}(z)$.
 
 ### Example
 
@@ -176,30 +194,4 @@ const z = new Complex(2, 0);
 const hypCotangent = coth(z);
 const invHypCotangent = acoth(hypCotangent);
 console.log(invHypCotangent.toString()); // => "2 + 0i" (approximately)
-```
-
----
-
-## Round-trip Example
-
-```typescript
-import { Complex, sinh, asinh, cosh, acosh, tanh, atanh } from '@iamsquare/complex.js';
-
-// Verify inverse relationships
-const z = new Complex(0.5, 0.3);
-
-// sinh(asinh(z)) ≈ z
-const invHypSine = asinh(z);
-const sinhResult = sinh(invHypSine);
-console.log(sinhResult.toString()); // => "0.5 + 0.3i" (approximately)
-
-// cosh(acosh(z)) ≈ z
-const invHypCosine = acosh(z);
-const coshResult = cosh(invHypCosine);
-console.log(coshResult.toString()); // => "0.5 + 0.3i" (approximately)
-
-// tanh(atanh(z)) ≈ z
-const invHypTangent = atanh(z);
-const tanhResult = tanh(invHypTangent);
-console.log(tanhResult.toString()); // => "0.5 + 0.3i" (approximately)
 ```

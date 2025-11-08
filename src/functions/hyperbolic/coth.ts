@@ -2,7 +2,20 @@ import Complex from '~/complex';
 import { isInfinite, isNaNC, isZero } from '~/operations';
 
 /**
- * Calculates the hyperbolic cotangent of a Complex number.
+ * Calculates the hyperbolic cotangent of a complex number: coth(z).
+ *
+ * The hyperbolic cotangent is the reciprocal of hyperbolic tangent: coth(z) = 1 / tanh(z) = cosh(z) / sinh(z).
+ * Uses optimized computation to avoid numerical cancellation.
+ *
+ * @param z - The complex number.
+ * @returns A new Complex number representing coth(z).
+ *
+ * @example
+ * ```typescript
+ * const z = new Complex(1, 0);
+ * const result = coth(z);
+ * console.log(result.toString()); // => approximately "1.313 + 0i"
+ * ```
  */
 export default function coth(z: Complex) {
   if (isInfinite(z) || isNaNC(z)) return Complex.NAN;

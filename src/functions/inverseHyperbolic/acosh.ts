@@ -6,7 +6,20 @@ import isNaNC from '~/operations/isNaNC';
 import isZero from '~/operations/isZero';
 
 /**
- * Calculates the inverse hyperbolic cosine of a Complex number.
+ * Calculates the inverse hyperbolic cosine of a complex number: arcosh(z).
+ *
+ * Returns the principal value of the inverse hyperbolic cosine function. For real z ≥ 1,
+ * this gives the standard inverse hyperbolic cosine. For complex z, it extends the function to the complex plane.
+ *
+ * @param z - The complex number.
+ * @returns A new Complex number representing arcosh(z).
+ *
+ * @example
+ * ```typescript
+ * const z = new Complex(1, 0);
+ * const result = acosh(z);
+ * console.log(result.toString()); // => approximately "0 + 0i"
+ * ```
  */
 export default function acosh(z: Complex) {
   if (isInfinite(z) || isNaNC(z)) return Complex.NAN;

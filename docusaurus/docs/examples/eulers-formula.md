@@ -4,9 +4,11 @@ sidebar_position: 2
 
 # Euler's Formula
 
-Euler's formula is one of the most beautiful equations in mathematics: e^(iθ) = cos(θ) + i·sin(θ)
+Euler's formula is one of the most beautiful equations in mathematics:
 
-## Basic Example: e^(iπ) = -1
+$$e^{i\theta} = \cos(\theta) + i\sin(\theta)$$
+
+## Basic Example: $e^{i\pi} = -1$
 
 ```typescript
 import { Complex, exp, multiply } from '@iamsquare/complex.js';
@@ -16,7 +18,7 @@ const result = exp(new Complex(0, Math.PI));
 console.log(result.toString()); // => "-1 + 0i" (approximately)
 ```
 
-## General Form: e^(iθ)
+## General Form: $e^{i\theta}$
 
 ```typescript
 import { Complex, exp, multiply, cos, sin } from '@iamsquare/complex.js';

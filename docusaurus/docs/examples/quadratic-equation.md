@@ -6,9 +6,11 @@ sidebar_position: 1
 
 Complex numbers are essential for solving quadratic equations with negative discriminants.
 
-## Example: Solving x² + 2x + 2 = 0
+## Example: Solving $x^2 + 2x + 2 = 0$
 
-Using the quadratic formula: x = (-b ± √(b² - 4ac)) / 2a
+Using the quadratic formula:
+
+$$x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}$$
 
 ```typescript
 import { Complex, add, pow, subtract, multiply, divide, sqrt } from '@iamsquare/complex.js';
@@ -42,13 +44,13 @@ import { Complex, add, multiply, pow } from '@iamsquare/complex.js';
 const x1 = new Complex(-1, 1);
 const x2 = new Complex(-1, -1);
 
-// Verify x1² + 2x1 + 2 = 0
+// Verify x₁² + 2x₁ + 2 = 0
 const x1Squared = pow(x1, 2);
 const twoX1 = multiply(2, x1);
 const result1 = add(add(x1Squared, twoX1), new Complex(2, 0));
 console.log(result1.toString()); // => "0" (approximately)
 
-// Verify x2² + 2x2 + 2 = 0
+// Verify x₂² + 2x₂ + 2 = 0
 const x2Squared = pow(x2, 2);
 const twoX2 = multiply(new Complex(2, 0), x2);
 const result2 = add(add(x2Squared, twoX2), new Complex(2, 0));

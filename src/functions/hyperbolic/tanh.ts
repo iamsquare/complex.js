@@ -2,7 +2,19 @@ import Complex from '~/complex';
 import { isInfinite, isNaNC, isZero } from '~/operations';
 
 /**
- * Calculates the hyperbolic tangent of a Complex number.
+ * Calculates the hyperbolic tangent of a complex number: tanh(z).
+ *
+ * Computed as tanh(z) = sinh(z) / cosh(z), with optimizations to avoid numerical cancellation.
+ *
+ * @param z - The complex number.
+ * @returns A new Complex number representing tanh(z).
+ *
+ * @example
+ * ```typescript
+ * const z = new Complex(0, 0);
+ * const result = tanh(z);
+ * console.log(result.toString()); // => "0"
+ * ```
  */
 export default function tanh(z: Complex) {
   if (isInfinite(z) || isNaNC(z)) return Complex.NAN;

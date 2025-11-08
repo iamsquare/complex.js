@@ -1,7 +1,21 @@
 import Complex from '~/complex';
 import { isInfinite, isNaNC, isZero } from '~/operations';
+
 /**
- * Calculates the cosecant of a Complex number.
+ * Calculates the cosecant of a complex number: csc(z).
+ *
+ * The cosecant is the reciprocal of sine: csc(z) = 1 / sin(z).
+ * Uses optimized computation to avoid numerical cancellation.
+ *
+ * @param z - The complex number.
+ * @returns A new Complex number representing csc(z).
+ *
+ * @example
+ * ```typescript
+ * const z = new Complex(Math.PI / 2, 0);
+ * const result = csc(z);
+ * console.log(result.toString()); // => approximately "1 + 0i"
+ * ```
  */
 export default function csc(z: Complex) {
   if (isInfinite(z) || isNaNC(z)) return Complex.NAN;

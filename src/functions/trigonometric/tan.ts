@@ -2,7 +2,19 @@ import Complex from '~/complex';
 import { isInfinite, isNaNC, isZero } from '~/operations';
 
 /**
- * Calculates the tangent of a Complex number.
+ * Calculates the tangent of a complex number: tan(z).
+ *
+ * Computed as tan(z) = sin(z) / cos(z), with optimizations to avoid numerical cancellation.
+ *
+ * @param z - The complex number.
+ * @returns A new Complex number representing tan(z).
+ *
+ * @example
+ * ```typescript
+ * const z = new Complex(0, 0);
+ * const result = tan(z);
+ * console.log(result.toString()); // => "0"
+ * ```
  */
 export default function tan(z: Complex) {
   if (isInfinite(z) || isNaNC(z)) return Complex.NAN;

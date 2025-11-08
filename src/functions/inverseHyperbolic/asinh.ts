@@ -7,7 +7,20 @@ import isNaNC from '~/operations/isNaNC';
 import isZero from '~/operations/isZero';
 
 /**
- * Calculates the inverse hyperbolic sine of a Complex number.
+ * Calculates the inverse hyperbolic sine of a complex number: arsinh(z).
+ *
+ * Returns the principal value of the inverse hyperbolic sine function. For real z,
+ * this gives the standard inverse hyperbolic sine. For complex z, it extends the function to the complex plane.
+ *
+ * @param z - The complex number.
+ * @returns A new Complex number representing arsinh(z).
+ *
+ * @example
+ * ```typescript
+ * const z = new Complex(0, 0);
+ * const result = asinh(z);
+ * console.log(result.toString()); // => "0"
+ * ```
  */
 export default function asinh(z: Complex) {
   if (isInfinite(z) || isNaNC(z)) return Complex.NAN;
