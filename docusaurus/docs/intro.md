@@ -4,39 +4,49 @@ sidebar_position: 1
 
 # Introduction
 
-**Complex.js** is a simple, powerful library for working with complex numbers in JavaScript and TypeScript. It provides a comprehensive set of operations and functions for complex number arithmetic, trigonometry, hyperbolic functions, and more.
+**Complex.js** is a powerful, type-safe complex numbers library for JavaScript and TypeScript. It provides a comprehensive set of operations and functions for complex number arithmetic, trigonometry, hyperbolic functions, and more. Built with TypeScript, it includes full type definitions out of the box.
 
 ## Features
 
-- 🧮 **Complete Complex Number Operations**: Addition, subtraction, multiplication, division, and more
-- 📐 **Trigonometric Functions**: sin, cos, tan, sec, csc, cot and their inverses
-- 📊 **Hyperbolic Functions**: sinh, cosh, tanh, sech, csch, coth and their inverses
-- 🔢 **Mathematical Functions**: Exponentiation, logarithms, powers, square roots
-- 🎯 **TypeScript Support**: Full type definitions included
-- 🌐 **Universal**: Works in both browsers and Node.js
-- 📦 **Zero Dependencies**: Lightweight and fast
+- **Complete Complex Number Operations** - Addition, subtraction, multiplication, division, and more
+- **Trigonometric Functions** - sin, cos, tan, sec, csc, cot and their inverses
+- **Hyperbolic Functions** - sinh, cosh, tanh, sech, csch, coth and their inverses
+- **Mathematical Functions** - Exponentiation, logarithms, powers, square roots
+- **TypeScript Support** - Full type definitions included, no `@types` package needed
+- **Universal** - Works in both browsers and Node.js
+- **Zero Dependencies** - Lightweight and fast
+- **Multiple Representations** - Create from Cartesian, polar, or numeric coordinates
 
 ## Installation
 
 Install Complex.js using [npm](https://www.npmjs.com/package/@iamsquare/complex.js) or [pnpm](https://pnpm.io/):
 
 ```bash
-npm install @iamsquare/complex.js
+npm i @iamsquare/complex.js
 # or
-pnpm add @iamsquare/complex.js
+pnpm i @iamsquare/complex.js
 ```
-
-> Since this library is compiled from TypeScript, type definition files are provided by default. No additional @types installation required!
 
 ## Quick Start
 
-### Import the Library
-
 ```typescript
 import { Complex, add, multiply, sin, exp } from '@iamsquare/complex.js';
+
+// Create complex numbers
+const z = new Complex(1, -1);
+const w = new Complex({ x: 1, y: -3 });
+const k = new Complex({ r: 1, p: Math.PI / 2 });
+
+// Perform operations
+const sum = add(z, w);
+const product = multiply(z, w);
+const sine = sin(z);
+const exponential = exp(z);
+
+console.log(sum.toString()); // => "2 - 4i"
 ```
 
-### Creating Complex Numbers
+## Creating Complex Numbers
 
 Complex numbers can be created in several ways:
 
@@ -47,16 +57,18 @@ const z = new Complex(1, -1);
 // Cartesian coordinates
 const w = new Complex({ x: 1, y: -3 });
 
-// Polar coordinates (radius, phase)
+// Polar coordinates (radius, phase in radians)
 const k = new Complex({ r: 1, p: Math.PI / 2 });
 
 // From another Complex number
 const zz = new Complex(z);
 ```
 
-### Basic Operations
+## Basic Arithmetic Operations
 
 ```typescript
+import { Complex, add, subtract, multiply, divide, negate } from '@iamsquare/complex.js';
+
 const z = new Complex(1, -1);
 const w = new Complex(1, -3);
 
@@ -75,9 +87,13 @@ console.log(product.toString()); // => "-2 - 4i"
 // Division
 const quotient = divide(z, w);
 console.log(quotient.toString()); // => "0.4 + 0.2i"
+
+// Negation
+const negated = negate(z);
+console.log(negated.toString()); // => "-1 + 1i"
 ```
 
-### Accessing Parts
+## Accessing Parts
 
 ```typescript
 const z = new Complex(3, 4);
@@ -91,21 +107,17 @@ const cartesian = z.toCartesian(); // { x: 3, y: 4 }
 const polar = z.toPolar(); // { r: 5, p: 0.9272952180016122 }
 ```
 
-### Mathematical Functions
+## Mathematical Functions
 
 ```typescript
+import { Complex, exp, log, pow, sqrt, sin, cos, tan, sinh, cosh, tanh, asin, asinh } from '@iamsquare/complex.js';
+
 const z = new Complex(1, 1);
 
-// Exponential
+// Exponential and logarithmic functions
 const e = exp(z);
-
-// Natural logarithm
 const ln = log(z);
-
-// Power
 const power = pow(z, new Complex(2, 0));
-
-// Square root
 const root = sqrt(z);
 
 // Trigonometric functions
@@ -117,9 +129,38 @@ const tangent = tan(z);
 const hypSine = sinh(z);
 const hypCosine = cosh(z);
 const hypTangent = tanh(z);
+
+// Inverse functions
+const arcSine = asin(z);
+const arcHyperSine = asinh(z);
 ```
 
-### Predefined Constants
+## Utility Operations
+
+```typescript
+import { Complex, modulus, argument, conjugate, unit, equals, isReal, isZero } from '@iamsquare/complex.js';
+
+const z = new Complex(3, 4);
+
+// Modulus (absolute value)
+const mod = modulus(z); // 5
+
+// Argument (phase)
+const arg = argument(z); // 0.9272952180016122
+
+// Complex conjugate
+const conj = conjugate(z); // 3 - 4i
+
+// Unit vector
+const unitVec = unit(z); // 0.6 + 0.8i
+
+// Equality checks
+const isEqual = equals(z, new Complex(3, 4)); // true
+const isRealNum = isReal(z); // false
+const isZeroNum = isZero(z); // false
+```
+
+## Predefined Constants
 
 ```typescript
 Complex.ZERO; // 0
@@ -184,32 +225,14 @@ Complex.EPSILON; // Machine epsilon
 - [`asinh(z)`](/functions/inverse-hyperbolic#asinh), [`acosh(z)`](/functions/inverse-hyperbolic#acosh), [`atanh(z)`](/functions/inverse-hyperbolic#atanh)
 - [`asech(z)`](/functions/inverse-hyperbolic#asech), [`acsch(z)`](/functions/inverse-hyperbolic#acsch), [`acoth(z)`](/functions/inverse-hyperbolic#acoth)
 
-## Examples
+## More Examples
 
-### Solving Complex Equations
+For detailed examples and use cases, check out:
 
-```typescript
-import { Complex, add, subtract, divide, sqrt } from '@iamsquare/complex.js';
-
-// Solve z² + 2z + 2 = 0
-// Using quadratic formula: z = (-2 ± √(4 - 8)) / 2
-const discriminant = new Complex(-4, 0);
-const sqrtDisc = sqrt(discriminant);
-const z1 = divide(add(new Complex(-2, 0), sqrtDisc), new Complex(2, 0));
-const z2 = divide(subtract(new Complex(-2, 0), sqrtDisc), new Complex(2, 0));
-```
-
-### Euler's Formula
-
-```typescript
-import { Complex, exp, multiply } from '@iamsquare/complex.js';
-
-// e^(iπ) = -1
-const i = Complex.I;
-const pi = Complex.PI;
-const result = exp(multiply(i, pi));
-console.log(result.toString()); // => "-1 + 0i"
-```
+- [Quadratic Equation](/examples/quadratic-equation) - Solving complex quadratic equations
+- [Polar Coordinates](/examples/polar-coordinates) - Working with polar form
+- [Euler's Formula](/examples/eulers-formula) - Demonstrating Euler's identity
+- [Fourier Transform](/examples/fourier-transform) - Complex number applications in signal processing
 
 ## Next Steps
 

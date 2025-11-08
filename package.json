@@ -8,6 +8,7 @@
   "type": "module",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
+    "prepare": "husky || true",
     "test": "vitest run",
     "test:watch": "vitest watch",
     "test:coverage": "vitest run --coverage",
@@ -15,16 +16,12 @@
     "lint:fix": "pnpm lint --fix",
     "clean": "pnpm run \"/^clean:.*$/\"",
     "clean:dist": "rimraf ./dist",
-    "clean:docs": "rimraf ./docs",
     "clean:coverage": "rimraf ./coverage",
     "node:clean": "pnpx npkill --delete-all -y",
-    "docs": "pnpm clean:docs docs:generate",
-    "docs:generate": "typedoc",
     "build": "rollup -c",
     "build:watch": "pnpm build -w",
     "dev": "pnpm run \"/^(.*:watch)$/\"",
-    "prod": "pnpm clean && pnpm test:coverage && pnpm build && pnpm docs",
-    "prepare": "husky"
+    "prod": "pnpm clean && pnpm test:coverage && pnpm build"
   },
   "repository": {
     "type": "git",
@@ -65,8 +62,6 @@
     "rimraf": "^6.1.0",
     "rollup": "^4.53.0",
     "rollup-plugin-dts": "^6.2.3",
-    "serve": "^14.2.5",
-    "typedoc": "^0.28.14",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.46.3",
     "vite-tsconfig-paths": "^5.1.4",
