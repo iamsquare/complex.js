@@ -1,11 +1,11 @@
-import Complex from '../complex';
-import isNaNC from './isNaNC';
-import isInfinite from './isInfinite';
+import Complex from '~/complex';
+import isInfinite from '~/operations/isInfinite';
+import isNaNC from '~/operations/isNaNC';
 
 /**
  * Gets the argument of a Complex number.
  */
-export default function argument(z: Complex): number {
+export default function argument(z: Complex) {
   if (isNaNC(z)) return NaN;
   if (isInfinite(z)) return Infinity;
 

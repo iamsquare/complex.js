@@ -1,20 +1,4 @@
 {
-  "compilerOptions": {
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "allowSyntheticDefaultImports": true,
-    "removeComments": true,
-    "sourceMap": true,
-    "baseUrl": ".",
-    "outDir": "dist/lib",
-    "allowJs": false,
-    "checkJs": false,
-    "noImplicitAny": true,
-    "esModuleInterop": true,
-    "module": "ES2020",
-    "moduleResolution": "Node",
-    "lib": ["esnext", "dom"],
-    "target": "ES6"
-  },
-  "exclude": ["node_modules/**/*", "dist/**/*", "**/*.spec.ts"]
+  "files": [],
+  "references": [{ "path": "./tsconfig.build.json" }, { "path": "./tsconfig.test.json" }]
 }

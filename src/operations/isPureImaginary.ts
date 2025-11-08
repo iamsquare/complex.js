@@ -1,8 +1,8 @@
-import Complex from '../complex';
+import Complex from '~/complex';
 
 /**
  * Returns true when a Complex number real part is zero.
  */
-export default function isPureImaginary(z: Complex): boolean {
+export default function isPureImaginary(z: Complex) {
   return z.getRe() === 0 && z.getIm() !== 0;
 }

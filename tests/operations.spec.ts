@@ -1,23 +1,25 @@
-import { Complex } from '../src/';
+import { describe, expect, test } from 'vitest';
+
+import { Complex } from '~/index';
 import {
+  add,
   argument,
   conjugate,
-  modulus,
-  negate,
-  pythagoras,
-  unit,
+  divide,
+  equals,
   isInfinite,
   isNaNC,
   isPureImaginary,
   isReal,
   isZero,
-  add,
+  modulus,
   multiply,
+  negate,
+  notEquals,
+  pythagoras,
   subtract,
-  divide,
-  equals,
-  notEquals
-} from '../src/operations';
+  unit,
+} from '~/operations';
 
 const NAN = Complex.NAN;
 const INFINITY = Complex.INFINITY;
@@ -114,8 +116,8 @@ describe('Operators', () => {
     test('z / w', () => {
       const c: Complex = divide(z, w);
       const d: Complex = divide(z, 2);
-      expect(c.getRe()).toBeCloseTo(5 / 13, 10);
-      expect(c.getIm()).toBeCloseTo(-1 / 13, 10);
+      expect(c.getRe()).toBeCloseTo(5 / 13, 15);
+      expect(c.getIm()).toBeCloseTo(-1 / 13, 15);
       expect(d.getRe()).toEqual(0.5);
       expect(d.getIm()).toEqual(0.5);
     });
@@ -233,8 +235,8 @@ describe('Operators', () => {
 
   describe('Modulus', () => {
     test('|z|', () => {
-      expect(modulus(z)).toBeCloseTo(Math.SQRT2, 10);
-      expect(modulus(w)).toBeCloseTo(Math.sqrt(13), 10);
+      expect(modulus(z)).toBeCloseTo(Math.SQRT2, 15);
+      expect(modulus(w)).toBeCloseTo(Math.sqrt(13), 15);
     });
 
     describe('Special Cases', () => {
@@ -250,8 +252,8 @@ describe('Operators', () => {
 
   describe('Argument', () => {
     test('∠z', () => {
-      expect(argument(z)).toBeCloseTo(Math.PI / 4, 10);
-      expect(argument(w)).toBeCloseTo(Math.atan2(w.getIm(), w.getRe()), 10);
+      expect(argument(z)).toBeCloseTo(Math.PI / 4, 15);
+      expect(argument(w)).toBeCloseTo(Math.atan2(w.getIm(), w.getRe()), 15);
     });
 
     describe('Special Cases', () => {
@@ -269,10 +271,10 @@ describe('Operators', () => {
     const zu = unit(z);
     const wu = unit(w);
     test('ẑ', () => {
-      expect(zu.getRe()).toBeCloseTo(Math.SQRT1_2, 10);
-      expect(zu.getIm()).toBeCloseTo(Math.SQRT1_2, 10);
-      expect(wu.getRe()).toBeCloseTo(2 / Math.sqrt(13), 10);
-      expect(wu.getIm()).toBeCloseTo(3 / Math.sqrt(13), 10);
+      expect(zu.getRe()).toBeCloseTo(Math.SQRT1_2, 15);
+      expect(zu.getIm()).toBeCloseTo(Math.SQRT1_2, 15);
+      expect(wu.getRe()).toBeCloseTo(2 / Math.sqrt(13), 15);
+      expect(wu.getIm()).toBeCloseTo(3 / Math.sqrt(13), 15);
     });
     describe('Special Cases', () => {
       test('Zero', () => {
@@ -308,48 +310,58 @@ describe('Operators', () => {
 
   describe('Misc.', () => {
     describe('isReal()', () => {
-      expect(isReal(z)).toBeFalsy();
-      expect(isReal(ZERO)).toBeTruthy();
-      expect(isReal(ONE)).toBeTruthy();
-      expect(isReal(I)).toBeFalsy();
-      expect(isReal(INFINITY)).toBeFalsy();
-      expect(isReal(NAN)).toBeFalsy();
+      test('isReal()', () => {
+        expect(isReal(z)).toBeFalsy();
+        expect(isReal(ZERO)).toBeTruthy();
+        expect(isReal(ONE)).toBeTruthy();
+        expect(isReal(I)).toBeFalsy();
+        expect(isReal(INFINITY)).toBeFalsy();
+        expect(isReal(NAN)).toBeFalsy();
+      });
     });
 
     describe('isPureImaginary()', () => {
-      expect(isPureImaginary(z)).toBeFalsy();
-      expect(isPureImaginary(ZERO)).toBeFalsy();
-      expect(isPureImaginary(ONE)).toBeFalsy();
-      expect(isPureImaginary(I)).toBeTruthy();
-      expect(isPureImaginary(INFINITY)).toBeFalsy();
-      expect(isPureImaginary(NAN)).toBeFalsy();
+      test('isPureImaginary()', () => {
+        expect(isPureImaginary(z)).toBeFalsy();
+        expect(isPureImaginary(ZERO)).toBeFalsy();
+        expect(isPureImaginary(ONE)).toBeFalsy();
+        expect(isPureImaginary(I)).toBeTruthy();
+        expect(isPureImaginary(INFINITY)).toBeFalsy();
+        expect(isPureImaginary(NAN)).toBeFalsy();
+      });
     });
 
     describe('isZero()', () => {
-      expect(isZero(z)).toBeFalsy();
-      expect(isZero(ZERO)).toBeTruthy();
-      expect(isZero(ONE)).toBeFalsy();
-      expect(isZero(I)).toBeFalsy();
-      expect(isZero(INFINITY)).toBeFalsy();
-      expect(isZero(NAN)).toBeFalsy();
+      test('isZero()', () => {
+        expect(isZero(z)).toBeFalsy();
+        expect(isZero(ZERO)).toBeTruthy();
+        expect(isZero(ONE)).toBeFalsy();
+        expect(isZero(I)).toBeFalsy();
+        expect(isZero(INFINITY)).toBeFalsy();
+        expect(isZero(NAN)).toBeFalsy();
+      });
     });
 
     describe('isInfinite()', () => {
-      expect(isInfinite(z)).toBeFalsy();
-      expect(isInfinite(ZERO)).toBeFalsy();
-      expect(isInfinite(ONE)).toBeFalsy();
-      expect(isInfinite(I)).toBeFalsy();
-      expect(isInfinite(INFINITY)).toBeTruthy();
-      expect(isInfinite(NAN)).toBeFalsy();
+      test('isInfinite()', () => {
+        expect(isInfinite(z)).toBeFalsy();
+        expect(isInfinite(ZERO)).toBeFalsy();
+        expect(isInfinite(ONE)).toBeFalsy();
+        expect(isInfinite(I)).toBeFalsy();
+        expect(isInfinite(INFINITY)).toBeTruthy();
+        expect(isInfinite(NAN)).toBeFalsy();
+      });
     });
 
     describe('isNaN()', () => {
-      expect(isNaNC(z)).toBeFalsy();
-      expect(isNaNC(ZERO)).toBeFalsy();
-      expect(isNaNC(ONE)).toBeFalsy();
-      expect(isNaNC(I)).toBeFalsy();
-      expect(isNaNC(INFINITY)).toBeFalsy();
-      expect(isNaNC(NAN)).toBeTruthy();
+      test('isNaN()', () => {
+        expect(isNaNC(z)).toBeFalsy();
+        expect(isNaNC(ZERO)).toBeFalsy();
+        expect(isNaNC(ONE)).toBeFalsy();
+        expect(isNaNC(I)).toBeFalsy();
+        expect(isNaNC(INFINITY)).toBeFalsy();
+        expect(isNaNC(NAN)).toBeTruthy();
+      });
     });
   });
 });

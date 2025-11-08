@@ -1,4 +1,6 @@
-import { Cartesian, Polar, isCartesian, isPolar } from '../src';
+import { describe, expect, test } from 'vitest';
+
+import { Cartesian, isCartesian, isPolar, Polar } from '~/index';
 
 describe('Helpers', () => {
   test('They should exist', () => {
@@ -8,9 +10,9 @@ describe('Helpers', () => {
 
   const c: Cartesian = { x: 10, y: 20 };
   const p: Polar = { r: 11, p: Math.PI };
-  const cz: Cartesian = { x: 0,  y: 0 };
-  const pz: Polar = { r: 0,  p: 0 };
-  const u: any = undefined;
+  const cz: Cartesian = { x: 0, y: 0 };
+  const pz: Polar = { r: 0, p: 0 };
+  const u: void = undefined;
 
   describe('Helper functions', () => {
     test('isCartesian(object)', () => {

@@ -1,21 +1,20 @@
-import Complex from '../../complex';
-import isInfinite from '../../operations/isInfinite';
-import isZero from '../../operations/isZero';
-import isNaNC from '../../operations/isNaNC';
-import log from '../log';
+import Complex from '~/complex';
+import log from '~/functions/log';
+import { divide } from '~/operations';
+import isInfinite from '~/operations/isInfinite';
+import isNaNC from '~/operations/isNaNC';
+import isZero from '~/operations/isZero';
 
 /**
  * Calculates the inverse hyperbolic tangent of a Complex number.
  */
-export default function atanh(z: Complex): Complex {
+export default function atanh(z: Complex) {
   if (isInfinite(z) || isNaNC(z)) return Complex.NAN;
   if (isZero(z)) return Complex.ZERO;
 
-  const a: number = z.getRe();
-  const b: number = z.getIm();
-  const d: number = (1 - a) * (1 - a) + b * b;
+  const a = z.getRe();
+  const b = z.getIm();
+  const d = (1 - a) * (1 - a) + b * b;
 
-  const l: Complex = log(new Complex((1 - a * a - b * b) / d, (2 * b) / d));
-
-  return new Complex(l.getRe() / 2, l.getIm() / 2);
+  return divide(log(new Complex((1 - a * a - b * b) / d, (2 * b) / d)), 2);
 }

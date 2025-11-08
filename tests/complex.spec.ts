@@ -1,5 +1,7 @@
-import { Complex } from '../src/';
-import { isCartesian, Cartesian, isPolar, Polar } from '../src/helpers';
+import { describe, expect, test } from 'vitest';
+
+import { Cartesian, isCartesian, isPolar, Polar } from '~/helpers';
+import { Complex } from '~/index';
 
 const ONE = Complex.ONE;
 const ZERO = Complex.ZERO;
@@ -53,8 +55,8 @@ describe('Complex constructor', () => {
       test('new Complex({r: 1, p: Math.PI / 2}) => re: 0, im: 1', () => {
         const z: Complex = new Complex(polar);
 
-        expect(z.getRe()).toBeCloseTo(0, 5);
-        expect(z.getIm()).toBeCloseTo(1, 5);
+        expect(Math.abs(z.getRe())).toBeLessThan(1e-15);
+        expect(z.getIm()).toBeCloseTo(1, 16);
       });
     });
 

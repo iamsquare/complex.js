@@ -1,6 +1,6 @@
-export { default as sinh } from './sinh';
-export { default as cosh } from './cosh';
-export { default as tanh } from './tanh';
-export { default as coth } from './coth';
-export { default as sech } from './sech';
-export { default as csch } from './csch';
+export { default as cosh } from '~/functions/hyperbolic/cosh';
+export { default as coth } from '~/functions/hyperbolic/coth';
+export { default as csch } from '~/functions/hyperbolic/csch';
+export { default as sech } from '~/functions/hyperbolic/sech';
+export { default as sinh } from '~/functions/hyperbolic/sinh';
+export { default as tanh } from '~/functions/hyperbolic/tanh';
