@@ -179,6 +179,7 @@ Complex.EPSILON; // Machine epsilon
 ### Arithmetic Operations
 
 - [`add(z, w)`](/operations/arithmetic#add) - Addition
+- [`sum(...numbers)`](/operations/arithmetic#sum) - Sum multiple numbers
 - [`subtract(z, w)`](/operations/arithmetic#subtract) - Subtraction
 - [`multiply(z, w)`](/operations/arithmetic#multiply) - Multiplication
 - [`divide(z, w)`](/operations/arithmetic#divide) - Division
@@ -224,15 +225,6 @@ Complex.EPSILON; // Machine epsilon
 - [`sech(z)`](/functions/hyperbolic#sech), [`csch(z)`](/functions/hyperbolic#csch), [`coth(z)`](/functions/hyperbolic#coth)
 - [`asinh(z)`](/functions/inverse-hyperbolic#asinh), [`acosh(z)`](/functions/inverse-hyperbolic#acosh), [`atanh(z)`](/functions/inverse-hyperbolic#atanh)
 - [`asech(z)`](/functions/inverse-hyperbolic#asech), [`acsch(z)`](/functions/inverse-hyperbolic#acsch), [`acoth(z)`](/functions/inverse-hyperbolic#acoth)
-
-## More Examples
-
-For detailed examples and use cases, check out:
-
-- [Quadratic Equation](/examples/quadratic-equation) - Solving complex quadratic equations
-- [Polar Coordinates](/examples/polar-coordinates) - Working with polar form
-- [Euler's Formula](/examples/eulers-formula) - Demonstrating Euler's identity
-- [Fourier Transform](/examples/fourier-transform) - Complex number applications in signal processing
 
 ## Next Steps
 
