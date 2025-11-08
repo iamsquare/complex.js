@@ -11,6 +11,7 @@ env:
 permissions:
   contents: read
   id-token: write
+  packages: write
 
 jobs:
   build:
@@ -49,7 +50,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: package
-          path: "iamsquare-complex.js-*.tgz"
+          path: "*.tgz"
           retention-days: 1
 
   publish-github:
@@ -62,6 +63,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
+          node-version: "lts/*"
           registry-url: "https://npm.pkg.github.com"
           scope: "@iamsquare"
 
@@ -72,9 +74,7 @@ jobs:
           path: .
 
       - name: Publish to GitHub Packages
-        run: |
-          PACKAGE_FILE=$(ls iamsquare-complex.js-*.tgz)
-          npm publish "$PACKAGE_FILE" --access public
+        run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -82,18 +82,21 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "lts/*"
+          registry-url: "https://registry.npmjs.org"
+          scope: "@iamsquare"
+
       - name: Download package artifact
         uses: actions/download-artifact@v4
         with:
           name: package
           path: .
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-
       - name: Publish to npm
-        run: |
-          PACKAGE_FILE=$(ls iamsquare-complex.js-*.tgz)
-          npm publish "$PACKAGE_FILE" --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish --access public
