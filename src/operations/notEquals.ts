@@ -1,5 +1,5 @@
-import Complex from '~/complex';
-import equals from '~/operations/equals';
+import type { Complex } from '~/complex';
+import { equals } from '~/operations/equals';
 
 /**
  * Checks if two complex numbers are not equal: z !== w.
@@ -20,6 +20,6 @@ import equals from '~/operations/equals';
  * console.log(notEquals(z1, z3)); // => false
  * ```
  */
-export default function notEquals(z: Complex, w: Complex) {
+export function notEquals(z: Complex, w: Complex) {
   return !equals(z, w);
 }

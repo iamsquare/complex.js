@@ -1,6 +1,6 @@
-import Complex from '~/complex';
-import inverse from '~/functions/inverse';
-import acosh from '~/functions/inverseHyperbolic/acosh';
+import type { Complex } from '~/complex';
+import { inverse } from '~/functions/inverse';
+import { acosh } from '~/functions/inverseHyperbolic/acosh';
 
 /**
  * Calculates the inverse hyperbolic secant of a complex number: arsech(z).
@@ -18,6 +18,6 @@ import acosh from '~/functions/inverseHyperbolic/acosh';
  * console.log(result.toString()); // => approximately "0 + 0i"
  * ```
  */
-export default function asech(z: Complex) {
+export function asech(z: Complex) {
   return acosh(inverse(z));
 }

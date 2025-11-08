@@ -1,9 +1,9 @@
-import Complex from '~/complex';
-import log from '~/functions/log';
-import sqrt from '~/functions/sqrt';
-import isInfinite from '~/operations/isInfinite';
-import isNaNC from '~/operations/isNaNC';
-import isZero from '~/operations/isZero';
+import { Complex } from '~/complex';
+import { log } from '~/functions/log';
+import { sqrt } from '~/functions/sqrt';
+import { isInfinite } from '~/operations/isInfinite';
+import { isNaNC } from '~/operations/isNaNC';
+import { isZero } from '~/operations/isZero';
 
 /**
  * Calculates the arcsine (inverse sine) of a complex number: arcsin(z).
@@ -21,7 +21,7 @@ import isZero from '~/operations/isZero';
  * console.log(result.toString()); // => approximately "1.571 + 0i" (π/2)
  * ```
  */
-export default function asin(z: Complex) {
+export function asin(z: Complex) {
   if (isInfinite(z) || isNaNC(z)) return Complex.NAN;
   if (isZero(z)) return Complex.ZERO;
 

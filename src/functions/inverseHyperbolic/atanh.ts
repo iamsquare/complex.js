@@ -1,9 +1,9 @@
-import Complex from '~/complex';
-import log from '~/functions/log';
+import { Complex } from '~/complex';
+import { log } from '~/functions/log';
 import { divide } from '~/operations';
-import isInfinite from '~/operations/isInfinite';
-import isNaNC from '~/operations/isNaNC';
-import isZero from '~/operations/isZero';
+import { isInfinite } from '~/operations/isInfinite';
+import { isNaNC } from '~/operations/isNaNC';
+import { isZero } from '~/operations/isZero';
 
 /**
  * Calculates the inverse hyperbolic tangent of a complex number: artanh(z).
@@ -21,7 +21,7 @@ import isZero from '~/operations/isZero';
  * console.log(result.toString()); // => "0"
  * ```
  */
-export default function atanh(z: Complex) {
+export function atanh(z: Complex) {
   if (isInfinite(z) || isNaNC(z)) return Complex.NAN;
   if (isZero(z)) return Complex.ZERO;
 

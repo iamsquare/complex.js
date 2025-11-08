@@ -1,4 +1,4 @@
-import Complex from '~/complex';
+import type { Complex } from '~/complex';
 
 /**
  * Checks if a complex number is a real number (has zero imaginary part).
@@ -17,6 +17,6 @@ import Complex from '~/complex';
  * console.log(isReal(z2)); // => false
  * ```
  */
-export default function isReal(z: Complex) {
+export function isReal(z: Complex) {
   return z.getIm() === 0;
 }

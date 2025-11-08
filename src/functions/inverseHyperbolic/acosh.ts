@@ -1,9 +1,9 @@
-import Complex from '~/complex';
-import log from '~/functions/log';
-import sqrt from '~/functions/sqrt';
-import isInfinite from '~/operations/isInfinite';
-import isNaNC from '~/operations/isNaNC';
-import isZero from '~/operations/isZero';
+import { Complex } from '~/complex';
+import { log } from '~/functions/log';
+import { sqrt } from '~/functions/sqrt';
+import { isInfinite } from '~/operations/isInfinite';
+import { isNaNC } from '~/operations/isNaNC';
+import { isZero } from '~/operations/isZero';
 
 /**
  * Calculates the inverse hyperbolic cosine of a complex number: arcosh(z).
@@ -21,7 +21,7 @@ import isZero from '~/operations/isZero';
  * console.log(result.toString()); // => approximately "0 + 0i"
  * ```
  */
-export default function acosh(z: Complex) {
+export function acosh(z: Complex) {
   if (isInfinite(z) || isNaNC(z)) return Complex.NAN;
   if (isZero(z)) return new Complex(0, Math.PI / 2);
 

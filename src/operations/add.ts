@@ -1,6 +1,6 @@
-import Complex from '~/complex';
-import isInfinite from '~/operations/isInfinite';
-import isNaNC from '~/operations/isNaNC';
+import { Complex } from '~/complex';
+import { isInfinite } from '~/operations/isInfinite';
+import { isNaNC } from '~/operations/isNaNC';
 
 /**
  * Adds two complex numbers: z + w.
@@ -19,7 +19,7 @@ import isNaNC from '~/operations/isNaNC';
  * console.log(sum.toString()); // => "4 + 6i"
  * ```
  */
-export default function add(z: Complex, w: Complex) {
+export function add(z: Complex, w: Complex) {
   if (isNaNC(z) || isNaNC(w) || (isInfinite(z) && isInfinite(w))) {
     return Complex.NAN;
   }

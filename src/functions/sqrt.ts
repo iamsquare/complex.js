@@ -1,4 +1,4 @@
-import Complex from '~/complex';
+import { Complex } from '~/complex';
 import { argument, isInfinite, isNaNC, isZero, modulus } from '~/operations';
 
 /**
@@ -23,7 +23,7 @@ import { argument, isInfinite, isNaNC, isZero, modulus } from '~/operations';
  *
  * @todo Test if this implementation is better than the commented algebraic formula.
  */
-export default function sqrt(z: Complex) {
+export function sqrt(z: Complex) {
   if (isNaNC(z)) return Complex.NAN;
   if (isInfinite(z)) return Complex.INFINITY;
   if (isZero(z)) return Complex.ZERO;

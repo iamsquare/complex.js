@@ -1,8 +1,8 @@
-import Complex from '~/complex';
-import isInfinite from '~/operations/isInfinite';
-import isNaNC from '~/operations/isNaNC';
-import isReal from '~/operations/isReal';
-import isZero from '~/operations/isZero';
+import { Complex } from '~/complex';
+import { isInfinite } from '~/operations/isInfinite';
+import { isNaNC } from '~/operations/isNaNC';
+import { isReal } from '~/operations/isReal';
+import { isZero } from '~/operations/isZero';
 
 /**
  * Multiplies two complex numbers or a complex number with a real number: z * w.
@@ -26,7 +26,7 @@ import isZero from '~/operations/isZero';
  * console.log(realProduct.toString()); // => "5 + 10i"
  * ```
  */
-export default function multiply(z: Complex | number, w: Complex | number) {
+export function multiply(z: Complex | number, w: Complex | number) {
   const zc = z instanceof Complex ? z : new Complex(z, 0);
   const wc = w instanceof Complex ? w : new Complex(w, 0);
 

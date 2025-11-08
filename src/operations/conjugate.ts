@@ -1,7 +1,7 @@
-import Complex from '~/complex';
-import isInfinite from '~/operations/isInfinite';
-import isNaNC from '~/operations/isNaNC';
-import isZero from '~/operations/isZero';
+import { Complex } from '~/complex';
+import { isInfinite } from '~/operations/isInfinite';
+import { isNaNC } from '~/operations/isNaNC';
+import { isZero } from '~/operations/isZero';
 
 /**
  * Calculates the complex conjugate of a complex number: z̅.
@@ -18,7 +18,7 @@ import isZero from '~/operations/isZero';
  * console.log(conj.toString()); // => "3 - 4i"
  * ```
  */
-export default function conjugate(z: Complex) {
+export function conjugate(z: Complex) {
   if (isNaNC(z)) return Complex.NAN;
   if (isInfinite(z)) return Complex.INFINITY;
   if (isZero(z)) return Complex.ZERO;

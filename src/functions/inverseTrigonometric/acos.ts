@@ -1,6 +1,6 @@
-import Complex from '~/complex';
-import asin from '~/functions/inverseTrigonometric/asin';
-import subtract from '~/operations/subtract';
+import { Complex } from '~/complex';
+import { asin } from '~/functions/inverseTrigonometric/asin';
+import { subtract } from '~/operations/subtract';
 
 /**
  * Calculates the arccosine (inverse cosine) of a complex number: arccos(z).
@@ -18,6 +18,6 @@ import subtract from '~/operations/subtract';
  * console.log(result.toString()); // => approximately "0 + 0i"
  * ```
  */
-export default function acos(z: Complex) {
+export function acos(z: Complex) {
   return subtract(Complex.HALFPI, asin(z));
 }

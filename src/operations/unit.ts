@@ -1,8 +1,8 @@
-import Complex from '~/complex';
-import isInfinite from '~/operations/isInfinite';
-import isNaNC from '~/operations/isNaNC';
-import isZero from '~/operations/isZero';
-import modulus from '~/operations/modulus';
+import { Complex } from '~/complex';
+import { isInfinite } from '~/operations/isInfinite';
+import { isNaNC } from '~/operations/isNaNC';
+import { isZero } from '~/operations/isZero';
+import { modulus } from '~/operations/modulus';
 
 /**
  * Calculates the unit vector (normalized) of a complex number: z / |z|.
@@ -21,7 +21,7 @@ import modulus from '~/operations/modulus';
  * console.log(argument(u)); // => same as argument(z)
  * ```
  */
-export default function unit(z: Complex) {
+export function unit(z: Complex) {
   if (isNaNC(z) || isZero(z)) return Complex.NAN;
   if (isInfinite(z)) return Complex.INFINITY;
 

@@ -1,4 +1,4 @@
-import Complex from '~/complex';
+import type { Complex } from '~/complex';
 
 /**
  * Checks if a complex number is NaN: z === NaN.
@@ -20,6 +20,6 @@ import Complex from '~/complex';
  * console.log(isNaNC(z3)); // => false
  * ```
  */
-export default function isNaNC(z: Complex) {
+export function isNaNC(z: Complex) {
   return Number.isNaN(z.getRe()) || Number.isNaN(z.getIm());
 }

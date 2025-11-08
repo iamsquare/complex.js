@@ -1,6 +1,6 @@
-export { default as acos } from './acos';
-export { default as acot } from './acot';
-export { default as acsc } from './acsc';
-export { default as asec } from './asec';
-export { default as asin } from './asin';
-export { default as atan } from './atan';
+export { acos } from '~/functions/inverseTrigonometric/acos';
+export { acot } from '~/functions/inverseTrigonometric/acot';
+export { acsc } from '~/functions/inverseTrigonometric/acsc';
+export { asec } from '~/functions/inverseTrigonometric/asec';
+export { asin } from '~/functions/inverseTrigonometric/asin';
+export { atan } from '~/functions/inverseTrigonometric/atan';

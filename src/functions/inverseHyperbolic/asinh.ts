@@ -1,10 +1,10 @@
-import Complex from '~/complex';
-import log from '~/functions/log';
-import sqrt from '~/functions/sqrt';
+import { Complex } from '~/complex';
+import { log } from '~/functions/log';
+import { sqrt } from '~/functions/sqrt';
 import { add } from '~/operations';
-import isInfinite from '~/operations/isInfinite';
-import isNaNC from '~/operations/isNaNC';
-import isZero from '~/operations/isZero';
+import { isInfinite } from '~/operations/isInfinite';
+import { isNaNC } from '~/operations/isNaNC';
+import { isZero } from '~/operations/isZero';
 
 /**
  * Calculates the inverse hyperbolic sine of a complex number: arsinh(z).
@@ -22,7 +22,7 @@ import isZero from '~/operations/isZero';
  * console.log(result.toString()); // => "0"
  * ```
  */
-export default function asinh(z: Complex) {
+export function asinh(z: Complex) {
   if (isInfinite(z) || isNaNC(z)) return Complex.NAN;
   if (isZero(z)) return Complex.ZERO;
 

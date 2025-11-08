@@ -1,4 +1,4 @@
-import Complex from '~/complex';
+import type { Complex } from '~/complex';
 
 /**
  * Calculates the modulus (absolute value) of a complex number: |z|.
@@ -16,6 +16,6 @@ import Complex from '~/complex';
  * console.log(mod); // => 5
  * ```
  */
-export default function modulus(z: Complex) {
+export function modulus(z: Complex) {
   return Math.hypot(z.getRe(), z.getIm());
 }

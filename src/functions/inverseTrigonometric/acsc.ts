@@ -1,6 +1,6 @@
-import Complex from '~/complex';
-import inverse from '~/functions/inverse';
-import asin from '~/functions/inverseTrigonometric/asin';
+import type { Complex } from '~/complex';
+import { inverse } from '~/functions/inverse';
+import { asin } from '~/functions/inverseTrigonometric/asin';
 
 /**
  * Calculates the arccosecant (inverse cosecant) of a complex number: arccsc(z).
@@ -18,6 +18,6 @@ import asin from '~/functions/inverseTrigonometric/asin';
  * console.log(result.toString()); // => approximately "1.571 + 0i" (π/2)
  * ```
  */
-export default function acsc(z: Complex) {
+export function acsc(z: Complex) {
   return asin(inverse(z));
 }

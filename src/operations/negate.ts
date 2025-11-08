@@ -1,7 +1,7 @@
-import Complex from '~/complex';
-import isInfinite from '~/operations/isInfinite';
-import isNaNC from '~/operations/isNaNC';
-import isZero from '~/operations/isZero';
+import { Complex } from '~/complex';
+import { isInfinite } from '~/operations/isInfinite';
+import { isNaNC } from '~/operations/isNaNC';
+import { isZero } from '~/operations/isZero';
 
 /**
  * Negates a complex number: -z.
@@ -18,7 +18,7 @@ import isZero from '~/operations/isZero';
  * console.log(neg.toString()); // => "-3 - 4i"
  * ```
  */
-export default function negate(z: Complex) {
+export function negate(z: Complex) {
   if (isNaNC(z)) return Complex.NAN;
   if (isInfinite(z)) return Complex.INFINITY;
   if (isZero(z)) return Complex.ZERO;

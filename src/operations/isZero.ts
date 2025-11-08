@@ -1,4 +1,4 @@
-import Complex from '~/complex';
+import type { Complex } from '~/complex';
 
 /**
  * Checks if a complex number is zero: z === 0.
@@ -17,6 +17,6 @@ import Complex from '~/complex';
  * console.log(isZero(z2)); // => false
  * ```
  */
-export default function isZero(z: Complex) {
+export function isZero(z: Complex) {
   return z.getRe() === 0 && z.getIm() === 0;
 }

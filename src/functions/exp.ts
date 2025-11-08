@@ -1,4 +1,4 @@
-import Complex from '~/complex';
+import { Complex } from '~/complex';
 import { isInfinite, isNaNC, isZero } from '~/operations';
 
 /**
@@ -17,7 +17,7 @@ import { isInfinite, isNaNC, isZero } from '~/operations';
  * console.log(result.toString()); // => approximately "-2.718 + 0i" (e^1 * e^(iπ) = -e)
  * ```
  */
-export default function exp(z: Complex) {
+export function exp(z: Complex) {
   if (isNaNC(z) || isInfinite(z)) return Complex.NAN;
   if (isZero(z)) return Complex.ONE;
 

@@ -1,7 +1,7 @@
-import Complex from '~/complex';
-import isInfinite from '~/operations/isInfinite';
-import isNaNC from '~/operations/isNaNC';
-import isZero from '~/operations/isZero';
+import { Complex } from '~/complex';
+import { isInfinite } from '~/operations/isInfinite';
+import { isNaNC } from '~/operations/isNaNC';
+import { isZero } from '~/operations/isZero';
 
 /**
  * Divides two complex numbers or a complex number by a real number: z / w.
@@ -28,7 +28,7 @@ import isZero from '~/operations/isZero';
  *
  * @todo Test if this implementation is actually SO better than the original Smith's method.
  */
-export default function divide(z: Complex | number, w: Complex | number) {
+export function divide(z: Complex | number, w: Complex | number) {
   const zc = z instanceof Complex ? z : new Complex(z, 0);
   const wc = w instanceof Complex ? w : new Complex(w, 0);
 

@@ -1,4 +1,4 @@
-import Complex from '~/complex';
+import { Complex } from '~/complex';
 import { isInfinite, isNaNC, isZero } from '~/operations';
 
 /**
@@ -17,7 +17,7 @@ import { isInfinite, isNaNC, isZero } from '~/operations';
  * console.log(result.toString()); // => "1"
  * ```
  */
-export default function sec(z: Complex) {
+export function sec(z: Complex) {
   if (isInfinite(z) || isNaNC(z)) return Complex.NAN;
   if (isZero(z)) return Complex.ONE;
 

@@ -1,6 +1,6 @@
-import Complex from '~/complex';
-import inverse from '~/functions/inverse';
-import acos from '~/functions/inverseTrigonometric/acos';
+import type { Complex } from '~/complex';
+import { inverse } from '~/functions/inverse';
+import { acos } from '~/functions/inverseTrigonometric/acos';
 
 /**
  * Calculates the arcsecant (inverse secant) of a complex number: arcsec(z).
@@ -18,6 +18,6 @@ import acos from '~/functions/inverseTrigonometric/acos';
  * console.log(result.toString()); // => approximately "0 + 0i"
  * ```
  */
-export default function asec(z: Complex) {
+export function asec(z: Complex) {
   return acos(inverse(z));
 }

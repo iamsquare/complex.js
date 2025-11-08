@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest';
 
-import { Cartesian, isCartesian, isPolar, Polar } from '~/helpers';
+import { type Cartesian, isCartesian, isPolar, type Polar } from '~/helpers';
 import { Complex } from '~/index';
 
 const ONE = Complex.ONE;

@@ -1,6 +1,6 @@
-import Complex from '~/complex';
-import isInfinite from '~/operations/isInfinite';
-import isNaNC from '~/operations/isNaNC';
+import type { Complex } from '~/complex';
+import { isInfinite } from '~/operations/isInfinite';
+import { isNaNC } from '~/operations/isNaNC';
 
 /**
  * Gets the argument (phase angle) of a complex number: arg(z).
@@ -19,7 +19,7 @@ import isNaNC from '~/operations/isNaNC';
  * console.log(arg); // => ~0.785 (π/4 radians)
  * ```
  */
-export default function argument(z: Complex) {
+export function argument(z: Complex) {
   if (isNaNC(z)) return NaN;
   if (isInfinite(z)) return Infinity;
 

@@ -1,4 +1,4 @@
-import Complex from '~/complex';
+import { Complex } from '~/complex';
 import { argument, equals, isInfinite, isNaNC, isZero, modulus } from '~/operations';
 
 /**
@@ -21,7 +21,7 @@ import { argument, equals, isInfinite, isNaNC, isZero, modulus } from '~/operati
  * console.log(result2.toString()); // => approximately "0 + 1.571i" (iπ/2)
  * ```
  */
-export default function log(z: Complex) {
+export function log(z: Complex) {
   if (isNaNC(z) || isZero(z)) return Complex.NAN;
   if (isInfinite(z)) return Complex.INFINITY;
   if (equals(z, Complex.ONE)) return Complex.ZERO;

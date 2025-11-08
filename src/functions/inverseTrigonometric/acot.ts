@@ -1,6 +1,6 @@
-import Complex from '~/complex';
-import atan from '~/functions/inverseTrigonometric/atan';
-import subtract from '~/operations/subtract';
+import { Complex } from '~/complex';
+import { atan } from '~/functions/inverseTrigonometric/atan';
+import { subtract } from '~/operations/subtract';
 
 /**
  * Calculates the arccotangent (inverse cotangent) of a complex number: arccot(z).
@@ -18,6 +18,6 @@ import subtract from '~/operations/subtract';
  * console.log(result.toString()); // => approximately "0.785 + 0i" (π/4)
  * ```
  */
-export default function acot(z: Complex) {
+export function acot(z: Complex) {
   return subtract(Complex.HALFPI, atan(z));
 }

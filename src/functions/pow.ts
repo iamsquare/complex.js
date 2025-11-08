@@ -1,4 +1,4 @@
-import Complex from '~/complex';
+import { Complex } from '~/complex';
 import { argument, equals, isInfinite, isZero, multiply, notEquals, pythagoras } from '~/operations';
 
 /**
@@ -24,7 +24,7 @@ import { argument, equals, isInfinite, isZero, multiply, notEquals, pythagoras }
  * console.log(result2.toString()); // => same as above
  * ```
  */
-export default function pow(z: Complex | number, w: Complex | number) {
+export function pow(z: Complex | number, w: Complex | number) {
   const zc = z instanceof Complex ? z : new Complex(z, 0);
   const wc = w instanceof Complex ? w : new Complex(w, 0);
 

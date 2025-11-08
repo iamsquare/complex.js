@@ -1,6 +1,6 @@
-import Complex from '~/complex';
-import inverse from '~/functions/inverse';
-import asinh from '~/functions/inverseHyperbolic/asinh';
+import type { Complex } from '~/complex';
+import { inverse } from '~/functions/inverse';
+import { asinh } from '~/functions/inverseHyperbolic/asinh';
 
 /**
  * Calculates the inverse hyperbolic cosecant of a complex number: arcsch(z).
@@ -18,6 +18,6 @@ import asinh from '~/functions/inverseHyperbolic/asinh';
  * console.log(result.toString()); // => approximately "0.881 + 0i"
  * ```
  */
-export default function acsch(z: Complex) {
+export function acsch(z: Complex) {
   return asinh(inverse(z));
 }

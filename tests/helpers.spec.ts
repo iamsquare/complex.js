@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest';
 
-import { Cartesian, isCartesian, isPolar, Polar } from '~/index';
+import { type Cartesian, isCartesian, isPolar, type Polar } from '~/index';
 
 describe('Helpers', () => {
   test('They should exist', () => {

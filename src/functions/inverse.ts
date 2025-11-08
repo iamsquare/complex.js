@@ -1,4 +1,4 @@
-import Complex from '~/complex';
+import { Complex } from '~/complex';
 import { isInfinite, isNaNC, isZero } from '~/operations';
 
 /**
@@ -17,7 +17,7 @@ import { isInfinite, isNaNC, isZero } from '~/operations';
  * console.log(product.toString()); // => approximately "1 + 0i"
  * ```
  */
-export default function inverse(z: Complex) {
+export function inverse(z: Complex) {
   if (isNaNC(z)) return Complex.NAN;
   if (isInfinite(z)) return Complex.ZERO;
   if (isZero(z)) return Complex.INFINITY;

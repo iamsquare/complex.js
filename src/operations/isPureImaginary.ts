@@ -1,4 +1,4 @@
-import Complex from '~/complex';
+import type { Complex } from '~/complex';
 
 /**
  * Checks if a complex number is purely imaginary (has zero real part and non-zero imaginary part).
@@ -21,6 +21,6 @@ import Complex from '~/complex';
  * console.log(isPureImaginary(z3)); // => false (zero is not purely imaginary)
  * ```
  */
-export default function isPureImaginary(z: Complex) {
+export function isPureImaginary(z: Complex) {
   return z.getRe() === 0 && z.getIm() !== 0;
 }

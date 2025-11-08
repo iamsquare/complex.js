@@ -1,8 +1,8 @@
-import Complex from '~/complex';
-import log from '~/functions/log';
-import isInfinite from '~/operations/isInfinite';
-import isNaNC from '~/operations/isNaNC';
-import isZero from '~/operations/isZero';
+import { Complex } from '~/complex';
+import { log } from '~/functions/log';
+import { isInfinite } from '~/operations/isInfinite';
+import { isNaNC } from '~/operations/isNaNC';
+import { isZero } from '~/operations/isZero';
 
 /**
  * Calculates the arctangent (inverse tangent) of a complex number: arctan(z).
@@ -20,7 +20,7 @@ import isZero from '~/operations/isZero';
  * console.log(result.toString()); // => approximately "0.785 + 0i" (π/4)
  * ```
  */
-export default function atan(z: Complex) {
+export function atan(z: Complex) {
   if (isInfinite(z) || isNaNC(z)) return Complex.NAN;
   if (isZero(z)) return Complex.ZERO;
 

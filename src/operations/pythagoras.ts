@@ -1,4 +1,4 @@
-import Complex from '~/complex';
+import type { Complex } from '~/complex';
 
 /**
  * Calculates the modulus squared (magnitude squared) of a complex number: |z|².
@@ -16,6 +16,6 @@ import Complex from '~/complex';
  * console.log(modSquared); // => 25
  * ```
  */
-export default function pythagoras(z: Complex) {
+export function pythagoras(z: Complex) {
   return z.getRe() * z.getRe() + z.getIm() * z.getIm();
 }

@@ -1,6 +1,6 @@
-import Complex from '~/complex';
-import inverse from '~/functions/inverse';
-import atanh from '~/functions/inverseHyperbolic/atanh';
+import type { Complex } from '~/complex';
+import { inverse } from '~/functions/inverse';
+import { atanh } from '~/functions/inverseHyperbolic/atanh';
 
 /**
  * Calculates the inverse hyperbolic cotangent of a complex number: arcoth(z).
@@ -18,6 +18,6 @@ import atanh from '~/functions/inverseHyperbolic/atanh';
  * console.log(result.toString()); // => approximately "0.549 + 0i"
  * ```
  */
-export default function acoth(z: Complex) {
+export function acoth(z: Complex) {
   return atanh(inverse(z));
 }

@@ -1,6 +1,6 @@
-import Complex from '~/complex';
-import isInfinite from '~/operations/isInfinite';
-import isNaNC from '~/operations/isNaNC';
+import { Complex } from '~/complex';
+import { isInfinite } from '~/operations/isInfinite';
+import { isNaNC } from '~/operations/isNaNC';
 
 /**
  * Checks if two complex numbers are equal: z === w.
@@ -23,7 +23,7 @@ import isNaNC from '~/operations/isNaNC';
  * console.log(equals(z1, z3)); // => true (within epsilon)
  * ```
  */
-export default function equals(z: Complex, w: Complex) {
+export function equals(z: Complex, w: Complex) {
   if (isInfinite(z) && isInfinite(w)) return true;
   if (isNaNC(z) || isNaNC(w)) return false;
 

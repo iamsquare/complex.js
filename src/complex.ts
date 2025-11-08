@@ -1,13 +1,13 @@
 // TODO: test and fix eventual precision errors
 // TODO: add rounding function
 
-import { Cartesian, isCartesian, isPolar, Polar } from '~/helpers';
-import argument from '~/operations/argument';
-import isInfinite from '~/operations/isInfinite';
-import isNaNC from '~/operations/isNaNC';
-import isReal from '~/operations/isReal';
-import isZero from '~/operations/isZero';
-import modulus from '~/operations/modulus';
+import { type Cartesian, isCartesian, isPolar, type Polar } from '~/helpers';
+import { argument } from '~/operations/argument';
+import { isInfinite } from '~/operations/isInfinite';
+import { isNaNC } from '~/operations/isNaNC';
+import { isReal } from '~/operations/isReal';
+import { isZero } from '~/operations/isZero';
+import { modulus } from '~/operations/modulus';
 
 /**
  * A class that represents complex numbers and provides operations for working with them.
@@ -30,7 +30,7 @@ import modulus from '~/operations/modulus';
  * const z4 = new Complex(z1);
  * ```
  */
-export default class Complex {
+export class Complex {
   /**
    * Creates an instance of Complex from another Complex number.
    *

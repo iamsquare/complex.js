@@ -1,5 +1,5 @@
-import Complex from '~/complex';
-import isNaNC from '~/operations/isNaNC';
+import type { Complex } from '~/complex';
+import { isNaNC } from '~/operations/isNaNC';
 
 /**
  * Checks if a complex number is infinite: z === ∞.
@@ -22,6 +22,6 @@ import isNaNC from '~/operations/isNaNC';
  * console.log(isInfinite(z3)); // => false
  * ```
  */
-export default function isInfinite(z: Complex) {
+export function isInfinite(z: Complex) {
   return !isNaNC(z) && (!Number.isFinite(z.getRe()) || !Number.isFinite(z.getIm()));
 }
