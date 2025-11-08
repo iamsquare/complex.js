@@ -1,6 +1,6 @@
 {
   "name": "@iamsquare/complex.js",
-  "version": "1.0.4",
+  "version": "2.0.0",
   "description": "A simple complex numbers library written in Typescript",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.mjs",
@@ -37,7 +37,7 @@
     "math",
     "library"
   ],
-  "author": "squaremarco",
+  "author": "squaremarco <sq@iamsquare.it>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/iamsquare/complex.js/issues"
@@ -74,9 +74,6 @@
   },
   "directories": {
     "dist": "dist"
-  },
-  "publishConfig": {
-    "access": "public"
   },
   "packageManager": "pnpm@10.20.0",
   "pnpm": {

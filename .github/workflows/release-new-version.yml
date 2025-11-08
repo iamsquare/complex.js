@@ -1,0 +1,140 @@
+name: Release New Version
+
+on:
+  push:
+    tags:
+      - "*"
+  pull_request:
+  workflow_dispatch:
+
+env:
+  HUSKY: 0
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - shell: bash
+        id: pnpm-store
+        run: echo value=$(pnpm store path) >> $GITHUB_OUTPUT
+
+      - id: pnpm-cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.pnpm-store.outputs.value }}
+          key: pnpm-store-${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            pnpm-store-${{ runner.os }}-
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run tests
+        run: pnpm test
+
+      - name: Build
+        run: pnpm build
+
+      - name: Pack package
+        run: pnpm pack
+
+      - name: Upload package artifact
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: package
+          path: "iamsquare-complex.js-*.tgz"
+          retention-days: 1
+
+  deploy-pages:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - name: Generate documentation
+        working-directory: ./docusaurus
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm build
+
+      - name: Upload docs artifact
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: docs
+          path: ./docusaurus/build
+          retention-days: 1
+
+      - name: Download docs artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: docs
+          path: ./docs
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs
+
+  publish-github:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          registry-url: "https://npm.pkg.github.com"
+          scope: "@iamsquare"
+
+      - name: Download package artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: package
+          path: .
+
+      - name: Publish to GitHub Packages
+        run: |
+          PACKAGE_FILE=$(ls iamsquare-complex.js-*.tgz)
+          npm publish "$PACKAGE_FILE" --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # publish-npm:
+  #   needs: build
+  #   runs-on: ubuntu-latest
+  #   permissions:
+  #     contents: read
+  #     id-token: write
+  #   steps:
+  #     - name: Download package artifact
+  #       uses: actions/download-artifact@v4
+  #       with:
+  #         name: package
+  #         path: .
+
+  #     - name: Setup Node.js
+  #       uses: actions/setup-node@v4
+
+  #     - name: Publish to npm
+  #       run: |
+  #         PACKAGE_FILE=$(ls iamsquare-complex.js-*.tgz)
+  #         npm publish "$PACKAGE_FILE" --access public
+  #       env:
+  #         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

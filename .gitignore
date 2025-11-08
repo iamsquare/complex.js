@@ -5,6 +5,7 @@ node_modules
 dist
 coverage
 temp
+iamsquare-complex.js-*.tgz
 
 # TypeScript
 tsconfig.*.tsbuildinfo
