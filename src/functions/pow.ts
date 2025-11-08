@@ -14,6 +14,7 @@ export default function pow(z: Complex | number, w: Complex | number) {
   if ((equals(zc, Complex.ONE) && isInfinite(wc)) || (isZero(zc) && isZero(wc)) || (isInfinite(zc) && isZero(wc))) {
     return Complex.NAN;
   }
+
   const c = wc.getRe();
   const d = wc.getIm();
 

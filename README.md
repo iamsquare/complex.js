@@ -53,6 +53,25 @@ import { Complex, add, log, pow, asinh, ...} from '@iamsquare/complex.js';
 
 The library documentation can be found [here](https://complex-js.iamsquare.it).
 
+### Documentation Website
+
+The documentation website is built using [Docusaurus](https://docusaurus.io/). To work with the documentation locally:
+
+```bash
+cd documentation
+pnpm install
+pnpm start
+```
+
+This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
+
+To build the documentation:
+
+```bash
+cd documentation
+pnpm build
+```
+
 ## Examples
 
 ### Declaration
