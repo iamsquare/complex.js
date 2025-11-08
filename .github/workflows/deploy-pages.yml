@@ -40,8 +40,7 @@ jobs:
 
       - name: Generate documentation
         working-directory: ./docusaurus
-        run: |
-          pnpm install --frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
       - id: docusaurus-cache
         uses: actions/cache@v4
@@ -56,22 +55,7 @@ jobs:
 
       - name: Build documentation
         working-directory: ./docusaurus
-        run: |
-          pnpm build
-
-      - name: Upload docs artifact
-        if: success()
-        uses: actions/upload-artifact@v4
-        with:
-          name: docs
-          path: ./docusaurus/build
-          retention-days: 1
-
-      - name: Download docs artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: docs
-          path: ./docs
+        run: pnpm build
 
       - name: Setup Pages
         uses: actions/configure-pages@v5

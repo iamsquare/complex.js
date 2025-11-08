@@ -50,7 +50,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: package
-          path: "*.tgz"
+          path: dist
           retention-days: 1
 
   publish-github:
@@ -71,7 +71,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: package
-          path: .
+          path: dist
 
       - name: Publish to GitHub Packages
         run: npm publish --access public
@@ -96,7 +96,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: package
-          path: .
+          path: dist
 
       - name: Publish to npm
         run: npm publish --access public
