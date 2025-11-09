@@ -1,3 +1,5 @@
+import { Complex } from '~/complex';
+
 const isNumber = (x: unknown): x is number => typeof x === 'number';
 const isNullish = (x: unknown): x is null | undefined => x === undefined || x === null;
 const isObject = (x: unknown): x is Record<string, unknown> => typeof x === 'object' && x !== null;
@@ -82,13 +84,13 @@ export function addStable(x: number, y: number): number {
   const xAbs = Math.abs(x);
   const yAbs = Math.abs(y);
 
-  // If magnitudes are similar, add directly
-  if (xAbs === 0) return y;
-  if (yAbs === 0) return x;
+  const xIsZero = isApproximatelyEqual(xAbs, 0);
+  const yIsZero = isApproximatelyEqual(yAbs, 0);
 
-  // If magnitudes are very different (ratio < 0.1), add smaller to larger
-  // Otherwise, add directly (they're similar enough)
-  return Math.min(xAbs, yAbs) / Math.max(xAbs, yAbs) < 0.1 ? (xAbs < yAbs ? y + x : x + y) : x + y;
+  if (xIsZero) return yIsZero ? 0 : y;
+  if (yIsZero) return xIsZero ? 0 : x;
+
+  return Math.min(xAbs, yAbs) < 0.1 * Math.max(xAbs, yAbs) ? (xAbs < yAbs ? y + x : x + y) : x + y;
 }
 
 /**
@@ -105,20 +107,54 @@ export function subtractStable(x: number, y: number): number {
   const xAbs = Math.abs(x);
   const yAbs = Math.abs(y);
 
-  if (xAbs === 0) return y === 0 ? 0 : -y;
-  if (yAbs === 0) return x;
+  const xIsZero = isApproximatelyEqual(xAbs, 0);
+  const yIsZero = isApproximatelyEqual(yAbs, 0);
+
+  if (xIsZero) return yIsZero ? 0 : -y;
+  if (yIsZero) return xIsZero ? 0 : x;
 
   const minAbs = Math.min(xAbs, yAbs);
   const maxAbs = Math.max(xAbs, yAbs);
 
-  // If magnitudes are similar, use stable subtraction by subtracting a common value
-  if (minAbs / maxAbs > 0.5) {
-    // Choose the value with smaller absolute magnitude as the common value to subtract
-    // This minimizes the magnitude of the intermediate results
+  if (minAbs > 0.5 * maxAbs) {
     const m = xAbs < yAbs ? x : y;
 
     return x - m - (y - m);
   }
 
   return x - y;
+}
+
+/**
+ * Checks if two floating-point numbers are approximately equal using a combination
+ * of absolute and relative error. This is more robust than simple epsilon comparison.
+ *
+ * For values near zero, uses absolute error: |a - b| < ε
+ * For values away from zero, uses relative error: |a - b| < ε · max(|a|, |b|)
+ *
+ * @param a - First number
+ * @param b - Second number
+ * @param epsilon - Maximum allowed error (defaults to Complex.EPSILON)
+ * @returns True if numbers are approximately equal
+ *
+ * @example
+ * ```typescript
+ * isApproximatelyEqual(0.1 + 0.2, 0.3); // => true
+ * isApproximatelyEqual(1, 1.0001, 0.001); // => true
+ * isApproximatelyEqual(1, 2); // => false
+ * ```
+ */
+export function isApproximatelyEqual(a: number, b: number, epsilon: number = Complex.EPSILON): boolean {
+  if (Number.isNaN(a) || Number.isNaN(b)) return false;
+  if (!Number.isFinite(a) || !Number.isFinite(b)) return a === b;
+
+  if (a === b) return true;
+
+  const absA = Math.abs(a);
+  const absB = Math.abs(b);
+  const maxAbs = Math.max(absA, absB);
+
+  if (maxAbs < 1) return Math.abs(a - b) < epsilon;
+
+  return Math.abs(a - b) < epsilon * maxAbs;
 }

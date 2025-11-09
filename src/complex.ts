@@ -1,6 +1,3 @@
-// TODO: test and fix eventual precision errors
-// TODO: add rounding function
-
 import { type Cartesian, isCartesian, isPolar, type Polar } from '~/helpers';
 import { isPureImaginary } from '~/operations';
 import { argument } from '~/operations/argument';
@@ -190,7 +187,7 @@ export class Complex {
 
     const sign = this.im > 0 ? ' + ' : ' - ';
 
-    return `${this.re}${sign}${this.im} i`;
+    return `${this.re}${sign}${Math.abs(this.im)} i`;
   }
 
   /**

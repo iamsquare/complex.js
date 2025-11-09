@@ -6,9 +6,14 @@ sidebar_position: 3
 
 Type checking operations help identify special properties of complex numbers.
 
+All comparison operations use epsilon-based floating-point comparison that combines absolute and relative error to handle precision errors robustly.
+
 ## isReal
 
 Checks if a complex number is a real number (has zero imaginary part).
+
+A complex number is real if its imaginary part is approximately zero (within epsilon tolerance),
+meaning it lies on the real axis.
 
 ```typescript
 isReal(z: Complex): boolean
@@ -20,7 +25,7 @@ isReal(z: Complex): boolean
 
 ### Returns
 
-`true` if the number is real (imaginary part is zero), `false` otherwise.
+`true` if the number is real (imaginary part is approximately zero), `false` otherwise.
 
 ### Example
 
@@ -39,8 +44,8 @@ console.log(isReal(w)); // => false
 
 Checks if a complex number is purely imaginary (has zero real part and non-zero imaginary part).
 
-A complex number is purely imaginary if its real part is exactly zero and its imaginary part is non-zero.
-Note that zero (0 + 0i) is not considered purely imaginary.
+A complex number is purely imaginary if its real part is approximately zero (within epsilon tolerance)
+and its imaginary part is not approximately zero. Note that zero (0 + 0i) is not considered purely imaginary.
 
 ```typescript
 isPureImaginary(z: Complex): boolean
@@ -52,7 +57,7 @@ isPureImaginary(z: Complex): boolean
 
 ### Returns
 
-`true` if z is purely imaginary (real part is zero and imaginary part is non-zero), `false` otherwise.
+`true` if z is purely imaginary (real part is approximately zero and imaginary part is not approximately zero), `false` otherwise.
 
 ### Example
 
@@ -73,7 +78,10 @@ console.log(isPureImaginary(z3)); // => false (zero is not purely imaginary)
 
 ## isZero
 
-Checks if a complex number is zero.
+Checks if a complex number is zero: $z = 0$.
+
+A complex number is zero if both its real and imaginary parts are approximately zero
+(within epsilon tolerance).
 
 ```typescript
 isZero(z: Complex): boolean
@@ -85,7 +93,7 @@ isZero(z: Complex): boolean
 
 ### Returns
 
-`true` if the number is zero (both real and imaginary parts are zero), `false` otherwise.
+`true` if the number is zero (both real and imaginary parts are approximately zero), `false` otherwise.
 
 ### Example
 

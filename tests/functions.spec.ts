@@ -54,6 +54,9 @@ describe('Functions', () => {
     });
 
     describe('Special Cases', () => {
+      test('Zero', () => {
+        expect(sqrt(ZERO)).toEqual(ZERO);
+      });
       test('Infinity', () => {
         expect(sqrt(INFINITY)).toEqual(INFINITY);
       });
@@ -77,6 +80,9 @@ describe('Functions', () => {
       test('Zero', () => {
         expect(log(ZERO)).toEqual(NAN);
       });
+      test('One', () => {
+        expect(log(ONE)).toEqual(ZERO);
+      });
       test('Infinity', () => {
         expect(log(INFINITY)).toEqual(INFINITY);
       });
@@ -89,6 +95,7 @@ describe('Functions', () => {
   describe('Exponential', () => {
     const ez: Complex = exp(z);
     const ew: Complex = exp(w);
+
     test('exp(z)', () => {
       expect(ez.getRe()).toBeCloseTo(1.468693939915885, 15);
       expect(ez.getIm()).toBeCloseTo(2.287355287178842, 15);
@@ -113,6 +120,7 @@ describe('Functions', () => {
     const ez: Complex = pow(z, w);
     const en: Complex = pow(z, 3);
     const ei: Complex = pow(z, new Complex(0, 4));
+
     test('z^w', () => {
       expect(ez.getRe()).toBeCloseTo(-0.163450932107355, 15);
       expect(ez.getIm()).toBeCloseTo(0.0960049836089489, 15);
@@ -153,6 +161,12 @@ describe('Functions', () => {
 
       test('z^∞', () => {
         expect(pow(z, INFINITY)).toEqual(INFINITY);
+      });
+
+      test('pow with number arguments', () => {
+        expect(pow(2, 3)).toEqual(new Complex(8, 0));
+        expect(pow(z, 2)).toEqual(new Complex(0, 2));
+        expect(pow(2, z)).toEqual(new Complex(1.5384778027279442, 1.2779225526272695));
       });
     });
   });
@@ -476,6 +490,10 @@ describe('Functions', () => {
       });
 
       describe('Special Cases', () => {
+        test('Zero', () => {
+          expect(sinh(ZERO)).toEqual(ZERO);
+        });
+
         test('Infinity', () => {
           expect(sinh(INFINITY)).toEqual(NAN);
         });

@@ -1,12 +1,14 @@
 import type { Complex } from '~/complex';
+import { isApproximatelyEqual } from '~/helpers';
 
 /**
  * Checks if a complex number is a real number (has zero imaginary part).
  *
- * A complex number is real if its imaginary part is exactly zero, meaning it lies on the real axis.
+ * A complex number is real if its imaginary part is approximately zero (within epsilon tolerance),
+ * meaning it lies on the real axis.
  *
  * @param z - The complex number to check.
- * @returns `true` if z is a real number (imaginary part is zero), `false` otherwise.
+ * @returns `true` if z is a real number, `false` otherwise.
  *
  * @example
  * ```typescript
@@ -18,5 +20,5 @@ import type { Complex } from '~/complex';
  * ```
  */
 export function isReal(z: Complex) {
-  return z.getIm() === 0;
+  return isApproximatelyEqual(z.getIm(), 0);
 }

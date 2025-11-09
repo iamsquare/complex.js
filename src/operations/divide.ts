@@ -1,14 +1,17 @@
 import { Complex } from '~/complex';
-import { addStable, subtractStable } from '~/helpers';
+import { isApproximatelyEqual } from '~/helpers';
 import { isInfinite } from '~/operations/isInfinite';
 import { isNaNC } from '~/operations/isNaNC';
 import { isZero } from '~/operations/isZero';
+import { multiply } from '~/operations/multiply';
 
 /**
  * Divides two complex numbers or a complex number by a real number: z / w.
  *
- * Uses a [modified Smith's Method](http://forge.scilab.org/index.php/p/compdiv/source/tree/21/doc/improved_cdiv.pdf)
- * to avoid numerical overflow and underflow issues in complex division.
+ * Uses a [modified Smith's Method](http://www.finetune.co.jp/~lyuka/technote/cdiv/cdiv.html)
+ * to avoid numerical overflow and underflow issues in complex division. The implementation uses
+ * numerically stable addition and subtraction algorithms, along with scaling techniques to handle
+ * extreme values, to further improve precision and robustness.
  * Also accepts real numbers, which are treated as complex numbers with zero imaginary part.
  *
  * @param z - The complex number to divide (dividend).
@@ -26,8 +29,6 @@ import { isZero } from '~/operations/isZero';
  * const realQuotient = divide(z, 2);
  * console.log(realQuotient.toString()); // => "0.5 + 1i"
  * ```
- *
- * @todo Test if this implementation is actually SO better than the original Smith's method.
  */
 export function divide(z: Complex | number, w: Complex | number) {
   const zc = z instanceof Complex ? z : new Complex(z, 0);
@@ -36,33 +37,50 @@ export function divide(z: Complex | number, w: Complex | number) {
   if ((isZero(zc) && isZero(wc)) || (isInfinite(zc) && isInfinite(wc)) || isNaNC(zc) || isNaNC(wc)) {
     return Complex.NAN;
   }
-
   if (isInfinite(zc) || isZero(wc)) return Complex.INFINITY;
   if (isZero(zc) || isInfinite(wc)) return Complex.ZERO;
 
-  const a = zc.getRe();
-  const b = zc.getIm();
-  const c = wc.getRe();
-  const d = wc.getIm();
+  const overflowBoundary = Number.MAX_VALUE / 2;
+  const underflowBoundary = (Number.MIN_VALUE * 2) / Number.EPSILON;
+  const scalingFactor = 2 / (Number.EPSILON * Number.EPSILON);
 
-  let r;
-  let t;
+  const AB = Math.max(Math.abs(zc.getRe()), Math.abs(zc.getIm()));
+  const CD = Math.max(Math.abs(wc.getRe()), Math.abs(wc.getIm()));
 
-  if (Math.abs(d) < Math.abs(c)) {
-    r = d / c;
-    t = 1 / addStable(c, d * r);
+  const xScaleDown = AB >= overflowBoundary ? 2 : 1;
+  const yScaleDown = CD >= overflowBoundary ? 0.5 : 1;
+  const xScaleUp = AB < underflowBoundary ? 1 / scalingFactor : 1;
+  const yScaleUp = CD < underflowBoundary ? scalingFactor : 1;
 
-    if (r === 0) {
-      return new Complex(addStable(a, d * (b / c)) * t, subtractStable(b, d * (a / c)) * t);
-    }
-    return new Complex(addStable(a, b * r) * t, subtractStable(b, a * r) * t);
+  const scaledX = multiply(zc, xScaleDown * xScaleUp);
+  const scaledY = multiply(wc, yScaleDown * yScaleUp);
+  const scale = xScaleDown * yScaleDown * xScaleUp * yScaleUp;
+
+  if (Math.abs(scaledY.getIm()) <= Math.abs(scaledY.getRe())) {
+    const r = scaledY.getIm() / scaledY.getRe();
+    const t = scaledY.getRe() + scaledY.getIm() * r;
+
+    return multiply(
+      isApproximatelyEqual(r, 0)
+        ? new Complex(
+            (scaledX.getRe() + scaledY.getIm() * (scaledX.getIm() / scaledY.getRe())) / t,
+            (scaledX.getIm() - scaledY.getIm() * (scaledX.getRe() / scaledY.getRe())) / t,
+          )
+        : new Complex((scaledX.getRe() + scaledX.getIm() * r) / t, (scaledX.getIm() - scaledX.getRe() * r) / t),
+      scale,
+    );
+  } else {
+    const r = scaledY.getRe() / scaledY.getIm();
+    const t = scaledY.getRe() * r + scaledY.getIm();
+
+    return multiply(
+      isApproximatelyEqual(r, 0)
+        ? new Complex(
+            (scaledY.getRe() * (scaledX.getRe() / scaledY.getIm()) + scaledX.getIm()) / t,
+            (scaledY.getRe() * (scaledX.getIm() / scaledY.getIm()) - scaledX.getRe()) / t,
+          )
+        : new Complex((scaledX.getRe() * r + scaledX.getIm()) / t, (scaledX.getIm() * r - scaledX.getRe()) / t),
+      scale,
+    );
   }
-
-  r = c / d;
-  t = 1 / addStable(c * r, d);
-
-  if (r === 0) {
-    return new Complex(addStable(c * (a / d), b) * t, subtractStable(c * (b / d), a) * t);
-  }
-  return new Complex(addStable(a * r, b) * t, subtractStable(b * r, a) * t);
 }

@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest';
 
-import { Complex } from '~/index';
+import { Complex } from '~/complex';
 import {
   add,
   argument,
@@ -22,413 +22,560 @@ import {
   unit,
 } from '~/operations';
 
-const NAN = Complex.NAN;
-const INFINITY = Complex.INFINITY;
 const ZERO = Complex.ZERO;
 const ONE = Complex.ONE;
 const I = Complex.I;
+const INFINITY = Complex.INFINITY;
+const NAN = Complex.NAN;
+
+const labels = {
+  NAN: 'Complex.NAN',
+  INFINITY: 'Complex.INFINITY',
+  ZERO: 'Complex.ZERO',
+  ONE: 'Complex.ONE',
+  I: 'Complex.I',
+  z: 'z',
+} as const;
+
+const getLabel = (input: Complex): string => {
+  if (isNaNC(input)) return labels.NAN;
+  if (isInfinite(input)) return labels.INFINITY;
+  if (equals(input, ZERO)) return labels.ZERO;
+  if (equals(input, ONE)) return labels.ONE;
+  if (equals(input, I)) return labels.I;
+  return labels.z;
+};
 
 describe('Operators', () => {
   const z: Complex = new Complex(1, 1);
   const w: Complex = new Complex(2, 3);
 
   describe('Addition', () => {
-    test('z + w', () => {
-      const c: Complex = add(z, w);
-      expect(c.getRe()).toEqual(3);
-      expect(c.getIm()).toEqual(4);
+    test('adds two complex numbers', () => {
+      const result = add(z, w);
+
+      expect(result.getRe()).toBe(3);
+      expect(result.getIm()).toBe(4);
     });
 
     describe('Special Cases', () => {
-      test('Infinite + Infinite', () => {
-        expect(add(INFINITY, INFINITY)).toEqual(NAN);
-      });
+      const testCases = [
+        { a: INFINITY, b: INFINITY, expected: NAN },
+        { a: z, b: INFINITY, expected: INFINITY },
+        { a: NAN, b: NAN, expected: NAN },
+        { a: z, b: NAN, expected: NAN },
+      ];
 
-      test('Value + Infinite', () => {
-        expect(add(z, INFINITY)).toEqual(INFINITY);
-      });
-
-      test('NaN + NaN', () => {
-        expect(add(NAN, NAN)).toEqual(NAN);
-      });
-
-      test('Value + NaN', () => {
-        expect(add(z, NAN)).toEqual(NAN);
+      testCases.forEach(({ a, b, expected }) => {
+        test(`add(${getLabel(a)}, ${getLabel(b)})`, () => {
+          expect(add(a, b)).toEqual(expected);
+        });
       });
     });
   });
 
   describe('Subtraction', () => {
-    test('z - w', () => {
-      const c: Complex = subtract(z, w);
-      expect(c.getRe()).toEqual(-1);
-      expect(c.getIm()).toEqual(-2);
+    test('subtracts two complex numbers', () => {
+      const result = subtract(z, w);
+
+      expect(result.getRe()).toBe(-1);
+      expect(result.getIm()).toBe(-2);
     });
 
     describe('Special Cases', () => {
-      test('Infinite - Infinite', () => {
-        expect(subtract(INFINITY, INFINITY)).toEqual(NAN);
-      });
+      const testCases = [
+        { a: INFINITY, b: INFINITY, expected: NAN },
+        { a: z, b: INFINITY, expected: INFINITY },
+        { a: NAN, b: NAN, expected: NAN },
+        { a: z, b: NAN, expected: NAN },
+      ];
 
-      test('Value - Infinite', () => {
-        expect(subtract(z, INFINITY)).toEqual(INFINITY);
-      });
-
-      test('NaN - NaN', () => {
-        expect(subtract(NAN, NAN)).toEqual(NAN);
-      });
-
-      test('Value - NaN', () => {
-        expect(subtract(z, NAN)).toEqual(NAN);
+      testCases.forEach(({ a, b, expected }) => {
+        test(`subtract(${getLabel(a)}, ${getLabel(b)})`, () => {
+          expect(subtract(a, b)).toEqual(expected);
+        });
       });
     });
   });
 
   describe('Sum', () => {
-    test('sum(z, w)', () => {
-      const c: Complex = sum(z, w);
-      expect(c.getRe()).toEqual(3);
-      expect(c.getIm()).toEqual(4);
+    test('sums two complex numbers', () => {
+      const result = sum(z, w);
+
+      expect(result.getRe()).toBe(3);
+      expect(result.getIm()).toBe(4);
     });
 
-    test('sum(z, w, z)', () => {
-      const c: Complex = sum(z, w, z);
-      expect(c.getRe()).toEqual(4);
-      expect(c.getIm()).toEqual(5);
+    test('sums multiple complex numbers', () => {
+      const result = sum(z, w, z);
+
+      expect(result.getRe()).toBe(4);
+      expect(result.getIm()).toBe(5);
     });
 
-    test('sum() - no arguments', () => {
-      const c: Complex = sum();
-      expect(c).toEqual(ZERO);
+    test('returns zero for no arguments', () => {
+      expect(sum()).toEqual(ZERO);
     });
 
-    test('sum(z) - single argument', () => {
-      const c: Complex = sum(z);
-      expect(c).toEqual(z);
+    test('returns the argument for single argument', () => {
+      expect(sum(z)).toEqual(z);
     });
 
-    test('sum with negate - z + (-z) = 0', () => {
-      const negatedZ = negate(z);
-      const c: Complex = sum(z, negatedZ);
-      expect(c).toEqual(ZERO);
+    test('sums with negated values to zero', () => {
+      expect(sum(z, negate(z))).toEqual(ZERO);
     });
 
-    test('sum with negate - multiple numbers', () => {
-      const negatedZ = negate(z);
-      const negatedW = negate(w);
-      const c: Complex = sum(z, w, negatedZ, negatedW);
-      expect(c).toEqual(ZERO);
+    test('sums multiple numbers with negated values to zero', () => {
+      expect(sum(z, w, negate(z), negate(w))).toEqual(ZERO);
     });
 
     describe('Special Cases', () => {
-      test('Infinite + Infinite', () => {
-        expect(sum(INFINITY, INFINITY)).toEqual(INFINITY);
+      test('handles Infinity', () => {
+        const testCases = [
+          { args: [INFINITY, INFINITY], expected: INFINITY },
+          { args: [z, INFINITY], expected: INFINITY },
+          { args: [z, w, INFINITY], expected: INFINITY },
+        ];
+
+        testCases.forEach(({ args, expected }) => {
+          expect(sum(...args)).toEqual(expected);
+        });
       });
 
-      test('Value + Infinite', () => {
-        expect(sum(z, INFINITY)).toEqual(INFINITY);
+      test('handles NaN', () => {
+        const testCases = [
+          { args: [NAN, NAN], expected: NAN },
+          { args: [z, NAN], expected: NAN },
+          { args: [z, w, NAN], expected: NAN },
+        ];
+
+        testCases.forEach(({ args, expected }) => {
+          expect(sum(...args)).toEqual(expected);
+        });
       });
 
-      test('Multiple values + Infinite', () => {
-        expect(sum(z, w, INFINITY)).toEqual(INFINITY);
-      });
-
-      test('NaN + NaN', () => {
-        expect(sum(NAN, NAN)).toEqual(NAN);
-      });
-
-      test('Value + NaN', () => {
-        expect(sum(z, NAN)).toEqual(NAN);
-      });
-
-      test('Multiple values + NaN', () => {
-        expect(sum(z, w, NAN)).toEqual(NAN);
-      });
-
-      test('NaN + Infinite (NaN takes precedence)', () => {
+      test('NaN takes precedence over Infinity', () => {
         expect(sum(NAN, INFINITY)).toEqual(NAN);
       });
     });
   });
 
   describe('Multiplication', () => {
-    test('z * w', () => {
-      const c: Complex = multiply(z, w);
-      const d: Complex = multiply(z, 2);
-      expect(c.getRe()).toEqual(-1);
-      expect(c.getIm()).toEqual(5);
-      expect(d.getRe()).toEqual(2);
-      expect(d.getIm()).toEqual(2);
+    test('multiplies two complex numbers', () => {
+      const result = multiply(z, w);
+
+      expect(result.getRe()).toBe(-1);
+      expect(result.getIm()).toBe(5);
     });
 
-    describe('Special cases', () => {
-      test('Infinite * Infinite', () => {
-        expect(multiply(INFINITY, INFINITY)).toEqual(INFINITY);
-      });
+    test('multiplies complex number by scalar', () => {
+      const result = multiply(z, 2);
 
-      test('Value * Infinite', () => {
-        expect(multiply(z, INFINITY)).toEqual(INFINITY);
-      });
+      expect(result.getRe()).toBe(2);
+      expect(result.getIm()).toBe(2);
+    });
 
-      test('NaN * NaN', () => {
-        expect(multiply(NAN, NAN)).toEqual(NAN);
-      });
+    test('multiplies scalar by complex number', () => {
+      const result = multiply(2, z);
 
-      test('Value * NaN', () => {
-        expect(multiply(z, NAN)).toEqual(NAN);
+      expect(result.getRe()).toBe(2);
+      expect(result.getIm()).toBe(2);
+    });
+
+    test('multiplies two scalars', () => {
+      const result = multiply(3, 4);
+
+      expect(result.getRe()).toBe(12);
+      expect(result.getIm()).toBe(0);
+    });
+
+    test('multiplies with zero as second argument', () => {
+      const result = multiply(z, ZERO);
+
+      expect(result).toEqual(ZERO);
+    });
+
+    test('check numerical stability', () => {
+      const a = new Complex(1.1, 1);
+      const b = new Complex(1, 1.1);
+      const result = multiply(a, b);
+
+      expect(result.getRe()).toBeCloseTo(0, 16);
+      expect(result.getIm()).toBeCloseTo(2.21, 16);
+    });
+
+    describe('Special Cases', () => {
+      const testCases = [
+        { a: ZERO, b: INFINITY, expected: NAN },
+        { a: INFINITY, b: ZERO, expected: NAN },
+        { a: INFINITY, b: INFINITY, expected: INFINITY },
+        { a: z, b: INFINITY, expected: INFINITY },
+        { a: NAN, b: NAN, expected: NAN },
+        { a: z, b: NAN, expected: NAN },
+      ];
+
+      testCases.forEach(({ a, b, expected }) => {
+        test(`multiply(${getLabel(a)}, ${getLabel(b)})`, () => {
+          expect(multiply(a, b)).toEqual(expected);
+        });
       });
     });
   });
 
   describe('Division', () => {
-    test('z / w', () => {
-      const c: Complex = divide(z, w);
-      const d: Complex = divide(z, 2);
-      expect(c.getRe()).toBeCloseTo(5 / 13, 15);
-      expect(c.getIm()).toBeCloseTo(-1 / 13, 15);
-      expect(d.getRe()).toEqual(0.5);
-      expect(d.getIm()).toEqual(0.5);
+    test('divides two complex numbers', () => {
+      const result = divide(z, w);
+
+      expect(result.getRe()).toBeCloseTo(5 / 13, 15);
+      expect(result.getIm()).toBeCloseTo(-1 / 13, 15);
+    });
+
+    test('divides complex number by scalar', () => {
+      const result = divide(z, 2);
+
+      expect(result.getRe()).toBe(0.5);
+      expect(result.getIm()).toBe(0.5);
+    });
+
+    test('divides scalar by complex number', () => {
+      const result = divide(2, z);
+
+      expect(result.getRe()).toBe(1);
+      expect(result.getIm()).toBe(-1);
+    });
+
+    test('divides two scalars', () => {
+      const result = divide(6, 3);
+
+      expect(result.getRe()).toBe(2);
+      expect(result.getIm()).toBe(0);
+    });
+
+    test('divides when imaginary part is larger', () => {
+      const result = divide(new Complex(1, 100), new Complex(0.1, 10));
+
+      expect(result.getRe()).toBeCloseTo(10, 14);
+      expect(result.getIm()).toBeCloseTo(0, 14);
+    });
+
+    test('divides with approximately zero ratio', () => {
+      const result = divide(new Complex(1, 1), new Complex(1, 1e-15));
+
+      expect(result.getRe()).toBeCloseTo(1, 14);
+      expect(result.getIm()).toBeCloseTo(1, 14);
+    });
+
+    test('divides with approximately zero ratio when imaginary part is larger', () => {
+      const result = divide(new Complex(1, 1), new Complex(1e-15, 1));
+
+      expect(result.getRe()).toBeCloseTo(1, 14);
+      expect(result.getIm()).toBeCloseTo(-1, 14);
     });
 
     describe('Special Cases', () => {
-      test('Infinite / Infinite', () => {
-        expect(divide(INFINITY, INFINITY)).toEqual(NAN);
-      });
+      const testCases = [
+        { a: ZERO, b: ZERO, expected: NAN },
+        { a: INFINITY, b: INFINITY, expected: NAN },
+        { a: z, b: INFINITY, expected: ZERO },
+        { a: INFINITY, b: z, expected: INFINITY },
+        { a: ZERO, b: z, expected: ZERO },
+        { a: NAN, b: NAN, expected: NAN },
+        { a: z, b: NAN, expected: NAN },
+      ];
 
-      test('Value / Infinite', () => {
-        expect(divide(z, INFINITY)).toEqual(ZERO);
+      testCases.forEach(({ a, b, expected }) => {
+        test(`divide(${getLabel(a)}, ${getLabel(b)})`, () => {
+          expect(divide(a, b)).toEqual(expected);
+        });
       });
+    });
 
-      test('NaN / NaN', () => {
-        expect(divide(NAN, NAN)).toEqual(NAN);
-      });
+    describe("Extended Mc'Larlen's difficult division test", () => {
+      const SAFE_LARGE_CONSTANT = Math.pow(2, 30);
 
-      test('Value / NaN', () => {
-        expect(divide(z, NAN)).toEqual(NAN);
+      const testCases = [
+        { k: 0, complex: new Complex(1, 0) },
+        { k: 1, complex: new Complex(1.5, -0.5) },
+        { k: 26, complex: new Complex(33554432.5, -33554431.5) },
+        { k: 27, complex: new Complex(67108864.5, -67108863.5) },
+      ];
+
+      testCases.forEach(({ k, complex }) => {
+        test(`k=2^${k}, expected=(${complex.getRe()}, ${complex.getIm()})`, () => {
+          const power = Math.pow(2, k);
+          const g = SAFE_LARGE_CONSTANT / power;
+
+          const x = new Complex(power, 1);
+          const y = new Complex(1, 1);
+
+          const xScaled = multiply(x, g);
+          const yScaled = multiply(y, g);
+
+          const result = divide(xScaled, yScaled);
+
+          expect(equals(result, complex)).toBe(true);
+        });
       });
     });
   });
 
   describe('Negation', () => {
-    test('-z', () => {
-      const c: Complex = negate(z);
-      expect(c.getRe()).toEqual(-1);
-      expect(c.getIm()).toEqual(-1);
+    test('negates complex number', () => {
+      const result = negate(z);
+
+      expect(result.getRe()).toBe(-1);
+      expect(result.getIm()).toBe(-1);
     });
 
     describe('Special Cases', () => {
-      test('-Infinite', () => {
-        expect(negate(INFINITY)).toEqual(INFINITY);
-      });
+      const testCases = [
+        { input: ZERO, expected: ZERO },
+        { input: INFINITY, expected: INFINITY },
+        { input: NAN, expected: NAN },
+      ];
 
-      test('-NaN', () => {
-        expect(negate(NAN)).toEqual(NAN);
+      testCases.forEach(({ input, expected }) => {
+        test(`negate(${getLabel(input)})`, () => {
+          expect(negate(input)).toEqual(expected);
+        });
       });
     });
   });
 
   describe('Conjugate', () => {
-    test('Conj(z)', () => {
-      const c: Complex = conjugate(z);
-      expect(c.getRe()).toEqual(z.getRe());
-      expect(c.getIm()).toEqual(-z.getIm());
+    test('returns conjugate of complex number', () => {
+      const result = conjugate(z);
+
+      expect(result.getRe()).toBe(z.getRe());
+      expect(result.getIm()).toBe(-z.getIm());
     });
 
     describe('Special Cases', () => {
-      test('Infinity', () => {
-        expect(conjugate(INFINITY)).toEqual(INFINITY);
-      });
+      const testCases = [
+        { input: INFINITY, expected: INFINITY },
+        { input: NAN, expected: NAN },
+        { input: ZERO, expected: ZERO },
+      ];
 
-      test('NaN', () => {
-        expect(conjugate(NAN)).toEqual(NAN);
+      testCases.forEach(({ input, expected }) => {
+        test(`conjugate(${getLabel(input)})`, () => {
+          expect(conjugate(input)).toEqual(expected);
+        });
       });
     });
   });
 
   describe('Equality', () => {
-    test('eq()', () => {
-      expect(equals(z, z)).toBeTruthy();
-      expect(equals(z, w)).toBeFalsy();
+    test('equals returns true for equal numbers', () => {
+      expect(equals(z, z)).toBe(true);
     });
 
-    test('neq()', () => {
-      expect(notEquals(z, z)).toBeFalsy();
-      expect(notEquals(z, w)).toBeTruthy();
+    test('equals returns false for different numbers', () => {
+      expect(equals(z, w)).toBe(false);
     });
 
-    describe('Special Cases', () => {
-      test('Infinity', () => {
-        expect(equals(INFINITY, INFINITY)).toBeTruthy();
-        expect(notEquals(INFINITY, INFINITY)).toBeFalsy();
-      });
-
-      test('NaN', () => {
-        expect(equals(NAN, NAN)).toBeFalsy();
-        expect(notEquals(NAN, NAN)).toBeTruthy();
-      });
+    test('notEquals returns false for equal numbers', () => {
+      expect(notEquals(z, z)).toBe(false);
     });
-  });
 
-  describe('Real Part', () => {
-    test('Re(z)', () => {
-      expect(z.getRe()).toEqual(1);
+    test('notEquals returns true for different numbers', () => {
+      expect(notEquals(z, w)).toBe(true);
     });
 
     describe('Special Cases', () => {
-      test('Infinity', () => {
-        expect(INFINITY.getRe()).toEqual(Infinity);
+      test('handles Infinity', () => {
+        expect(equals(INFINITY, INFINITY)).toBe(true);
+        expect(notEquals(INFINITY, INFINITY)).toBe(false);
       });
 
-      test('NaN', () => {
-        expect(Number.isNaN(NAN.getRe())).toBeTruthy();
-      });
-    });
-  });
-
-  describe('Imaginary Part', () => {
-    test('Im(z)', () => {
-      expect(z.getIm()).toEqual(1);
-    });
-
-    describe('Special Cases', () => {
-      test('Infinity', () => {
-        expect(INFINITY.getIm()).toEqual(Infinity);
-      });
-
-      test('NaN', () => {
-        expect(Number.isNaN(NAN.getIm())).toBeTruthy();
+      test('handles NaN', () => {
+        expect(equals(NAN, NAN)).toBe(false);
+        expect(notEquals(NAN, NAN)).toBe(true);
       });
     });
   });
 
   describe('Modulus', () => {
-    test('|z|', () => {
-      expect(modulus(z)).toBeCloseTo(Math.SQRT2, 15);
-      expect(modulus(w)).toBeCloseTo(Math.sqrt(13), 15);
+    test('returns modulus of complex number', () => {
+      const testCases = [
+        { z, expected: Math.SQRT2 },
+        { z: w, expected: Math.sqrt(13) },
+      ];
+
+      testCases.forEach(({ z: input, expected }) => {
+        expect(modulus(input)).toBeCloseTo(expected, 15);
+      });
     });
 
     describe('Special Cases', () => {
-      test('Infinity', () => {
-        expect(modulus(INFINITY)).toEqual(Infinity);
-      });
+      const testCases = [
+        { input: INFINITY, expected: Infinity },
+        { input: NAN, expected: NaN },
+      ];
 
-      test('NaN', () => {
-        expect(modulus(NAN)).toEqual(NaN);
+      testCases.forEach(({ input, expected }) => {
+        test(`modulus(${getLabel(input)})`, () => {
+          expect(modulus(input)).toBe(expected);
+        });
       });
     });
   });
 
   describe('Argument', () => {
-    test('∠z', () => {
+    test('returns argument of complex number', () => {
       expect(argument(z)).toBeCloseTo(Math.PI / 4, 15);
       expect(argument(w)).toBeCloseTo(Math.atan2(w.getIm(), w.getRe()), 15);
     });
 
     describe('Special Cases', () => {
-      test('Infinity', () => {
-        expect(argument(INFINITY)).toEqual(Infinity);
-      });
+      const testCases = [
+        { input: INFINITY, expected: Infinity },
+        { input: NAN, expected: NaN },
+      ];
 
-      test('NaN', () => {
-        expect(argument(NAN)).toEqual(NaN);
+      testCases.forEach(({ input, expected }) => {
+        test(`argument(${getLabel(input)})`, () => {
+          expect(argument(input)).toBe(expected);
+        });
       });
     });
   });
 
   describe('Unit', () => {
-    const zu = unit(z);
-    const wu = unit(w);
-    test('ẑ', () => {
+    test('returns unit vector of complex number', () => {
+      const zu = unit(z);
+      const wu = unit(w);
+
       expect(zu.getRe()).toBeCloseTo(Math.SQRT1_2, 15);
       expect(zu.getIm()).toBeCloseTo(Math.SQRT1_2, 15);
       expect(wu.getRe()).toBeCloseTo(2 / Math.sqrt(13), 15);
       expect(wu.getIm()).toBeCloseTo(3 / Math.sqrt(13), 15);
     });
+
     describe('Special Cases', () => {
-      test('Zero', () => {
-        expect(unit(ZERO)).toEqual(NAN);
-      });
+      const testCases = [
+        { input: ZERO, expected: NAN },
+        { input: INFINITY, expected: INFINITY },
+        { input: NAN, expected: NAN },
+      ];
 
-      test('Infinity', () => {
-        expect(unit(INFINITY)).toEqual(INFINITY);
-      });
-
-      test('NaN', () => {
-        expect(unit(NAN)).toEqual(NAN);
+      testCases.forEach(({ input, expected }) => {
+        test(`unit(${getLabel(input)})`, () => {
+          expect(unit(input)).toEqual(expected);
+        });
       });
     });
   });
 
   describe('Pythagoras', () => {
-    test('a^2 + b^2', () => {
-      expect(pythagoras(z)).toEqual(2);
-      expect(pythagoras(w)).toEqual(13);
+    test('returns sum of squares', () => {
+      const testCases = [
+        { z, expected: 2 },
+        { z: w, expected: 13 },
+      ];
+
+      testCases.forEach(({ z: input, expected }) => {
+        expect(pythagoras(input)).toBe(expected);
+      });
     });
 
     describe('Special Cases', () => {
-      test('Infinity', () => {
-        expect(pythagoras(INFINITY)).toEqual(Infinity);
-      });
+      const testCases = [
+        { input: INFINITY, expected: Infinity },
+        { input: NAN, expected: NaN },
+      ];
 
-      test('NaN', () => {
-        expect(pythagoras(NAN)).toEqual(NaN);
+      testCases.forEach(({ input, expected }) => {
+        test(`pythagoras(${getLabel(input)})`, () => {
+          expect(pythagoras(input)).toBe(expected);
+        });
       });
     });
   });
 
-  describe('Misc.', () => {
-    describe('isReal()', () => {
-      test('isReal()', () => {
-        expect(isReal(z)).toBeFalsy();
-        expect(isReal(ZERO)).toBeTruthy();
-        expect(isReal(ONE)).toBeTruthy();
-        expect(isReal(I)).toBeFalsy();
-        expect(isReal(INFINITY)).toBeFalsy();
-        expect(isReal(NAN)).toBeFalsy();
+  describe('Type Checking', () => {
+    describe('isReal', () => {
+      const testCases = [
+        { input: z, expected: false },
+        { input: ZERO, expected: true },
+        { input: ONE, expected: true },
+        { input: I, expected: false },
+        { input: INFINITY, expected: false },
+        { input: NAN, expected: false },
+      ];
+
+      testCases.forEach(({ input, expected }) => {
+        test(`isReal(${getLabel(input)})`, () => {
+          expect(isReal(input)).toBe(expected);
+        });
       });
     });
 
-    describe('isPureImaginary()', () => {
-      test('isPureImaginary()', () => {
-        expect(isPureImaginary(z)).toBeFalsy();
-        expect(isPureImaginary(ZERO)).toBeFalsy();
-        expect(isPureImaginary(ONE)).toBeFalsy();
-        expect(isPureImaginary(I)).toBeTruthy();
-        expect(isPureImaginary(INFINITY)).toBeFalsy();
-        expect(isPureImaginary(NAN)).toBeFalsy();
+    describe('isPureImaginary', () => {
+      const testCases = [
+        { input: z, expected: false },
+        { input: ZERO, expected: false },
+        { input: ONE, expected: false },
+        { input: I, expected: true },
+        { input: INFINITY, expected: false },
+        { input: NAN, expected: false },
+      ];
+
+      testCases.forEach(({ input, expected }) => {
+        test(`isPureImaginary(${getLabel(input)})`, () => {
+          expect(isPureImaginary(input)).toBe(expected);
+        });
       });
     });
 
-    describe('isZero()', () => {
-      test('isZero()', () => {
-        expect(isZero(z)).toBeFalsy();
-        expect(isZero(ZERO)).toBeTruthy();
-        expect(isZero(ONE)).toBeFalsy();
-        expect(isZero(I)).toBeFalsy();
-        expect(isZero(INFINITY)).toBeFalsy();
-        expect(isZero(NAN)).toBeFalsy();
+    describe('isZero', () => {
+      const testCases = [
+        { input: z, expected: false },
+        { input: ZERO, expected: true },
+        { input: ONE, expected: false },
+        { input: I, expected: false },
+        { input: INFINITY, expected: false },
+        { input: NAN, expected: false },
+      ];
+
+      testCases.forEach(({ input, expected }) => {
+        test(`isZero(${getLabel(input)})`, () => {
+          expect(isZero(input)).toBe(expected);
+        });
       });
     });
 
-    describe('isInfinite()', () => {
-      test('isInfinite()', () => {
-        expect(isInfinite(z)).toBeFalsy();
-        expect(isInfinite(ZERO)).toBeFalsy();
-        expect(isInfinite(ONE)).toBeFalsy();
-        expect(isInfinite(I)).toBeFalsy();
-        expect(isInfinite(INFINITY)).toBeTruthy();
-        expect(isInfinite(NAN)).toBeFalsy();
+    describe('isInfinite', () => {
+      const testCases = [
+        { input: z, expected: false },
+        { input: ZERO, expected: false },
+        { input: ONE, expected: false },
+        { input: I, expected: false },
+        { input: INFINITY, expected: true },
+        { input: NAN, expected: false },
+      ];
+
+      testCases.forEach(({ input, expected }) => {
+        test(`isInfinite(${getLabel(input)})`, () => {
+          expect(isInfinite(input)).toBe(expected);
+        });
       });
     });
 
-    describe('isNaN()', () => {
-      test('isNaN()', () => {
-        expect(isNaNC(z)).toBeFalsy();
-        expect(isNaNC(ZERO)).toBeFalsy();
-        expect(isNaNC(ONE)).toBeFalsy();
-        expect(isNaNC(I)).toBeFalsy();
-        expect(isNaNC(INFINITY)).toBeFalsy();
-        expect(isNaNC(NAN)).toBeTruthy();
+    describe('isNaNC', () => {
+      const testCases = [
+        { input: z, expected: false },
+        { input: ZERO, expected: false },
+        { input: ONE, expected: false },
+        { input: I, expected: false },
+        { input: INFINITY, expected: false },
+        { input: NAN, expected: true },
+      ];
+
+      testCases.forEach(({ input, expected }) => {
+        test(`isNaNC(${getLabel(input)})`, () => {
+          expect(isNaNC(input)).toBe(expected);
+        });
       });
     });
   });

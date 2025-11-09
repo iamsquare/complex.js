@@ -12,6 +12,7 @@ sidebar_position: 1
 - **Trigonometric Functions** - sin, cos, tan, sec, csc, cot and their inverses
 - **Hyperbolic Functions** - sinh, cosh, tanh, sech, csch, coth and their inverses
 - **Mathematical Functions** - Exponentiation, logarithms, powers, square roots
+- **Numerically Stable** - Uses robust floating-point comparisons (combining absolute and relative error) and stable algorithms to handle precision errors
 - **TypeScript Support** - Full type definitions included, no `@types` package needed
 - **Universal** - Works in both browsers and Node.js
 - **Zero Dependencies** - Lightweight and fast
@@ -154,7 +155,7 @@ const conj = conjugate(z); // 3 - 4i
 // Unit vector
 const unitVec = unit(z); // 0.6 + 0.8i
 
-// Equality checks
+// Equality checks (uses epsilon-based comparison for floating-point precision)
 const isEqual = equals(z, new Complex(3, 4)); // true
 const isRealNum = isReal(z); // false
 const isZeroNum = isZero(z); // false
@@ -193,6 +194,7 @@ Complex.EPSILON; // Machine epsilon
 - [`unit(z)`](/operations/utility#unit) - Unit vector
 - [`equals(z, w)`](/operations/utility#equals) - Equality check
 - [`notEquals(z, w)`](/operations/utility#notequals) - Inequality check
+- [`isApproximatelyEqual(a, b, epsilon?)`](/operations/utility#isapproximatelyequal) - Compare floating-point numbers
 
 ### Type Checking
 

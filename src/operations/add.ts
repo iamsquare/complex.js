@@ -26,10 +26,5 @@ export function add(z: Complex, w: Complex) {
   }
   if (isInfinite(z) || isInfinite(w)) return Complex.INFINITY;
 
-  const a = z.getRe();
-  const b = z.getIm();
-  const c = w.getRe();
-  const d = w.getIm();
-
-  return new Complex(addStable(a, c), addStable(b, d));
+  return new Complex(addStable(z.getRe(), w.getRe()), addStable(z.getIm(), w.getIm()));
 }

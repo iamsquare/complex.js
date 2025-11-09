@@ -49,5 +49,5 @@ export function sum(...numbers: Complex[]) {
   if (numbers.some(isNaNC)) return Complex.NAN;
   if (numbers.some(isInfinite)) return Complex.INFINITY;
 
-  return numbers.reduce((acc, num) => add(acc, num), Complex.ZERO);
+  return numbers.reduce(add, Complex.ZERO);
 }

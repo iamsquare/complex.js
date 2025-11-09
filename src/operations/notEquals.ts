@@ -2,7 +2,7 @@ import type { Complex } from '~/complex';
 import { equals } from '~/operations/equals';
 
 /**
- * Checks if two complex numbers are not equal: z !== w.
+ * Checks if two complex numbers are not equal: z ≠ w.
  *
  * This is the logical negation of the `equals` function.
  *
