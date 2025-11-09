@@ -24,6 +24,7 @@ import {
   inverse,
   log,
   pow,
+  principal,
   sec,
   sech,
   sin,
@@ -46,8 +47,8 @@ describe('Functions', () => {
 
   describe('Square Root', () => {
     test('sqrt(z)', () => {
-      expect(sqrt(z)).toBeComplexCloseTo(new Complex(1.09868411346781, 0.455089860562227));
-      expect(sqrt(w)).toBeComplexCloseTo(new Complex(1.67414922803554, 0.895977476129838));
+      expect(sqrt(z)).toBeComplexCloseTo(new Complex(1.0986841134678098, 0.45508986056222733));
+      expect(sqrt(w)).toBeComplexCloseTo(new Complex(1.6741492280355401, 0.895977476129838));
     });
 
     describe('Special Cases', () => {
@@ -65,10 +66,88 @@ describe('Functions', () => {
     });
   });
 
+  describe('Principal Value (n-th Root)', () => {
+    test('principal(z, n) for various n', () => {
+      expect(principal(z, 2)).toBeComplexCloseTo(sqrt(z));
+      expect(principal(w, 2)).toBeComplexCloseTo(sqrt(w));
+
+      expect(principal(z, 3)).toBeComplexCloseTo(new Complex(1.0842150814913512, 0.2905145555072514));
+      expect(principal(w, 3)).toBeComplexCloseTo(new Complex(1.451856618352664, 0.493403534104004));
+
+      expect(principal(z, 4)).toBeComplexCloseTo(new Complex(1.0695539323639858, 0.21274750472674303));
+      expect(principal(w, 4)).toBeComplexCloseTo(new Complex(1.3365960777571289, 0.33517136966065714));
+
+      expect(principal(z, 5)).toBeComplexCloseTo(new Complex(1.0585781527063765, 0.16766230825618095));
+      expect(principal(w, 5)).toBeComplexCloseTo(new Complex(1.2675064916851109, 0.252398387219317));
+    });
+
+    test('principal with real numbers', () => {
+      expect(principal(8, 3)).toBeComplexCloseTo(new Complex(2, 0));
+      expect(principal(16, 4)).toBeComplexCloseTo(new Complex(2, 0));
+      expect(principal(-1, 2)).toBeComplexCloseTo(new Complex(0, 1));
+      expect(principal(-8, 3)).toBeComplexCloseTo(new Complex(1, Math.sqrt(3)));
+      expect(principal(27, 3)).toBeComplexCloseTo(new Complex(3, 0));
+    });
+
+    test('principal(z, 1) returns z', () => {
+      expect(principal(z, 1)).toBeComplexCloseTo(z);
+      expect(principal(w, 1)).toBeComplexCloseTo(w);
+      expect(principal(5, 1)).toBeComplexCloseTo(new Complex(5, 0));
+    });
+
+    test('principal with negative n (reciprocal root)', () => {
+      expect(multiply(principal(z, 2), principal(z, -2))).toBeComplexCloseTo(ONE);
+      expect(multiply(principal(w, 3), principal(w, -3))).toBeComplexCloseTo(ONE);
+    });
+
+    test('Verification: (principal(z, n))^n ≈ z', () => {
+      expect(pow(principal(z, 2), 2)).toBeComplexCloseTo(z);
+      expect(pow(principal(z, 3), 3)).toBeComplexCloseTo(z);
+      expect(pow(principal(w, 4), 4)).toBeComplexCloseTo(w);
+      expect(pow(principal(w, 5), 5)).toBeComplexCloseTo(w);
+    });
+
+    describe('Special Cases', () => {
+      test('Zero input', () => {
+        expect(principal(ZERO, 2)).toEqual(ZERO);
+        expect(principal(ZERO, 3)).toEqual(ZERO);
+        expect(principal(ZERO, -2)).toEqual(INFINITY);
+        expect(principal(ZERO, 0)).toEqual(NAN);
+      });
+
+      test('Infinity input', () => {
+        expect(principal(INFINITY, 2)).toEqual(INFINITY);
+        expect(principal(INFINITY, 3)).toEqual(INFINITY);
+        expect(principal(INFINITY, -2)).toEqual(ZERO);
+        expect(principal(INFINITY, 0)).toEqual(NAN);
+      });
+
+      test('NaN input', () => {
+        expect(principal(NAN, 2)).toEqual(NAN);
+        expect(principal(NAN, 3)).toEqual(NAN);
+        expect(principal(NAN, -2)).toEqual(NAN);
+      });
+
+      test('Invalid n values', () => {
+        expect(principal(z, 0)).toEqual(NAN);
+        expect(principal(z, NaN)).toEqual(NAN);
+        expect(principal(z, Infinity)).toEqual(NAN);
+        expect(principal(z, -Infinity)).toEqual(NAN);
+      });
+
+      test('Number input with special cases', () => {
+        expect(principal(0, 2)).toEqual(ZERO);
+        expect(principal(0, -2)).toEqual(INFINITY);
+        expect(principal(Infinity, 2)).toEqual(INFINITY);
+        expect(principal(Infinity, -2)).toEqual(ZERO);
+      });
+    });
+  });
+
   describe('Logarithm', () => {
     test('log(z)', () => {
-      expect(log(z)).toBeComplexCloseTo(new Complex(0.346573590279973, 0.785398163397448));
-      expect(log(w)).toBeComplexCloseTo(new Complex(1.282474678730768, 0.982793723247329));
+      expect(log(z)).toBeComplexCloseTo(new Complex(0.3465735902799727, 0.7853981633974483));
+      expect(log(w)).toBeComplexCloseTo(new Complex(1.2824746787307684, 0.982793723247329));
     });
 
     describe('Special Cases', () => {
@@ -89,8 +168,8 @@ describe('Functions', () => {
 
   describe('Exponential', () => {
     test('exp(z)', () => {
-      expect(exp(z)).toBeComplexCloseTo(new Complex(1.468693939915885, 2.287355287178842));
-      expect(exp(w)).toBeComplexCloseTo(new Complex(-7.315110094901103, 1.042743656235904));
+      expect(exp(z)).toBeComplexCloseTo(new Complex(1.4686939399158851, 2.2873552871788423));
+      expect(exp(w)).toBeComplexCloseTo(new Complex(-7.315110094901103, 1.0427436562359045));
     });
 
     describe('Special Cases', () => {
@@ -110,9 +189,9 @@ describe('Functions', () => {
 
   describe('Exponentiation', () => {
     test('z^w', () => {
-      expect(pow(z, w)).toBeComplexCloseTo(new Complex(-0.163450932107355, 0.0960049836089489));
+      expect(pow(z, w)).toBeComplexCloseTo(new Complex(-0.163450932107355, 0.09600498360894891));
       expect(pow(z, 3)).toBeComplexCloseTo(new Complex(-2, 2));
-      expect(pow(z, new Complex(0, 4))).toBeComplexCloseTo(new Complex(0.00792789471147597, 0.0424804804251522));
+      expect(pow(z, new Complex(0, 4))).toBeComplexCloseTo(new Complex(0.007927894711475971, 0.04248048042515222));
     });
 
     describe('Special Cases', () => {
@@ -173,8 +252,8 @@ describe('Functions', () => {
   describe('Trigonometric Functions', () => {
     describe('sin', () => {
       test('sin(z)', () => {
-        expect(sin(z)).toBeComplexCloseTo(new Complex(1.298457581415977, 0.634963914784736));
-        expect(sin(w)).toBeComplexCloseTo(new Complex(9.15449914691143, -4.16890695996656));
+        expect(sin(z)).toBeComplexCloseTo(new Complex(1.2984575814159773, 0.6349639147847361));
+        expect(sin(w)).toBeComplexCloseTo(new Complex(9.15449914691143, -4.168906959966565));
       });
 
       describe('Special Cases', () => {
@@ -194,7 +273,7 @@ describe('Functions', () => {
 
     describe('cos', () => {
       test('cos(z)', () => {
-        expect(cos(z)).toBeComplexCloseTo(new Complex(0.833730025131149, -0.988897705762865));
+        expect(cos(z)).toBeComplexCloseTo(new Complex(0.8337300251311491, -0.9888977057628651));
         expect(cos(w)).toBeComplexCloseTo(new Complex(-4.189625690968807, -9.109227893755337));
       });
 
@@ -214,8 +293,8 @@ describe('Functions', () => {
     });
     describe('tan', () => {
       test('tan(z)', () => {
-        expect(tan(z)).toBeComplexCloseTo(new Complex(0.271752585319511, 1.08392332733869), 1e-14);
-        expect(tan(w)).toBeComplexCloseTo(new Complex(-0.003764025641504, 1.00323862735361), 1e-14);
+        expect(tan(z)).toBeComplexCloseTo(new Complex(0.27175258531951174, 1.0839233273386948), 1e-14);
+        expect(tan(w)).toBeComplexCloseTo(new Complex(-0.0037640256415042484, 1.0032386273536098), 1e-14);
       });
 
       describe('Special Cases', () => {
@@ -235,8 +314,8 @@ describe('Functions', () => {
 
     describe('cot', () => {
       test('cot(z)', () => {
-        expect(cot(z)).toBeComplexCloseTo(new Complex(0.217621561854402, -0.868014142895925));
-        expect(cot(w)).toBeComplexCloseTo(new Complex(-0.003739710376336, -0.996757796569358));
+        expect(cot(z)).toBeComplexCloseTo(new Complex(0.2176215618544027, -0.868014142895925));
+        expect(cot(w)).toBeComplexCloseTo(new Complex(-0.003739710376336956, -0.9967577965693583));
       });
 
       describe('Special Cases', () => {
@@ -256,8 +335,8 @@ describe('Functions', () => {
 
     describe('sec', () => {
       test('sec(z)', () => {
-        expect(sec(z)).toBeComplexCloseTo(new Complex(0.498337030555186, 0.591083841721045));
-        expect(sec(w)).toBeComplexCloseTo(new Complex(-0.041674964411144, 0.090611137196237));
+        expect(sec(z)).toBeComplexCloseTo(new Complex(0.49833703055518686, 0.5910838417210451));
+        expect(sec(w)).toBeComplexCloseTo(new Complex(-0.04167496441114427, 0.0906111371962376));
       });
 
       describe('Special Cases', () => {
@@ -277,8 +356,8 @@ describe('Functions', () => {
 
     describe('csc', () => {
       test('csc(z)', () => {
-        expect(csc(z)).toBeComplexCloseTo(new Complex(0.621518017170428, -0.303931001628426));
-        expect(csc(w)).toBeComplexCloseTo(new Complex(0.090473209753207, 0.041200986288574));
+        expect(csc(z)).toBeComplexCloseTo(new Complex(0.6215180171704285, -0.30393100162842646));
+        expect(csc(w)).toBeComplexCloseTo(new Complex(0.09047320975320744, 0.04120098628857413));
       });
 
       describe('Special Cases', () => {
@@ -300,8 +379,8 @@ describe('Functions', () => {
   describe('Inverse Trigonometric Functions', () => {
     describe('asin', () => {
       test('asin(z)', () => {
-        expect(asin(z)).toBeComplexCloseTo(new Complex(0.666239432492515, 1.061275061905035));
-        expect(asin(w)).toBeComplexCloseTo(new Complex(0.570652784321099, 1.983387029916535));
+        expect(asin(z)).toBeComplexCloseTo(new Complex(0.6662394324925153, 1.0612750619050355));
+        expect(asin(w)).toBeComplexCloseTo(new Complex(0.5706527843210972, 1.9833870299165328));
       });
 
       describe('Special Cases', () => {
@@ -321,8 +400,8 @@ describe('Functions', () => {
 
     describe('acos', () => {
       test('acos(z)', () => {
-        expect(acos(z)).toBeComplexCloseTo(new Complex(0.904556894302381, -1.061275061905035));
-        expect(acos(w)).toBeComplexCloseTo(new Complex(1.000143542473797, -1.983387029916535));
+        expect(acos(z)).toBeComplexCloseTo(new Complex(0.9045568943023813, -1.0612750619050355));
+        expect(acos(w)).toBeComplexCloseTo(new Complex(1.0001435424737992, -1.9833870299165328));
       });
 
       describe('Special Cases', () => {
@@ -342,8 +421,8 @@ describe('Functions', () => {
 
     describe('atan', () => {
       test('atan(z)', () => {
-        expect(atan(z)).toBeComplexCloseTo(new Complex(1.01722196789785, 0.402359478108525), 1e-14);
-        expect(atan(w)).toBeComplexCloseTo(new Complex(1.40992104959657, 0.229072682968538), 1e-14);
+        expect(atan(z)).toBeComplexCloseTo(new Complex(1.0172219678978514, 0.4023594781085251), 1e-14);
+        expect(atan(w)).toBeComplexCloseTo(new Complex(1.4099210495965755, 0.2290726829685388), 1e-14);
       });
 
       describe('Special Cases', () => {
@@ -363,8 +442,8 @@ describe('Functions', () => {
 
     describe('acot', () => {
       test('acot(z)', () => {
-        expect(acot(z)).toBeComplexCloseTo(new Complex(0.553574358897045, -0.402359478108525));
-        expect(acot(w)).toBeComplexCloseTo(new Complex(0.160875277198321, -0.229072682968538));
+        expect(acot(z)).toBeComplexCloseTo(new Complex(0.5535743588970452, -0.4023594781085251));
+        expect(acot(w)).toBeComplexCloseTo(new Complex(0.16087527719832106, -0.2290726829685388));
       });
 
       describe('Special Cases', () => {
@@ -384,8 +463,8 @@ describe('Functions', () => {
 
     describe('asec', () => {
       test('asec(z)', () => {
-        expect(asec(z)).toBeComplexCloseTo(new Complex(1.118517879643705, 0.530637530952517));
-        expect(asec(w)).toBeComplexCloseTo(new Complex(1.420410722467034, 0.231334698573973));
+        expect(asec(z)).toBeComplexCloseTo(new Complex(1.1185178796437059, 0.5306375309525178));
+        expect(asec(w)).toBeComplexCloseTo(new Complex(1.4204107224670346, 0.23133469857397318));
       });
 
       describe('Special Cases', () => {
@@ -404,8 +483,8 @@ describe('Functions', () => {
 
     describe('acsc', () => {
       test('acsc(z)', () => {
-        expect(acsc(z)).toBeComplexCloseTo(new Complex(0.45227844715119, -0.530637530952517));
-        expect(acsc(w)).toBeComplexCloseTo(new Complex(0.150385604327861, -0.231334698573973));
+        expect(acsc(z)).toBeComplexCloseTo(new Complex(0.45227844715119064, -0.5306375309525178));
+        expect(acsc(w)).toBeComplexCloseTo(new Complex(0.150385604327862, -0.23133469857397318));
       });
 
       describe('Special Cases', () => {
@@ -426,7 +505,7 @@ describe('Functions', () => {
   describe('Hyperbolic', () => {
     describe('sinh', () => {
       test('sinh(z)', () => {
-        expect(sinh(z)).toBeComplexCloseTo(new Complex(0.634963914784736, 1.298457581415977));
+        expect(sinh(z)).toBeComplexCloseTo(new Complex(0.6349639147847361, 1.2984575814159773));
         expect(sinh(w)).toBeComplexCloseTo(new Complex(-3.59056458998578, 0.53092108624852));
       });
 
@@ -447,7 +526,7 @@ describe('Functions', () => {
 
     describe('cosh', () => {
       test('cosh(z)', () => {
-        expect(cosh(z)).toBeComplexCloseTo(new Complex(0.833730025131149, 0.988897705762865));
+        expect(cosh(z)).toBeComplexCloseTo(new Complex(0.8337300251311491, 0.9888977057628651));
         expect(cosh(w)).toBeComplexCloseTo(new Complex(-3.72454550491532, 0.511822569987384));
       });
 
@@ -468,7 +547,7 @@ describe('Functions', () => {
 
     describe('tanh', () => {
       test('tanh(z)', () => {
-        expect(tanh(z)).toBeComplexCloseTo(new Complex(1.08392332733869, 0.271752585319511), 1e-14);
+        expect(tanh(z)).toBeComplexCloseTo(new Complex(1.0839233273386948, 0.27175258531951174), 1e-14);
         expect(tanh(w)).toBeComplexCloseTo(new Complex(0.965385879022133, -0.009884375038322), 1e-14);
       });
 
@@ -489,7 +568,7 @@ describe('Functions', () => {
 
     describe('coth', () => {
       test('coth(z)', () => {
-        expect(coth(z)).toBeComplexCloseTo(new Complex(0.868014142895925, -0.217621561854402));
+        expect(coth(z)).toBeComplexCloseTo(new Complex(0.868014142895925, -0.2176215618544027));
         expect(coth(w)).toBeComplexCloseTo(new Complex(1.035746637764995, 0.010604783470337));
       });
 
@@ -510,7 +589,7 @@ describe('Functions', () => {
 
     describe('sech', () => {
       test('sech(z)', () => {
-        expect(sech(z)).toBeComplexCloseTo(new Complex(0.498337030555186, -0.591083841721045));
+        expect(sech(z)).toBeComplexCloseTo(new Complex(0.49833703055518686, -0.5910838417210451));
         expect(sech(w)).toBeComplexCloseTo(new Complex(-0.263512975158389, -0.036211636558768));
       });
 
@@ -531,7 +610,7 @@ describe('Functions', () => {
 
     describe('csch', () => {
       test('csch(z)', () => {
-        expect(csch(z)).toBeComplexCloseTo(new Complex(0.303931001628426, -0.621518017170428));
+        expect(csch(z)).toBeComplexCloseTo(new Complex(0.30393100162842646, -0.6215180171704285));
         expect(csch(w)).toBeComplexCloseTo(new Complex(-0.27254866146294, -0.040300578856891));
       });
 
@@ -554,7 +633,7 @@ describe('Functions', () => {
   describe('Inverse Hyperbolic Functions', () => {
     describe('asinh', () => {
       test('asinh(z)', () => {
-        expect(asinh(z)).toBeComplexCloseTo(new Complex(1.061275061905036, 0.666239432492515));
+        expect(asinh(z)).toBeComplexCloseTo(new Complex(1.0612750619050357, 0.6662394324925153));
         expect(asinh(w)).toBeComplexCloseTo(new Complex(1.968637925793096, 0.964658504407603));
       });
 
@@ -575,8 +654,8 @@ describe('Functions', () => {
 
     describe('acosh', () => {
       test('acosh(z)', () => {
-        expect(acosh(z)).toBeComplexCloseTo(new Complex(1.061275061905035, 0.904556894302381));
-        expect(acosh(w)).toBeComplexCloseTo(new Complex(1.983387029916535, 1.000143542473797));
+        expect(acosh(z)).toBeComplexCloseTo(new Complex(1.0612750619050355, 0.9045568943023813));
+        expect(acosh(w)).toBeComplexCloseTo(new Complex(1.9833870299165328, 1.0001435424737992));
       });
 
       describe('Special Cases', () => {
@@ -596,7 +675,7 @@ describe('Functions', () => {
 
     describe('atanh', () => {
       test('atanh(z)', () => {
-        expect(atanh(z)).toBeComplexCloseTo(new Complex(0.402359478108525, 1.01722196789785), 1e-14);
+        expect(atanh(z)).toBeComplexCloseTo(new Complex(0.4023594781085251, 1.0172219678978514), 1e-14);
         expect(atanh(w)).toBeComplexCloseTo(new Complex(0.146946666225529, 1.33897252229449), 1e-14);
       });
 
@@ -617,7 +696,7 @@ describe('Functions', () => {
 
     describe('acoth', () => {
       test('acoth(z)', () => {
-        expect(acoth(z)).toBeComplexCloseTo(new Complex(0.402359478108525, -0.553574358897045));
+        expect(acoth(z)).toBeComplexCloseTo(new Complex(0.4023594781085251, -0.5535743588970452));
         expect(acoth(w)).toBeComplexCloseTo(new Complex(0.146946666225529, -0.231823804500403));
       });
 
@@ -638,8 +717,8 @@ describe('Functions', () => {
 
     describe('asech', () => {
       test('asech(z)', () => {
-        expect(asech(z)).toBeComplexCloseTo(new Complex(0.530637530952517, -1.118517879643705));
-        expect(asech(w)).toBeComplexCloseTo(new Complex(0.231334698573973, -1.420410722467034));
+        expect(asech(z)).toBeComplexCloseTo(new Complex(0.5306375309525178, -1.1185178796437059));
+        expect(asech(w)).toBeComplexCloseTo(new Complex(0.23133469857397318, -1.4204107224670346));
       });
 
       describe('Special Cases', () => {
@@ -659,7 +738,7 @@ describe('Functions', () => {
 
     describe('acsch', () => {
       test('acsch(z)', () => {
-        expect(acsch(z)).toBeComplexCloseTo(new Complex(0.530637530952517, -0.45227844715119));
+        expect(acsch(z)).toBeComplexCloseTo(new Complex(0.5306375309525178, -0.45227844715119064));
         expect(acsch(w)).toBeComplexCloseTo(new Complex(0.157355498844985, -0.229962902377207));
       });
 

@@ -5,5 +5,6 @@ export * from '~/functions/inverseHyperbolic';
 export * from '~/functions/inverseTrigonometric';
 export { log } from '~/functions/log';
 export { pow } from '~/functions/pow';
+export { principal } from '~/functions/principal';
 export { sqrt } from '~/functions/sqrt';
 export * from '~/functions/trigonometric';

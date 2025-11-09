@@ -44,43 +44,43 @@ export function divide(z: Complex | number, w: Complex | number) {
   const underflowBoundary = (Number.MIN_VALUE * 2) / Number.EPSILON;
   const scalingFactor = 2 / (Number.EPSILON * Number.EPSILON);
 
-  const AB = Math.max(Math.abs(zc.getRe()), Math.abs(zc.getIm()));
-  const CD = Math.max(Math.abs(wc.getRe()), Math.abs(wc.getIm()));
+  const zMaxComponent = Math.max(Math.abs(zc.getRe()), Math.abs(zc.getIm()));
+  const wMaxComponent = Math.max(Math.abs(wc.getRe()), Math.abs(wc.getIm()));
 
-  const xScaleDown = AB >= overflowBoundary ? 2 : 1;
-  const yScaleDown = CD >= overflowBoundary ? 0.5 : 1;
-  const xScaleUp = AB < underflowBoundary ? 1 / scalingFactor : 1;
-  const yScaleUp = CD < underflowBoundary ? scalingFactor : 1;
+  const zScaleDown = zMaxComponent >= overflowBoundary ? 2 : 1;
+  const wScaleDown = wMaxComponent >= overflowBoundary ? 0.5 : 1;
+  const zScaleUp = zMaxComponent < underflowBoundary ? 1 / scalingFactor : 1;
+  const wScaleUp = wMaxComponent < underflowBoundary ? scalingFactor : 1;
 
-  const scaledX = multiply(zc, xScaleDown * xScaleUp);
-  const scaledY = multiply(wc, yScaleDown * yScaleUp);
-  const scale = xScaleDown * yScaleDown * xScaleUp * yScaleUp;
+  const zScaled = multiply(zc, zScaleDown * zScaleUp);
+  const wScaled = multiply(wc, wScaleDown * wScaleUp);
+  const scale = zScaleDown * wScaleDown * zScaleUp * wScaleUp;
 
-  if (Math.abs(scaledY.getIm()) <= Math.abs(scaledY.getRe())) {
-    const r = scaledY.getIm() / scaledY.getRe();
-    const t = scaledY.getRe() + scaledY.getIm() * r;
-
-    return multiply(
-      isApproximatelyEqual(r, 0)
-        ? new Complex(
-            (scaledX.getRe() + scaledY.getIm() * (scaledX.getIm() / scaledY.getRe())) / t,
-            (scaledX.getIm() - scaledY.getIm() * (scaledX.getRe() / scaledY.getRe())) / t,
-          )
-        : new Complex((scaledX.getRe() + scaledX.getIm() * r) / t, (scaledX.getIm() - scaledX.getRe() * r) / t),
-      scale,
-    );
-  } else {
-    const r = scaledY.getRe() / scaledY.getIm();
-    const t = scaledY.getRe() * r + scaledY.getIm();
+  if (Math.abs(wScaled.getIm()) <= Math.abs(wScaled.getRe())) {
+    const r = wScaled.getIm() / wScaled.getRe();
+    const t = wScaled.getRe() + wScaled.getIm() * r;
 
     return multiply(
       isApproximatelyEqual(r, 0)
         ? new Complex(
-            (scaledY.getRe() * (scaledX.getRe() / scaledY.getIm()) + scaledX.getIm()) / t,
-            (scaledY.getRe() * (scaledX.getIm() / scaledY.getIm()) - scaledX.getRe()) / t,
+            (zScaled.getRe() + wScaled.getIm() * (zScaled.getIm() / wScaled.getRe())) / t,
+            (zScaled.getIm() - wScaled.getIm() * (zScaled.getRe() / wScaled.getRe())) / t,
           )
-        : new Complex((scaledX.getRe() * r + scaledX.getIm()) / t, (scaledX.getIm() * r - scaledX.getRe()) / t),
+        : new Complex((zScaled.getRe() + zScaled.getIm() * r) / t, (zScaled.getIm() - zScaled.getRe() * r) / t),
       scale,
     );
   }
+
+  const r = wScaled.getRe() / wScaled.getIm();
+  const t = wScaled.getRe() * r + wScaled.getIm();
+
+  return multiply(
+    isApproximatelyEqual(r, 0)
+      ? new Complex(
+          (wScaled.getRe() * (zScaled.getRe() / wScaled.getIm()) + zScaled.getIm()) / t,
+          (wScaled.getRe() * (zScaled.getIm() / wScaled.getIm()) - zScaled.getRe()) / t,
+        )
+      : new Complex((zScaled.getRe() * r + zScaled.getIm()) / t, (zScaled.getIm() * r - zScaled.getRe()) / t),
+    scale,
+  );
 }

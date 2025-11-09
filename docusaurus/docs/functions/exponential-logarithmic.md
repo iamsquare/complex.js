@@ -166,6 +166,73 @@ console.log(result2.toString()); // => "0 + 1i" (i)
 
 ---
 
+## principal
+
+Calculates the principal value of the n-th root of a complex number: $ⁿ√z$.
+
+This function computes a special case of the n-th root operation, returning only the
+[principal value](https://en.wikipedia.org/wiki/Principal_value) of the n-th root.
+For $z = r \cdot e^{i\theta}$, the principal n-th root is:
+
+$$ⁿ√z = ⁿ√r \cdot e^{i\theta/n}$$
+
+where $r$ is the modulus and $\theta$ is the argument.
+
+The n-th root of a complex number has $n$ distinct values, but this function returns only
+the principal value ($k=0$). To get all $n$ roots, use the formula:
+$ⁿ√z = ⁿ√r \cdot e^{i(\theta + 2πk)/n}$ for $k = 0, 1, 2, \ldots, n-1$.
+
+```typescript
+principal(z: Complex | number, n: number): Complex
+```
+
+### Parameters
+
+- `z` - The complex number or real number
+- `n` - The root index. For positive `n`, returns the n-th root. For negative `n`, returns the reciprocal of the |n|-th root (1/ⁿ√z). Must be a non-zero finite number.
+
+### Returns
+
+A new Complex number representing the principal n-th root of $z$ (or its reciprocal if $n$ is negative).
+
+### Example
+
+```typescript
+import { Complex, principal } from '@iamsquare/complex.js';
+
+const z = new Complex(8, 0);
+const result = principal(z, 3);
+console.log(result.toString()); // => "2 + 0i" (cube root of 8)
+
+const z2 = new Complex(-1, 0);
+const result2 = principal(z2, 2);
+console.log(result2.toString()); // => "0 + 1i" (square root of -1, which is i)
+
+const z3 = new Complex(1, 1);
+const result3 = principal(z3, 4);
+console.log(result3.toString()); // => principal 4th root
+
+// Negative n returns the reciprocal root
+const z4 = new Complex(4, 0);
+const result4 = principal(z4, -2); // 1 / sqrt(4) = 1/2
+console.log(result4.toString()); // => "0.5 + 0i"
+```
+
+### Relationship to sqrt
+
+For $n = 2$, `principal(z, 2)` is equivalent to `sqrt(z)`:
+
+```typescript
+import { Complex, principal, sqrt } from '@iamsquare/complex.js';
+
+const z = new Complex(4, 0);
+const root1 = principal(z, 2);
+const root2 = sqrt(z);
+// root1 and root2 are equal
+```
+
+---
+
 ## inverse
 
 Calculates the multiplicative inverse (reciprocal) of a complex number: $\frac{1}{z}$.

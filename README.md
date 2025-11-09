@@ -16,7 +16,7 @@
 - **Complete Complex Number Operations** - Addition, subtraction, multiplication, division, and more
 - **Trigonometric Functions** - sin, cos, tan, sec, csc, cot and their inverses
 - **Hyperbolic Functions** - sinh, cosh, tanh, sech, csch, coth and their inverses
-- **Mathematical Functions** - Exponentiation, logarithms, powers, square roots
+- **Mathematical Functions** - Exponentiation, logarithms, powers, square roots, principal values (n-th roots)
 - **Numerically Stable** - Uses robust floating-point comparisons (combining absolute and relative error) and stable algorithms to handle precision errors
 - **TypeScript Support** - Full type definitions included, no `@types` package needed
 - **Universal** - Works in both browsers and Node.js
@@ -126,7 +126,22 @@ console.log(negated.toString()); // => "-1 + 1i"
 ### Mathematical Functions
 
 ```typescript
-import { Complex, exp, log, pow, sqrt, sin, cos, tan, sinh, cosh, tanh, asin, asinh } from '@iamsquare/complex.js';
+import {
+  Complex,
+  exp,
+  log,
+  pow,
+  sqrt,
+  principal,
+  sin,
+  cos,
+  tan,
+  sinh,
+  cosh,
+  tanh,
+  asin,
+  asinh,
+} from '@iamsquare/complex.js';
 
 const z = new Complex(1, 1);
 
@@ -135,6 +150,7 @@ const e = exp(z);
 const ln = log(z);
 const power = pow(z, new Complex(2, 0));
 const root = sqrt(z);
+const cubeRoot = principal(z, 3);
 
 // Trigonometric functions
 const sine = sin(z);
@@ -262,17 +278,13 @@ pnpm run build
 - `pnpm build` - Build the library
 - `pnpm lint` - Run ESLint
 - `pnpm lint:fix` - Fix ESLint issues
-- `pnpm prod` - Clean, test with coverage, build, and generate docs
-
-## Roadmap
-
-- [ ] Support for nth-roots (n√z)
-- [ ] Additional utility functions
-- [ ] Performance optimizations
+- `pnpm prod` - Clean, test with coverage, and build
 
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
+
+Please read our [Contributing Guide](.github/CONTRIBUTING.md) for details on our development process and how to submit pull requests.
 
 ## License
 

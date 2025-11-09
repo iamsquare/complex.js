@@ -11,7 +11,7 @@ sidebar_position: 1
 - **Complete Complex Number Operations** - Addition, subtraction, multiplication, division, and more
 - **Trigonometric Functions** - sin, cos, tan, sec, csc, cot and their inverses
 - **Hyperbolic Functions** - sinh, cosh, tanh, sech, csch, coth and their inverses
-- **Mathematical Functions** - Exponentiation, logarithms, powers, square roots
+- **Mathematical Functions** - Exponentiation, logarithms, powers, square roots, principal values (n-th roots)
 - **Numerically Stable** - Uses robust floating-point comparisons (combining absolute and relative error) and stable algorithms to handle precision errors
 - **TypeScript Support** - Full type definitions included, no `@types` package needed
 - **Universal** - Works in both browsers and Node.js
@@ -119,7 +119,22 @@ const polar = z.toPolar(); // { r: 5, p: 0.9272952180016122 }
 ## Mathematical Functions
 
 ```typescript
-import { Complex, exp, log, pow, sqrt, sin, cos, tan, sinh, cosh, tanh, asin, asinh } from '@iamsquare/complex.js';
+import {
+  Complex,
+  exp,
+  log,
+  pow,
+  sqrt,
+  principal,
+  sin,
+  cos,
+  tan,
+  sinh,
+  cosh,
+  tanh,
+  asin,
+  asinh,
+} from '@iamsquare/complex.js';
 
 const z = new Complex(1, 1);
 
@@ -128,6 +143,7 @@ const e = exp(z);
 const ln = log(z);
 const power = pow(z, new Complex(2, 0));
 const root = sqrt(z);
+const cubeRoot = principal(z, 3);
 
 // Trigonometric functions
 const sine = sin(z);
@@ -233,6 +249,7 @@ Complex.EPSILON; // Machine epsilon
 - [`log(z)`](/functions/exponential-logarithmic#log) - Natural logarithm
 - [`pow(z, w)`](/functions/exponential-logarithmic#pow) - Power function
 - [`sqrt(z)`](/functions/exponential-logarithmic#sqrt) - Square root
+- [`principal(z, n)`](/functions/exponential-logarithmic#principal) - Principal value (n-th root)
 - [`inverse(z)`](/functions/exponential-logarithmic#inverse) - Multiplicative inverse
 
 ### Trigonometric
