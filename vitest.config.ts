@@ -9,7 +9,7 @@ export default defineConfig({
     environment: 'node',
     coverage: {
       provider: 'istanbul',
-      reporter: ['text', 'json', 'html'],
+      reporter: ['text', 'json', 'json-summary', 'html'],
     },
   },
 });

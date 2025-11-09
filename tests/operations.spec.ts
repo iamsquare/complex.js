@@ -175,8 +175,39 @@ describe('Operators', () => {
       expect(result.getIm()).toBe(2);
     });
 
+    test('multiplies scalar by complex number', () => {
+      const result = multiply(2, z);
+
+      expect(result.getRe()).toBe(2);
+      expect(result.getIm()).toBe(2);
+    });
+
+    test('multiplies two scalars', () => {
+      const result = multiply(3, 4);
+
+      expect(result.getRe()).toBe(12);
+      expect(result.getIm()).toBe(0);
+    });
+
+    test('multiplies with zero as second argument', () => {
+      const result = multiply(z, ZERO);
+
+      expect(result).toEqual(ZERO);
+    });
+
+    test('check numerical stability', () => {
+      const a = new Complex(1.1, 1);
+      const b = new Complex(1, 1.1);
+      const result = multiply(a, b);
+
+      expect(result.getRe()).toBeCloseTo(0, 16);
+      expect(result.getIm()).toBeCloseTo(2.21, 16);
+    });
+
     describe('Special Cases', () => {
       const testCases = [
+        { a: ZERO, b: INFINITY, expected: NAN },
+        { a: INFINITY, b: ZERO, expected: NAN },
         { a: INFINITY, b: INFINITY, expected: INFINITY },
         { a: z, b: INFINITY, expected: INFINITY },
         { a: NAN, b: NAN, expected: NAN },
@@ -206,10 +237,48 @@ describe('Operators', () => {
       expect(result.getIm()).toBe(0.5);
     });
 
+    test('divides scalar by complex number', () => {
+      const result = divide(2, z);
+
+      expect(result.getRe()).toBe(1);
+      expect(result.getIm()).toBe(-1);
+    });
+
+    test('divides two scalars', () => {
+      const result = divide(6, 3);
+
+      expect(result.getRe()).toBe(2);
+      expect(result.getIm()).toBe(0);
+    });
+
+    test('divides when imaginary part is larger', () => {
+      const result = divide(new Complex(1, 100), new Complex(0.1, 10));
+
+      expect(result.getRe()).toBeCloseTo(10, 14);
+      expect(result.getIm()).toBeCloseTo(0, 14);
+    });
+
+    test('divides with approximately zero ratio', () => {
+      const result = divide(new Complex(1, 1), new Complex(1, 1e-15));
+
+      expect(result.getRe()).toBeCloseTo(1, 14);
+      expect(result.getIm()).toBeCloseTo(1, 14);
+    });
+
+    test('divides with approximately zero ratio when imaginary part is larger', () => {
+      const result = divide(new Complex(1, 1), new Complex(1e-15, 1));
+
+      expect(result.getRe()).toBeCloseTo(1, 14);
+      expect(result.getIm()).toBeCloseTo(-1, 14);
+    });
+
     describe('Special Cases', () => {
       const testCases = [
+        { a: ZERO, b: ZERO, expected: NAN },
         { a: INFINITY, b: INFINITY, expected: NAN },
         { a: z, b: INFINITY, expected: ZERO },
+        { a: INFINITY, b: z, expected: INFINITY },
+        { a: ZERO, b: z, expected: ZERO },
         { a: NAN, b: NAN, expected: NAN },
         { a: z, b: NAN, expected: NAN },
       ];
@@ -260,6 +329,7 @@ describe('Operators', () => {
 
     describe('Special Cases', () => {
       const testCases = [
+        { input: ZERO, expected: ZERO },
         { input: INFINITY, expected: INFINITY },
         { input: NAN, expected: NAN },
       ];
