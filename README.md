@@ -5,7 +5,6 @@
 [![NPM](https://img.shields.io/npm/v/@iamsquare/complex.js.svg?style=flat-square)](https://www.npmjs.com/package/@iamsquare/complex.js)
 [![GitHub issues](https://img.shields.io/github/issues-raw/iamsquare/complex.js.svg?style=flat-square)](https://github.com/iamsquare/complex.js/issues)
 [![GitHub License](https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square)](https://github.com/iamsquare/complex.js/blob/master/LICENSE)
-[![Coverage](https://img.shields.io/github/actions/workflow/status/iamsquare/complex.js/test-coverage.yml?label=coverage&style=flat-square)](https://github.com/iamsquare/complex.js/actions/workflows/test-coverage.yml)
 [![NPM](https://nodei.co/npm/@iamsquare/complex.js.png?mini=true)](https://nodei.co/npm/@iamsquare/complex.js)
 
 > A powerful, type-safe complex numbers library for JavaScript and TypeScript. Works seamlessly in browsers and Node.js.
