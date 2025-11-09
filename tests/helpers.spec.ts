@@ -1,65 +1,41 @@
 import { describe, expect, test } from 'vitest';
 
 import { Complex } from '~/complex';
-import {
-  addStable,
-  type Cartesian,
-  isApproximatelyEqual,
-  isCartesian,
-  isPolar,
-  type Polar,
-  subtractStable,
-} from '~/helpers';
+import { addStable, isCartesian, isPolar, subtractStable } from '~/helpers';
 
 describe('Helpers', () => {
   describe('isCartesian', () => {
     describe('valid Cartesian coordinates', () => {
       test('returns true for standard Cartesian coordinates', () => {
-        const cart: Cartesian = { x: 10, y: 20 };
-
-        expect(isCartesian(cart)).toBe(true);
+        expect(isCartesian({ x: 10, y: 20 })).toBe(true);
       });
 
       test('returns true for zero coordinates', () => {
-        const cart: Cartesian = { x: 0, y: 0 };
-
-        expect(isCartesian(cart)).toBe(true);
+        expect(isCartesian({ x: 0, y: 0 })).toBe(true);
       });
 
       test('returns true for negative coordinates', () => {
-        const cart: Cartesian = { x: -5, y: -3 };
-
-        expect(isCartesian(cart)).toBe(true);
+        expect(isCartesian({ x: -5, y: -3 })).toBe(true);
       });
 
       test('returns true for decimal coordinates', () => {
-        const cart: Cartesian = { x: 0.1, y: 0.2 };
-
-        expect(isCartesian(cart)).toBe(true);
+        expect(isCartesian({ x: 0.1, y: 0.2 })).toBe(true);
       });
 
       test('returns true for very large numbers', () => {
-        const cart: Cartesian = { x: 1e15, y: 2e15 };
-
-        expect(isCartesian(cart)).toBe(true);
+        expect(isCartesian({ x: 1e15, y: 2e15 })).toBe(true);
       });
 
       test('returns true for very small numbers', () => {
-        const cart: Cartesian = { x: 1e-15, y: 2e-15 };
-
-        expect(isCartesian(cart)).toBe(true);
+        expect(isCartesian({ x: 1e-15, y: 2e-15 })).toBe(true);
       });
 
       test('returns true for Infinity values', () => {
-        const cart: Cartesian = { x: Infinity, y: Infinity };
-
-        expect(isCartesian(cart)).toBe(true);
+        expect(isCartesian({ x: Infinity, y: Infinity })).toBe(true);
       });
 
       test('returns true for NaN values', () => {
-        const cart: Cartesian = { x: NaN, y: NaN };
-
-        expect(isCartesian(cart)).toBe(true);
+        expect(isCartesian({ x: NaN, y: NaN })).toBe(true);
       });
     });
 
@@ -113,9 +89,7 @@ describe('Helpers', () => {
       });
 
       test('returns false for Polar coordinates', () => {
-        const polar: Polar = { r: 1, p: Math.PI };
-
-        expect(isCartesian(polar)).toBe(false);
+        expect(isCartesian({ r: 1, p: Math.PI })).toBe(false);
       });
 
       test('returns true for objects with extra properties when x and y are present', () => {
@@ -138,57 +112,39 @@ describe('Helpers', () => {
   describe('isPolar', () => {
     describe('valid Polar coordinates', () => {
       test('returns true for standard Polar coordinates', () => {
-        const polar: Polar = { r: 11, p: Math.PI };
-
-        expect(isPolar(polar)).toBe(true);
+        expect(isPolar({ r: 11, p: Math.PI })).toBe(true);
       });
 
       test('returns true for zero radius', () => {
-        const polar: Polar = { r: 0, p: 0 };
-
-        expect(isPolar(polar)).toBe(true);
+        expect(isPolar({ r: 0, p: 0 })).toBe(true);
       });
 
       test('returns true for negative phase', () => {
-        const polar: Polar = { r: 5, p: -Math.PI / 2 };
-
-        expect(isPolar(polar)).toBe(true);
+        expect(isPolar({ r: 5, p: -Math.PI / 2 })).toBe(true);
       });
 
       test('returns true for large phase values', () => {
-        const polar: Polar = { r: 1, p: 2 * Math.PI };
-
-        expect(isPolar(polar)).toBe(true);
+        expect(isPolar({ r: 1, p: 2 * Math.PI })).toBe(true);
       });
 
       test('returns true for decimal values', () => {
-        const polar: Polar = { r: 0.5, p: 0.1 };
-
-        expect(isPolar(polar)).toBe(true);
+        expect(isPolar({ r: 0.5, p: 0.1 })).toBe(true);
       });
 
       test('returns true for very large numbers', () => {
-        const polar: Polar = { r: 1e15, p: 1e15 };
-
-        expect(isPolar(polar)).toBe(true);
+        expect(isPolar({ r: 1e15, p: 1e15 })).toBe(true);
       });
 
       test('returns true for very small numbers', () => {
-        const polar: Polar = { r: 1e-15, p: 1e-15 };
-
-        expect(isPolar(polar)).toBe(true);
+        expect(isPolar({ r: 1e-15, p: 1e-15 })).toBe(true);
       });
 
       test('returns true for Infinity values', () => {
-        const polar: Polar = { r: Infinity, p: Infinity };
-
-        expect(isPolar(polar)).toBe(true);
+        expect(isPolar({ r: Infinity, p: Infinity })).toBe(true);
       });
 
       test('returns true for NaN values', () => {
-        const polar: Polar = { r: NaN, p: NaN };
-
-        expect(isPolar(polar)).toBe(true);
+        expect(isPolar({ r: NaN, p: NaN })).toBe(true);
       });
     });
 
@@ -242,9 +198,7 @@ describe('Helpers', () => {
       });
 
       test('returns false for Cartesian coordinates', () => {
-        const cart: Cartesian = { x: 5, y: 10 };
-
-        expect(isPolar(cart)).toBe(false);
+        expect(isPolar({ x: 5, y: 10 })).toBe(false);
       });
 
       test('returns true for objects with extra properties when r and p are present', () => {
@@ -315,7 +269,7 @@ describe('Helpers', () => {
       });
 
       test('handles very small numbers', () => {
-        expect(addStable(1e-15, 2e-15)).toBeCloseTo(3e-15, 15);
+        expect(addStable(1e-15, 2e-15)).toBeApproximatelyEqual(3e-15);
       });
 
       test('handles very large numbers', () => {
@@ -323,7 +277,7 @@ describe('Helpers', () => {
       });
 
       test('handles decimal precision', () => {
-        expect(addStable(0.1, 0.2)).toBeCloseTo(0.3, 15);
+        expect(addStable(0.1, 0.2)).toBeApproximatelyEqual(0.3);
       });
     });
 
@@ -402,7 +356,7 @@ describe('Helpers', () => {
 
     describe('numerically stable cases', () => {
       test('handles similar magnitudes with stable subtraction when ratio is greater than 0.5', () => {
-        expect(subtractStable(1.0, 0.9)).toBeCloseTo(0.1, 15);
+        expect(subtractStable(1.0, 0.9)).toBeApproximatelyEqual(0.1);
       });
 
       test('handles very different magnitudes by subtracting normally', () => {
@@ -418,11 +372,11 @@ describe('Helpers', () => {
       });
 
       test('handles decimal precision', () => {
-        expect(subtractStable(0.3, 0.1)).toBeCloseTo(0.2, 15);
+        expect(subtractStable(0.3, 0.1)).toBeApproximatelyEqual(0.2);
       });
 
       test('uses stable algorithm for similar magnitudes when min to max ratio is greater than 0.5', () => {
-        expect(subtractStable(100.0, 60.0)).toBeCloseTo(40.0, 15);
+        expect(subtractStable(100.0, 60.0)).toBeApproximatelyEqual(40.0);
       });
     });
 
@@ -466,101 +420,101 @@ describe('Helpers', () => {
     });
   });
 
-  describe('isApproximatelyEqual', () => {
+  describe('toBeApproximatelyEqual matcher', () => {
     const EPSILON = Complex.EPSILON;
     const SMALL_DIFF = EPSILON / 2;
     const LARGE_DIFF = EPSILON * 2;
 
     describe('exact equality', () => {
-      test('returns true for identical numbers', () => {
-        expect(isApproximatelyEqual(0, 0)).toBe(true);
-        expect(isApproximatelyEqual(1, 1)).toBe(true);
-        expect(isApproximatelyEqual(-1, -1)).toBe(true);
-        expect(isApproximatelyEqual(3.14159, 3.14159)).toBe(true);
+      test('passes for identical numbers', () => {
+        expect(0).toBeApproximatelyEqual(0, EPSILON);
+        expect(1).toBeApproximatelyEqual(1, EPSILON);
+        expect(-1).toBeApproximatelyEqual(-1, EPSILON);
+        expect(3.14159).toBeApproximatelyEqual(3.14159, EPSILON);
       });
     });
 
     describe('values within epsilon', () => {
-      test('returns true for numbers very close to each other', () => {
-        expect(isApproximatelyEqual(0, SMALL_DIFF)).toBe(true);
-        expect(isApproximatelyEqual(1, 1 + SMALL_DIFF)).toBe(true);
-        expect(isApproximatelyEqual(-1, -1 - SMALL_DIFF)).toBe(true);
+      test('passes for numbers very close to each other', () => {
+        expect(0).toBeApproximatelyEqual(SMALL_DIFF, EPSILON);
+        expect(1).toBeApproximatelyEqual(1 + SMALL_DIFF, EPSILON);
+        expect(-1).toBeApproximatelyEqual(-1 - SMALL_DIFF, EPSILON);
       });
 
-      test('returns true for numbers near zero using absolute error', () => {
+      test('passes for numbers near zero using absolute error', () => {
         const value = 0.5;
 
-        expect(isApproximatelyEqual(value, value + SMALL_DIFF)).toBe(true);
-        expect(isApproximatelyEqual(value, value - SMALL_DIFF)).toBe(true);
+        expect(value).toBeApproximatelyEqual(value + SMALL_DIFF, EPSILON);
+        expect(value).toBeApproximatelyEqual(value - SMALL_DIFF, EPSILON);
       });
 
-      test('returns true for numbers away from zero using relative error', () => {
+      test('passes for numbers away from zero using relative error', () => {
         const value = 100;
 
-        expect(isApproximatelyEqual(value, value + SMALL_DIFF * value)).toBe(true);
-        expect(isApproximatelyEqual(value, value - SMALL_DIFF * value)).toBe(true);
+        expect(value).toBeApproximatelyEqual(value + SMALL_DIFF * value, EPSILON);
+        expect(value).toBeApproximatelyEqual(value - SMALL_DIFF * value, EPSILON);
       });
     });
 
     describe('values outside epsilon', () => {
-      test('returns false for numbers too far apart', () => {
-        expect(isApproximatelyEqual(0, LARGE_DIFF)).toBe(false);
-        expect(isApproximatelyEqual(1, 1 + LARGE_DIFF)).toBe(false);
-        expect(isApproximatelyEqual(-1, -1 - LARGE_DIFF)).toBe(false);
+      test('fails for numbers too far apart', () => {
+        expect(0).not.toBeApproximatelyEqual(LARGE_DIFF, EPSILON);
+        expect(1).not.toBeApproximatelyEqual(1 + LARGE_DIFF, EPSILON);
+        expect(-1).not.toBeApproximatelyEqual(-1 - LARGE_DIFF, EPSILON);
       });
 
-      test('returns false for clearly different numbers', () => {
-        expect(isApproximatelyEqual(1, 2)).toBe(false);
-        expect(isApproximatelyEqual(0.1, 0.2)).toBe(false);
-        expect(isApproximatelyEqual(-5, 5)).toBe(false);
+      test('fails for clearly different numbers', () => {
+        expect(1).not.toBeApproximatelyEqual(2, EPSILON);
+        expect(0.1).not.toBeApproximatelyEqual(0.2, EPSILON);
+        expect(-5).not.toBeApproximatelyEqual(5, EPSILON);
       });
     });
 
     describe('NaN handling', () => {
-      test('returns false when first argument is NaN', () => {
-        expect(isApproximatelyEqual(NaN, 0)).toBe(false);
-        expect(isApproximatelyEqual(NaN, 1)).toBe(false);
-        expect(isApproximatelyEqual(NaN, NaN)).toBe(false);
+      test('fails when first argument is NaN', () => {
+        expect(NaN).not.toBeApproximatelyEqual(0, EPSILON);
+        expect(NaN).not.toBeApproximatelyEqual(1, EPSILON);
+        expect(NaN).not.toBeApproximatelyEqual(NaN, EPSILON);
       });
 
-      test('returns false when second argument is NaN', () => {
-        expect(isApproximatelyEqual(0, NaN)).toBe(false);
-        expect(isApproximatelyEqual(1, NaN)).toBe(false);
+      test('fails when second argument is NaN', () => {
+        expect(0).not.toBeApproximatelyEqual(NaN, EPSILON);
+        expect(1).not.toBeApproximatelyEqual(NaN, EPSILON);
       });
     });
 
     describe('Infinity handling', () => {
-      test('returns true for identical infinities', () => {
-        expect(isApproximatelyEqual(Infinity, Infinity)).toBe(true);
-        expect(isApproximatelyEqual(-Infinity, -Infinity)).toBe(true);
+      test('passes for identical infinities', () => {
+        expect(Infinity).toBeApproximatelyEqual(Infinity, EPSILON);
+        expect(-Infinity).toBeApproximatelyEqual(-Infinity, EPSILON);
       });
 
-      test('returns false for different infinities', () => {
-        expect(isApproximatelyEqual(Infinity, -Infinity)).toBe(false);
-        expect(isApproximatelyEqual(-Infinity, Infinity)).toBe(false);
+      test('fails for different infinities', () => {
+        expect(Infinity).not.toBeApproximatelyEqual(-Infinity, EPSILON);
+        expect(-Infinity).not.toBeApproximatelyEqual(Infinity, EPSILON);
       });
 
-      test('returns false when comparing infinity to finite numbers', () => {
-        expect(isApproximatelyEqual(Infinity, 0)).toBe(false);
-        expect(isApproximatelyEqual(Infinity, 1)).toBe(false);
-        expect(isApproximatelyEqual(-Infinity, 0)).toBe(false);
-        expect(isApproximatelyEqual(-Infinity, -1)).toBe(false);
+      test('fails when comparing infinity to finite numbers', () => {
+        expect(Infinity).not.toBeApproximatelyEqual(0, EPSILON);
+        expect(Infinity).not.toBeApproximatelyEqual(1, EPSILON);
+        expect(-Infinity).not.toBeApproximatelyEqual(0, EPSILON);
+        expect(-Infinity).not.toBeApproximatelyEqual(-1, EPSILON);
       });
     });
 
     describe('custom epsilon', () => {
       test('uses custom epsilon when provided', () => {
-        expect(isApproximatelyEqual(1, 1.05, 0.1)).toBe(true);
-        expect(isApproximatelyEqual(1, 1.15, 0.1)).toBe(false);
+        expect(1).toBeApproximatelyEqual(1.05, 0.1);
+        expect(1).not.toBeApproximatelyEqual(1.15, 0.1);
       });
 
       test('works with very small custom epsilon', () => {
-        expect(isApproximatelyEqual(1, 1 + 1e-15, 1e-20)).toBe(false);
+        expect(1).not.toBeApproximatelyEqual(1 + 1e-15, 1e-20);
       });
 
       test('works with large custom epsilon', () => {
-        expect(isApproximatelyEqual(1, 1.5, 1)).toBe(true);
-        expect(isApproximatelyEqual(1, 2, 0.5)).toBe(false);
+        expect(1).toBeApproximatelyEqual(1.5, 1);
+        expect(1).not.toBeApproximatelyEqual(2, 0.5);
       });
     });
 
@@ -568,21 +522,21 @@ describe('Helpers', () => {
       test('handles very small numbers', () => {
         const tiny = 1e-15;
 
-        expect(isApproximatelyEqual(tiny, tiny + SMALL_DIFF)).toBe(true);
-        expect(isApproximatelyEqual(tiny, tiny + LARGE_DIFF)).toBe(false);
+        expect(tiny).toBeApproximatelyEqual(tiny + SMALL_DIFF, EPSILON);
+        expect(tiny).not.toBeApproximatelyEqual(tiny + LARGE_DIFF, EPSILON);
       });
 
       test('handles very large numbers', () => {
         const large = 1e15;
         const diff = (EPSILON * large) / 2;
 
-        expect(isApproximatelyEqual(large, large + diff)).toBe(true);
-        expect(isApproximatelyEqual(large, large + diff * 2)).toBe(false);
+        expect(large).toBeApproximatelyEqual(large + diff, EPSILON);
+        expect(large).not.toBeApproximatelyEqual(large + diff * 2, EPSILON);
       });
 
       test('handles numbers just below and above 1', () => {
-        expect(isApproximatelyEqual(0.999, 1.001)).toBe(false);
-        expect(isApproximatelyEqual(0.9999, 1.0001, 0.01)).toBe(true);
+        expect(0.999).not.toBeApproximatelyEqual(1.001, EPSILON);
+        expect(0.9999).toBeApproximatelyEqual(1.0001, 0.01);
       });
     });
   });

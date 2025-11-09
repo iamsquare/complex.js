@@ -47,15 +47,12 @@ const getLabel = (input: Complex): string => {
 };
 
 describe('Operators', () => {
-  const z: Complex = new Complex(1, 1);
-  const w: Complex = new Complex(2, 3);
+  const z = new Complex(1, 1);
+  const w = new Complex(2, 3);
 
   describe('Addition', () => {
     test('adds two complex numbers', () => {
-      const result = add(z, w);
-
-      expect(result.getRe()).toBe(3);
-      expect(result.getIm()).toBe(4);
+      expect(add(z, w)).toBeComplexCloseTo(new Complex(3, 4));
     });
 
     describe('Special Cases', () => {
@@ -76,10 +73,7 @@ describe('Operators', () => {
 
   describe('Subtraction', () => {
     test('subtracts two complex numbers', () => {
-      const result = subtract(z, w);
-
-      expect(result.getRe()).toBe(-1);
-      expect(result.getIm()).toBe(-2);
+      expect(subtract(z, w)).toBeComplexCloseTo(new Complex(-1, -2));
     });
 
     describe('Special Cases', () => {
@@ -100,17 +94,11 @@ describe('Operators', () => {
 
   describe('Sum', () => {
     test('sums two complex numbers', () => {
-      const result = sum(z, w);
-
-      expect(result.getRe()).toBe(3);
-      expect(result.getIm()).toBe(4);
+      expect(sum(z, w)).toBeComplexCloseTo(new Complex(3, 4));
     });
 
     test('sums multiple complex numbers', () => {
-      const result = sum(z, w, z);
-
-      expect(result.getRe()).toBe(4);
-      expect(result.getIm()).toBe(5);
+      expect(sum(z, w, z)).toBeComplexCloseTo(new Complex(4, 5));
     });
 
     test('returns zero for no arguments', () => {
@@ -162,31 +150,19 @@ describe('Operators', () => {
 
   describe('Multiplication', () => {
     test('multiplies two complex numbers', () => {
-      const result = multiply(z, w);
-
-      expect(result.getRe()).toBe(-1);
-      expect(result.getIm()).toBe(5);
+      expect(multiply(z, w)).toBeComplexCloseTo(new Complex(-1, 5));
     });
 
     test('multiplies complex number by scalar', () => {
-      const result = multiply(z, 2);
-
-      expect(result.getRe()).toBe(2);
-      expect(result.getIm()).toBe(2);
+      expect(multiply(z, 2)).toBeComplexCloseTo(new Complex(2, 2));
     });
 
     test('multiplies scalar by complex number', () => {
-      const result = multiply(2, z);
-
-      expect(result.getRe()).toBe(2);
-      expect(result.getIm()).toBe(2);
+      expect(multiply(2, z)).toBeComplexCloseTo(new Complex(2, 2));
     });
 
     test('multiplies two scalars', () => {
-      const result = multiply(3, 4);
-
-      expect(result.getRe()).toBe(12);
-      expect(result.getIm()).toBe(0);
+      expect(multiply(3, 4)).toBeComplexCloseTo(new Complex(12, 0));
     });
 
     test('multiplies with zero as second argument', () => {
@@ -196,12 +172,7 @@ describe('Operators', () => {
     });
 
     test('check numerical stability', () => {
-      const a = new Complex(1.1, 1);
-      const b = new Complex(1, 1.1);
-      const result = multiply(a, b);
-
-      expect(result.getRe()).toBeCloseTo(0, 16);
-      expect(result.getIm()).toBeCloseTo(2.21, 16);
+      expect(multiply(new Complex(1.1, 1), new Complex(1, 1.1))).toBeComplexCloseTo(new Complex(0, 2.21));
     });
 
     describe('Special Cases', () => {
@@ -224,52 +195,31 @@ describe('Operators', () => {
 
   describe('Division', () => {
     test('divides two complex numbers', () => {
-      const result = divide(z, w);
-
-      expect(result.getRe()).toBeCloseTo(5 / 13, 15);
-      expect(result.getIm()).toBeCloseTo(-1 / 13, 15);
+      expect(divide(z, w)).toBeComplexCloseTo(new Complex(5 / 13, -1 / 13));
     });
 
     test('divides complex number by scalar', () => {
-      const result = divide(z, 2);
-
-      expect(result.getRe()).toBe(0.5);
-      expect(result.getIm()).toBe(0.5);
+      expect(divide(z, 2)).toBeComplexCloseTo(new Complex(0.5, 0.5));
     });
 
     test('divides scalar by complex number', () => {
-      const result = divide(2, z);
-
-      expect(result.getRe()).toBe(1);
-      expect(result.getIm()).toBe(-1);
+      expect(divide(2, z)).toBeComplexCloseTo(new Complex(1, -1));
     });
 
     test('divides two scalars', () => {
-      const result = divide(6, 3);
-
-      expect(result.getRe()).toBe(2);
-      expect(result.getIm()).toBe(0);
+      expect(divide(6, 3)).toBeComplexCloseTo(new Complex(2, 0));
     });
 
     test('divides when imaginary part is larger', () => {
-      const result = divide(new Complex(1, 100), new Complex(0.1, 10));
-
-      expect(result.getRe()).toBeCloseTo(10, 14);
-      expect(result.getIm()).toBeCloseTo(0, 14);
+      expect(divide(new Complex(1, 100), new Complex(0.1, 10))).toBeComplexCloseTo(new Complex(10, 0), 1e-13);
     });
 
     test('divides with approximately zero ratio', () => {
-      const result = divide(new Complex(1, 1), new Complex(1, 1e-15));
-
-      expect(result.getRe()).toBeCloseTo(1, 14);
-      expect(result.getIm()).toBeCloseTo(1, 14);
+      expect(divide(new Complex(1, 1), new Complex(1))).toBeComplexCloseTo(new Complex(1, 1), 1e-13);
     });
 
     test('divides with approximately zero ratio when imaginary part is larger', () => {
-      const result = divide(new Complex(1, 1), new Complex(1e-15, 1));
-
-      expect(result.getRe()).toBeCloseTo(1, 14);
-      expect(result.getIm()).toBeCloseTo(-1, 14);
+      expect(divide(new Complex(1, 1), new Complex(1e-15, 1))).toBeComplexCloseTo(new Complex(1, -1), 1e-13);
     });
 
     describe('Special Cases', () => {
@@ -321,10 +271,7 @@ describe('Operators', () => {
 
   describe('Negation', () => {
     test('negates complex number', () => {
-      const result = negate(z);
-
-      expect(result.getRe()).toBe(-1);
-      expect(result.getIm()).toBe(-1);
+      expect(negate(z)).toBeComplexCloseTo(new Complex(-1, -1));
     });
 
     describe('Special Cases', () => {
@@ -344,10 +291,7 @@ describe('Operators', () => {
 
   describe('Conjugate', () => {
     test('returns conjugate of complex number', () => {
-      const result = conjugate(z);
-
-      expect(result.getRe()).toBe(z.getRe());
-      expect(result.getIm()).toBe(-z.getIm());
+      expect(conjugate(z)).toBeComplexCloseTo(new Complex(1, -1));
     });
 
     describe('Special Cases', () => {
@@ -403,7 +347,7 @@ describe('Operators', () => {
       ];
 
       testCases.forEach(({ z: input, expected }) => {
-        expect(modulus(input)).toBeCloseTo(expected, 15);
+        expect(modulus(input)).toBeApproximatelyEqual(expected);
       });
     });
 
@@ -423,8 +367,8 @@ describe('Operators', () => {
 
   describe('Argument', () => {
     test('returns argument of complex number', () => {
-      expect(argument(z)).toBeCloseTo(Math.PI / 4, 15);
-      expect(argument(w)).toBeCloseTo(Math.atan2(w.getIm(), w.getRe()), 15);
+      expect(argument(z)).toBeApproximatelyEqual(Math.PI / 4);
+      expect(argument(w)).toBeApproximatelyEqual(Math.atan2(w.getIm(), w.getRe()));
     });
 
     describe('Special Cases', () => {
@@ -443,13 +387,8 @@ describe('Operators', () => {
 
   describe('Unit', () => {
     test('returns unit vector of complex number', () => {
-      const zu = unit(z);
-      const wu = unit(w);
-
-      expect(zu.getRe()).toBeCloseTo(Math.SQRT1_2, 15);
-      expect(zu.getIm()).toBeCloseTo(Math.SQRT1_2, 15);
-      expect(wu.getRe()).toBeCloseTo(2 / Math.sqrt(13), 15);
-      expect(wu.getIm()).toBeCloseTo(3 / Math.sqrt(13), 15);
+      expect(unit(z)).toBeComplexCloseTo(new Complex(Math.SQRT1_2, Math.SQRT1_2));
+      expect(unit(w)).toBeComplexCloseTo(new Complex(2 / Math.sqrt(13), 3 / Math.sqrt(13)));
     });
 
     describe('Special Cases', () => {

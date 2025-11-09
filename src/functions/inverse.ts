@@ -1,4 +1,5 @@
 import { Complex } from '~/complex';
+import { isApproximatelyEqual } from '~/helpers';
 import { isInfinite, isNaNC, isZero } from '~/operations';
 
 /**
@@ -35,6 +36,8 @@ export function inverse(z: Complex) {
   // aScaled / modulusSquaredScaled / maxAbs = (a / maxAbs) / ((a² + b²) / maxAbs²) / maxAbs
   // = a * maxAbs / (a² + b²) / maxAbs = a / (a² + b²) ✓
   const scaleFactor = 1 / (modulusSquaredScaled * maxAbs);
+  const re = aScaled * scaleFactor;
+  const im = -(bScaled * scaleFactor);
 
-  return new Complex(aScaled * scaleFactor, -(bScaled * scaleFactor));
+  return new Complex(isApproximatelyEqual(re, 0) ? 0 : re, isApproximatelyEqual(im, 0) ? 0 : im);
 }

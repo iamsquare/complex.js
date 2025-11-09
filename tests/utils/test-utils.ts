@@ -1,7 +1,15 @@
-import { expect } from 'vitest';
-
 import { type Complex } from '~/complex';
 import { type Polar } from '~/helpers';
+
+/**
+ * Type for Vitest matcher result.
+ */
+type SyncExpectationResult = {
+  pass: boolean;
+  message: () => string;
+  actual?: unknown;
+  expected?: unknown;
+};
 
 /**
  * Epsilon value for floating-point comparisons.
@@ -44,50 +52,84 @@ export function isApproximatelyEqual(a: number, b: number, epsilon: number = TES
 }
 
 /**
- * Checks if a complex number's real and imaginary parts are approximately equal
- * to an expected Complex number using epsilon-based comparison.
- *
- * @param z - Complex number to check
- * @param expected - Expected Complex number
- * @param epsilon - Maximum allowed error (defaults to EPSILON)
+ * Vitest matcher for checking if a number is approximately equal to an expected value.
  */
-export function expectComplexCloseTo(z: Complex, expected: Complex, epsilon: number = TEST_EPSILON) {
-  const actualRe = z.getRe();
-  const actualIm = z.getIm();
-  const expectedRe = expected.getRe();
-  const expectedIm = expected.getIm();
+export function toBeApproximatelyEqual(
+  received: number,
+  expected: number,
+  epsilon: number = TEST_EPSILON,
+): SyncExpectationResult {
+  const pass = isApproximatelyEqual(received, expected, epsilon);
+  const diff = Math.abs(received - expected);
 
-  expect(
-    isApproximatelyEqual(actualRe, expectedRe, epsilon),
-    `Real part: expected ${expectedRe}, got ${actualRe} (difference: ${Math.abs(actualRe - expectedRe)})`,
-  ).toBe(true);
-
-  expect(
-    isApproximatelyEqual(actualIm, expectedIm, epsilon),
-    `Imaginary part: expected ${expectedIm}, got ${actualIm} (difference: ${Math.abs(actualIm - expectedIm)})`,
-  ).toBe(true);
+  return {
+    message: () =>
+      pass
+        ? ``
+        : `Expected ${received} to be approximately equal to ${expected} (difference: ${diff}, epsilon: ${epsilon})`,
+    pass,
+    ...(pass ? {} : { actual: received, expected }),
+  };
 }
 
 /**
- * Checks if a polar coordinate is approximately equal to an expected Polar coordinate.
- *
- * @param polar - Polar coordinate to check
- * @param expected - Expected Polar coordinate
- * @param epsilon - Maximum allowed error (defaults to TEST_EPSILON)
+ * Vitest matcher for checking if a complex number is approximately equal to an expected value.
  */
-export function expectPolarCloseTo(polar: Polar, expected: Polar, epsilon: number = TEST_EPSILON) {
-  const actualR = polar.r;
-  const actualP = polar.p;
+export function toBeComplexCloseTo(
+  received: Complex,
+  expected: Complex,
+  epsilon: number = TEST_EPSILON,
+): SyncExpectationResult {
+  const actualRe = received.getRe();
+  const actualIm = received.getIm();
+  const expectedRe = expected.getRe();
+  const expectedIm = expected.getIm();
+  const reEqual = isApproximatelyEqual(actualRe, expectedRe, epsilon);
+  const imEqual = isApproximatelyEqual(actualIm, expectedIm, epsilon);
+  const pass = reEqual && imEqual;
+  const reDiff = Math.abs(actualRe - expectedRe);
+  const imDiff = Math.abs(actualIm - expectedIm);
+
+  return {
+    message: () =>
+      pass
+        ? ``
+        : [
+            !reEqual && `Real part: expected ${expectedRe}, got ${actualRe} (difference: ${reDiff})`,
+            !imEqual && `Imaginary part: expected ${expectedIm}, got ${actualIm} (difference: ${imDiff})`,
+          ]
+            .filter(Boolean)
+            .join('\n'),
+    pass,
+    ...(pass ? {} : { actual: received, expected }),
+  };
+}
+
+/**
+ * Vitest matcher for checking if a polar coordinate is approximately equal to an expected value.
+ */
+export function toBePolarCloseTo(received: Polar, expected: Polar, epsilon: number = TEST_EPSILON) {
+  const actualR = received.r;
+  const actualP = received.p;
   const expectedR = expected.r;
   const expectedP = expected.p;
+  const rEqual = isApproximatelyEqual(actualR, expectedR, epsilon);
+  const pEqual = isApproximatelyEqual(actualP, expectedP, epsilon);
+  const pass = rEqual && pEqual;
+  const rDiff = Math.abs(actualR - expectedR);
+  const pDiff = Math.abs(actualP - expectedP);
 
-  expect(
-    isApproximatelyEqual(actualR, expectedR, epsilon),
-    `Radius: expected ${expectedR}, got ${actualR} (difference: ${Math.abs(actualR - expectedR)})`,
-  ).toBe(true);
-
-  expect(
-    isApproximatelyEqual(actualP, expectedP, epsilon),
-    `Phase: expected ${expectedP}, got ${actualP} (difference: ${Math.abs(actualP - expectedP)})`,
-  ).toBe(true);
+  return {
+    message: () =>
+      pass
+        ? ``
+        : [
+            !rEqual && `Radius: expected ${expectedR}, got ${actualR} (difference: ${rDiff})`,
+            !pEqual && `Phase: expected ${expectedP}, got ${actualP} (difference: ${pDiff})`,
+          ]
+            .filter(Boolean)
+            .join('\n'),
+    pass,
+    ...(pass ? {} : { actual: received, expected }),
+  };
 }

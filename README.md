@@ -36,7 +36,7 @@ pnpm i @iamsquare/complex.js
 ## Quick Start
 
 ```typescript
-import { Complex, add, multiply, sin, exp } from '@iamsquare/complex.js';
+import { Complex, add, sum, multiply, sin, exp } from '@iamsquare/complex.js';
 
 // Create complex numbers
 const z = new Complex(1, -1);
@@ -44,12 +44,13 @@ const w = new Complex({ x: 1, y: -3 });
 const k = new Complex({ r: 1, p: Math.PI / 2 });
 
 // Perform operations
-const sum = add(z, w);
+const addition = add(z, w);
+const total = sum(z, w, k);
 const product = multiply(z, w);
 const sine = sin(z);
 const exponential = exp(z);
 
-console.log(sum.toString()); // => "2 - 4i"
+console.log(addition.toString()); // => "2 - 4i"
 ```
 
 ## Usage
@@ -89,14 +90,21 @@ const polar = z.toPolar(); // { r: 5, p: 0.9272952180016122 }
 ### Basic Arithmetic Operations
 
 ```typescript
-import { Complex, add, subtract, multiply, divide, negate } from '@iamsquare/complex.js';
+import { Complex, add, sum, subtract, multiply, divide, negate } from '@iamsquare/complex.js';
 
 const z = new Complex(1, -1);
 const w = new Complex(1, -3);
 
 // Addition
-const sum = add(z, w);
-console.log(sum.toString()); // => "2 - 4i"
+const addition = add(z, w);
+console.log(addition.toString()); // => "2 - 4i"
+
+// Sum multiple numbers
+const z1 = new Complex(1, 2);
+const z2 = new Complex(3, 4);
+const z3 = new Complex(5, 6);
+const total = sum(z1, z2, z3);
+console.log(total.toString()); // => "9 + 12i"
 
 // Subtraction
 const diff = subtract(z, w);
@@ -146,7 +154,17 @@ const arcHyperSine = asinh(z);
 ### Utility Operations
 
 ```typescript
-import { Complex, modulus, argument, conjugate, unit, equals, isReal, isZero } from '@iamsquare/complex.js';
+import {
+  Complex,
+  modulus,
+  argument,
+  conjugate,
+  unit,
+  equals,
+  isApproximatelyEqual,
+  isReal,
+  isZero,
+} from '@iamsquare/complex.js';
 
 const z = new Complex(3, 4);
 
@@ -162,10 +180,13 @@ const conj = conjugate(z); // 3 - 4i
 // Unit vector
 const unitVec = unit(z); // 0.6 + 0.8i
 
-// Equality checks
+// Equality checks (uses epsilon-based comparison for floating-point precision)
 const isEqual = equals(z, new Complex(3, 4)); // true
 const isRealNum = isReal(z); // false
 const isZeroNum = isZero(z); // false
+
+// Compare floating-point numbers
+const approxEqual = isApproximatelyEqual(0.1 + 0.2, 0.3); // true
 ```
 
 ### Predefined Constants

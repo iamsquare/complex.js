@@ -1,8 +1,6 @@
 import { describe, expect, test } from 'vitest';
 
 import { Complex } from '~/complex';
-import { type Cartesian, type Polar } from '~/helpers';
-import { expectComplexCloseTo, expectPolarCloseTo } from '~/tests/utils/test-utils';
 
 const ZERO = Complex.ZERO;
 const ONE = Complex.ONE;
@@ -14,47 +12,31 @@ describe('Complex', () => {
   describe('Constructor', () => {
     describe('from numeric arguments', () => {
       test('new Complex() creates zero', () => {
-        const z = new Complex();
-
-        expect(z).toEqual(ZERO);
-        expect(z.getRe()).toBe(0);
-        expect(z.getIm()).toBe(0);
+        expect(new Complex()).toEqual(ZERO);
       });
 
       test('new Complex(re) creates real number', () => {
-        const z = new Complex(5);
-
-        expect(z.getRe()).toBe(5);
-        expect(z.getIm()).toBe(0);
+        expect(new Complex(5)).toBeComplexCloseTo(new Complex(5, 0));
       });
 
       test('new Complex(re, im) creates complex number', () => {
-        const z = new Complex(3, 4);
-
-        expect(z.getRe()).toBe(3);
-        expect(z.getIm()).toBe(4);
+        expect(new Complex(3, 4)).toBeComplexCloseTo(new Complex(3, 4));
       });
 
       test('new Complex(re, im) handles negative values', () => {
-        const z = new Complex(-5, -3);
-
-        expect(z.getRe()).toBe(-5);
-        expect(z.getIm()).toBe(-3);
+        expect(new Complex(-5, -3)).toBeComplexCloseTo(new Complex(-5, -3));
       });
 
       test('new Complex(re, im) handles decimal values', () => {
-        const z = new Complex(0.1, 0.2);
-
-        expect(z.getRe()).toBe(0.1);
-        expect(z.getIm()).toBe(0.2);
+        expect(new Complex(0.1, 0.2)).toBeComplexCloseTo(new Complex(0.1, 0.2));
       });
 
       test('new Complex(re, im) handles very small values', () => {
-        expectComplexCloseTo(new Complex(1e-15, 2e-15), new Complex(1e-15, 2e-15));
+        expect(new Complex(1e-15, 2e-15)).toBeComplexCloseTo(new Complex(1e-15, 2e-15));
       });
 
       test('new Complex(re, im) handles very large values', () => {
-        expectComplexCloseTo(new Complex(1e15, 2e15), new Complex(1e15, 2e15));
+        expect(new Complex(1e15, 2e15)).toBeComplexCloseTo(new Complex(1e15, 2e15));
       });
     });
 
@@ -63,10 +45,8 @@ describe('Complex', () => {
         const z = new Complex(3, 4);
         const w = new Complex(z);
 
-        expect(w).toEqual(z);
         expect(w).not.toBe(z);
-        expect(w.getRe()).toBe(3);
-        expect(w.getIm()).toBe(4);
+        expect(w).toBeComplexCloseTo(z);
       });
 
       test('new Complex(z) copies special values correctly', () => {
@@ -80,39 +60,25 @@ describe('Complex', () => {
 
     describe('from Cartesian coordinates', () => {
       test('new Complex({x, y}) creates complex number', () => {
-        const cart: Cartesian = { x: 3, y: 4 };
-        const z = new Complex(cart);
-
-        expect(z.getRe()).toBe(3);
-        expect(z.getIm()).toBe(4);
+        expect(new Complex({ x: 3, y: 4 })).toBeComplexCloseTo(new Complex(3, 4));
       });
 
       test('new Complex({x, y}) handles negative values', () => {
-        const cart: Cartesian = { x: -5, y: -3 };
-        const z = new Complex(cart);
-
-        expect(z.getRe()).toBe(-5);
-        expect(z.getIm()).toBe(-3);
+        expect(new Complex({ x: -5, y: -3 })).toBeComplexCloseTo(new Complex(-5, -3));
       });
 
       test('new Complex({x, y}) handles zero', () => {
-        const cart: Cartesian = { x: 0, y: 0 };
-
-        expect(new Complex(cart)).toEqual(ZERO);
+        expect(new Complex({ x: 0, y: 0 })).toEqual(ZERO);
       });
     });
 
     describe('from Polar coordinates', () => {
       test('new Complex({r, p}) converts to Cartesian correctly', () => {
-        const polar: Polar = { r: 1, p: Math.PI / 2 };
-
-        expectComplexCloseTo(new Complex(polar), new Complex(0, 1));
+        expect(new Complex({ r: 1, p: Math.PI / 2 })).toBeComplexCloseTo(new Complex(0, 1));
       });
 
       test('new Complex({r, p}) handles zero radius', () => {
-        const polar: Polar = { r: 0, p: 0 };
-
-        expect(new Complex(polar)).toEqual(ZERO);
+        expect(new Complex({ r: 0, p: 0 })).toEqual(ZERO);
       });
 
       test('new Complex({r, p}) handles unit circle', () => {
@@ -126,7 +92,7 @@ describe('Complex', () => {
         ];
 
         angles.forEach((angle, i) => {
-          expectComplexCloseTo(new Complex({ r: 1, p: angle }), expected[i]);
+          expect(new Complex({ r: 1, p: angle })).toBeComplexCloseTo(expected[i]);
         });
       });
 
@@ -139,7 +105,7 @@ describe('Complex', () => {
         ];
 
         testCases.forEach(({ r, p, expected }) => {
-          expectComplexCloseTo(new Complex({ r, p }), expected);
+          expect(new Complex({ r, p })).toBeComplexCloseTo(expected);
         });
       });
     });
@@ -316,12 +282,10 @@ describe('Complex', () => {
       expect(I.toCartesian()).toEqual({ x: 0, y: 1 });
 
       const infCart = INFINITY.toCartesian();
-
       expect(infCart.x).toBe(Infinity);
       expect(infCart.y).toBe(Infinity);
 
       const nanCart = NAN.toCartesian();
-
       expect(Number.isNaN(nanCart.x)).toBe(true);
       expect(Number.isNaN(nanCart.y)).toBe(true);
     });
@@ -329,9 +293,7 @@ describe('Complex', () => {
 
   describe('toPolar()', () => {
     test('returns correct polar coordinates for standard complex number', () => {
-      const polar = new Complex(1, 1).toPolar();
-
-      expectPolarCloseTo(polar, { r: Math.SQRT2, p: Math.PI / 4 });
+      expect(new Complex(1, 1).toPolar()).toBePolarCloseTo({ r: Math.SQRT2, p: Math.PI / 4 });
     });
 
     test('handles zero', () => {
@@ -341,14 +303,12 @@ describe('Complex', () => {
     test('handles real numbers', () => {
       expect(ONE.toPolar()).toEqual({ r: 1, p: 0 });
 
-      expectPolarCloseTo(new Complex(-1, 0).toPolar(), { r: 1, p: Math.PI });
+      expect(new Complex(-1, 0).toPolar()).toBePolarCloseTo({ r: 1, p: Math.PI });
     });
 
     test('handles pure imaginary numbers', () => {
-      const polar = I.toPolar();
-      expectPolarCloseTo(polar, { r: 1, p: Math.PI / 2 });
-
-      expectPolarCloseTo(new Complex(0, -1).toPolar(), { r: 1, p: -Math.PI / 2 });
+      expect(I.toPolar()).toBePolarCloseTo({ r: 1, p: Math.PI / 2 });
+      expect(new Complex(0, -1).toPolar()).toBePolarCloseTo({ r: 1, p: -Math.PI / 2 });
     });
 
     test('handles all quadrants', () => {
@@ -360,20 +320,16 @@ describe('Complex', () => {
       ];
 
       testCases.forEach(({ z, r, p }) => {
-        const polar = z.toPolar();
-
-        expectPolarCloseTo(polar, { r, p });
+        expect(z.toPolar()).toBePolarCloseTo({ r, p });
       });
     });
 
     test('handles special values', () => {
       const infPolar = INFINITY.toPolar();
-
       expect(infPolar.r).toBe(Infinity);
       expect(infPolar.p).toBe(Infinity);
 
       const nanPolar = NAN.toPolar();
-
       expect(Number.isNaN(nanPolar.r)).toBe(true);
       expect(Number.isNaN(nanPolar.p)).toBe(true);
     });
