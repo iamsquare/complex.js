@@ -5,7 +5,7 @@
     "lib": ["ES2022"],
     "types": ["node"],
     "skipLibCheck": true,
-    "moduleResolution": "bundler",
+    "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
     "isolatedModules": true,
     "moduleDetection": "force",
@@ -15,11 +15,7 @@
     "checkJs": false,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
-    "baseUrl": ".",
-    "paths": {
-      "~/*": ["./src/*"],
-      "~/tests/*": ["./tests/*"],
-      "~/repl/*": ["./repl/*"]
-    }
-  }
+    "baseUrl": "./"
+  },
+  "exclude": ["node_modules/**/*"]
 }

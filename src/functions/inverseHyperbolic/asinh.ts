@@ -1,7 +1,7 @@
 import { Complex } from '~/complex';
 import { log } from '~/functions/log';
 import { sqrt } from '~/functions/sqrt';
-import { add } from '~/operations';
+import { add } from '~/operations/add';
 import { isInfinite } from '~/operations/isInfinite';
 import { isNaNC } from '~/operations/isNaNC';
 import { isZero } from '~/operations/isZero';

@@ -248,14 +248,6 @@ Represents NaN (Not a Number).
 Complex.NAN; // => new Complex(NaN, NaN)
 ```
 
-### Complex.EPSILON
-
-Machine epsilon (the difference between 1 and the smallest floating point number greater than 1).
-
-```typescript
-Complex.EPSILON; // => Number.EPSILON
-```
-
 ## Usage Examples
 
 ### Creating Complex Numbers

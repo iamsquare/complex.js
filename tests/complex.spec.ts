@@ -481,15 +481,5 @@ describe('Complex', () => {
         expect(Complex.NAN).toEqual(new Complex(NaN, NaN));
       });
     });
-
-    describe('EPSILON', () => {
-      test('equals Number.EPSILON', () => {
-        expect(Complex.EPSILON).toBe(Number.EPSILON);
-      });
-
-      test('is a number', () => {
-        expect(typeof Complex.EPSILON).toBe('number');
-      });
-    });
   });
 });

@@ -1,6 +1,10 @@
 import { Complex } from '~/complex';
 import { addStable } from '~/helpers';
-import { divide, isInfinite, isNaNC, isZero, multiply } from '~/operations';
+import { divide } from '~/operations/divide';
+import { isInfinite } from '~/operations/isInfinite';
+import { isNaNC } from '~/operations/isNaNC';
+import { isZero } from '~/operations/isZero';
+import { multiply } from '~/operations/multiply';
 
 /**
  * Calculates the hyperbolic tangent of a complex number: tanh(z).

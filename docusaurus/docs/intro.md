@@ -209,7 +209,6 @@ Complex.HALFPI; // π/2
 Complex.E; // e (Euler's number)
 Complex.INFINITY; // ∞
 Complex.NAN; // NaN
-Complex.EPSILON; // Machine epsilon
 ```
 
 ## Available Operations

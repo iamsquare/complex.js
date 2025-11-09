@@ -1,5 +1,3 @@
-import { Complex } from '~/complex';
-
 const isNumber = (x: unknown): x is number => typeof x === 'number';
 const isNullish = (x: unknown): x is null | undefined => x === undefined || x === null;
 const isObject = (x: unknown): x is Record<string, unknown> => typeof x === 'object' && x !== null;
@@ -134,7 +132,7 @@ export function subtractStable(x: number, y: number): number {
  *
  * @param a - First number
  * @param b - Second number
- * @param epsilon - Maximum allowed error (defaults to Complex.EPSILON)
+ * @param epsilon - Maximum allowed error (defaults to Number.EPSILON)
  * @returns True if numbers are approximately equal
  *
  * @example
@@ -144,7 +142,7 @@ export function subtractStable(x: number, y: number): number {
  * isApproximatelyEqual(1, 2); // => false
  * ```
  */
-export function isApproximatelyEqual(a: number, b: number, epsilon: number = Complex.EPSILON): boolean {
+export function isApproximatelyEqual(a: number, b: number, epsilon: number = Number.EPSILON): boolean {
   if (Number.isNaN(a) || Number.isNaN(b)) return false;
   if (!Number.isFinite(a) || !Number.isFinite(b)) return a === b;
 

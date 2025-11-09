@@ -268,7 +268,7 @@ isApproximatelyEqual(a: number, b: number, epsilon?: number): boolean
 
 - `a` - First number
 - `b` - Second number
-- `epsilon` - Maximum allowed error (defaults to `Complex.EPSILON`)
+- `epsilon` - Maximum allowed error (defaults to `Number.EPSILON`)
 
 ### Returns
 

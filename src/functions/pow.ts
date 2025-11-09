@@ -1,5 +1,11 @@
 import { Complex } from '~/complex';
-import { argument, equals, isInfinite, isZero, multiply, notEquals, pythagoras } from '~/operations';
+import { argument } from '~/operations/argument';
+import { equals } from '~/operations/equals';
+import { isInfinite } from '~/operations/isInfinite';
+import { isZero } from '~/operations/isZero';
+import { multiply } from '~/operations/multiply';
+import { notEquals } from '~/operations/notEquals';
+import { pythagoras } from '~/operations/pythagoras';
 
 /**
  * Calculates the power of a complex number: z^w.

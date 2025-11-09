@@ -1,8 +1,8 @@
 import { type Cartesian, isCartesian, isPolar, type Polar } from '~/helpers';
-import { isPureImaginary } from '~/operations';
 import { argument } from '~/operations/argument';
 import { isInfinite } from '~/operations/isInfinite';
 import { isNaNC } from '~/operations/isNaNC';
+import { isPureImaginary } from '~/operations/isPureImaginary';
 import { isReal } from '~/operations/isReal';
 import { isZero } from '~/operations/isZero';
 import { modulus } from '~/operations/modulus';
@@ -331,16 +331,4 @@ export class Complex {
    * ```
    */
   static NAN = new Complex(NaN, NaN);
-
-  /**
-   * The machine epsilon value: the difference between 1 and the smallest floating point number greater than 1.
-   *
-   * This is equivalent to `Number.EPSILON` and is used for floating-point comparisons.
-   *
-   * @example
-   * ```typescript
-   * console.log(Complex.EPSILON); // => Number.EPSILON
-   * ```
-   */
-  static EPSILON = Number.EPSILON;
 }

@@ -1,5 +1,7 @@
 import { Complex } from '~/complex';
-import { isInfinite, isNaNC, isZero } from '~/operations';
+import { isInfinite } from '~/operations/isInfinite';
+import { isNaNC } from '~/operations/isNaNC';
+import { isZero } from '~/operations/isZero';
 
 /**
  * Calculates the hyperbolic sine of a complex number: sinh(z).

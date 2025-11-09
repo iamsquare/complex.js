@@ -1,5 +1,7 @@
 import { Complex } from '~/complex';
-import { isInfinite, isNaNC, isZero } from '~/operations';
+import { isInfinite } from '~/operations/isInfinite';
+import { isNaNC } from '~/operations/isNaNC';
+import { isZero } from '~/operations/isZero';
 
 /**
  * Calculates the hyperbolic cosine of a complex number: cosh(z).

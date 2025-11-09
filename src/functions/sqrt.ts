@@ -1,5 +1,10 @@
 import { Complex } from '~/complex';
-import { argument, isInfinite, isNaNC, isZero, modulus, multiply } from '~/operations';
+import { argument } from '~/operations/argument';
+import { isInfinite } from '~/operations/isInfinite';
+import { isNaNC } from '~/operations/isNaNC';
+import { isZero } from '~/operations/isZero';
+import { modulus } from '~/operations/modulus';
+import { multiply } from '~/operations/multiply';
 
 /**
  * Calculates the square root (principal value) of a complex number: √z.

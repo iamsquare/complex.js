@@ -1,6 +1,9 @@
 import { Complex } from '~/complex';
 import { addStable } from '~/helpers';
-import { divide, isInfinite, isNaNC, isZero } from '~/operations';
+import { divide } from '~/operations/divide';
+import { isInfinite } from '~/operations/isInfinite';
+import { isNaNC } from '~/operations/isNaNC';
+import { isZero } from '~/operations/isZero';
 
 /**
  * Calculates the hyperbolic secant of a complex number: sech(z).

@@ -1,5 +1,12 @@
 import { Complex } from '~/complex';
-import { argument, conjugate, divide, isInfinite, isNaNC, isZero, modulus, pythagoras } from '~/operations';
+import { argument } from '~/operations/argument';
+import { conjugate } from '~/operations/conjugate';
+import { divide } from '~/operations/divide';
+import { isInfinite } from '~/operations/isInfinite';
+import { isNaNC } from '~/operations/isNaNC';
+import { isZero } from '~/operations/isZero';
+import { modulus } from '~/operations/modulus';
+import { pythagoras } from '~/operations/pythagoras';
 
 /**
  * Calculates the principal value of the n-th root of a complex number: ⁿ√z.

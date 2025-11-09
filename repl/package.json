@@ -1,0 +1,40 @@
+{
+  "name": "@iamsquare/complex.js-repl",
+  "version": "1.0.0",
+  "type": "module",
+  "types": "./dist/esm/evaluator.d.ts",
+  "exports": {
+    "./evaluator": {
+      "import": "./dist/esm/evaluator.mjs",
+      "types": "./dist/esm/evaluator.d.ts"
+    },
+    "./parser": {
+      "import": "./dist/esm/parser.mjs",
+      "types": "./dist/esm/parser.d.ts"
+    }
+  },
+  "bin": {
+    "complex-repl": "./dist/esm/index.mjs"
+  },
+  "scripts": {
+    "start": "tsx --tsconfig tsconfig.json index.ts",
+    "start:prod": "node dist/esm/index.mjs",
+    "build": "rollup -c rollup.config.js",
+    "build:watch": "rollup -c rollup.config.js -w",
+    "clean": "rimraf ./dist"
+  },
+  "dependencies": {
+    "@iamsquare/complex.js": "file:..",
+    "chalk": "^5.6.2",
+    "chalk-template": "^1.1.2"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^29.0.0",
+    "@rollup/plugin-node-resolve": "^16.0.3",
+    "@rollup/plugin-typescript": "^12.3.0",
+    "rimraf": "^6.1.0",
+    "rollup": "^4.53.0",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3"
+  }
+}

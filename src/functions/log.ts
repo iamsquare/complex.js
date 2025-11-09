@@ -1,5 +1,10 @@
 import { Complex } from '~/complex';
-import { argument, equals, isInfinite, isNaNC, isZero, modulus } from '~/operations';
+import { argument } from '~/operations/argument';
+import { equals } from '~/operations/equals';
+import { isInfinite } from '~/operations/isInfinite';
+import { isNaNC } from '~/operations/isNaNC';
+import { isZero } from '~/operations/isZero';
+import { modulus } from '~/operations/modulus';
 
 /**
  * Calculates the natural logarithm (principal value) of a complex number: ln(z).

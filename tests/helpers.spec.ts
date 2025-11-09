@@ -1,6 +1,5 @@
 import { describe, expect, test } from 'vitest';
 
-import { Complex } from '~/complex';
 import { addStable, isCartesian, isPolar, subtractStable } from '~/helpers';
 
 describe('Helpers', () => {
@@ -421,7 +420,7 @@ describe('Helpers', () => {
   });
 
   describe('toBeApproximatelyEqual matcher', () => {
-    const EPSILON = Complex.EPSILON;
+    const EPSILON = Number.EPSILON;
     const SMALL_DIFF = EPSILON / 2;
     const LARGE_DIFF = EPSILON * 2;
 

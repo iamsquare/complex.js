@@ -1,6 +1,6 @@
 import { Complex } from '~/complex';
 import { log } from '~/functions/log';
-import { divide } from '~/operations';
+import { divide } from '~/operations/divide';
 import { isInfinite } from '~/operations/isInfinite';
 import { isNaNC } from '~/operations/isNaNC';
 import { isZero } from '~/operations/isZero';

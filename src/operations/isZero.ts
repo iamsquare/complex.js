@@ -1,5 +1,5 @@
-import { Complex } from '~/complex';
-import { equals } from '~/operations/equals';
+import type { Complex } from '~/complex';
+import { isApproximatelyEqual } from '~/helpers';
 
 /**
  * Checks if a complex number is zero: z = 0.
@@ -20,5 +20,5 @@ import { equals } from '~/operations/equals';
  * ```
  */
 export function isZero(z: Complex) {
-  return equals(z, Complex.ZERO);
+  return isApproximatelyEqual(z.getRe(), 0) && isApproximatelyEqual(z.getIm(), 0);
 }

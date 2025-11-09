@@ -1,6 +1,8 @@
 import { Complex } from '~/complex';
 import { isApproximatelyEqual } from '~/helpers';
-import { isInfinite, isNaNC, isZero } from '~/operations';
+import { isInfinite } from '~/operations/isInfinite';
+import { isNaNC } from '~/operations/isNaNC';
+import { isZero } from '~/operations/isZero';
 
 /**
  * Calculates the multiplicative inverse (reciprocal) of a complex number: 1/z.
