@@ -168,7 +168,10 @@ console.log(realProduct.toString()); // => "5 + 10i"
 Divides two complex numbers or a complex number by a real number: $\frac{z}{w}$.
 
 Uses a [modified Smith's Method](http://forge.scilab.org/index.php/p/compdiv/source/tree/21/doc/improved_cdiv.pdf)
-to avoid numerical overflow and underflow issues in complex division.
+to avoid numerical overflow and underflow issues in complex division. The implementation uses
+numerically stable addition and subtraction algorithms, along with scaling techniques to handle
+extreme values, to further improve precision and robustness.
+
 Also accepts real numbers, which are treated as complex numbers with zero imaginary part.
 
 ```typescript

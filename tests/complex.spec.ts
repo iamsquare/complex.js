@@ -15,6 +15,7 @@ describe('Complex', () => {
     describe('from numeric arguments', () => {
       test('new Complex() creates zero', () => {
         const z = new Complex();
+
         expect(z).toEqual(ZERO);
         expect(z.getRe()).toBe(0);
         expect(z.getIm()).toBe(0);
@@ -22,24 +23,28 @@ describe('Complex', () => {
 
       test('new Complex(re) creates real number', () => {
         const z = new Complex(5);
+
         expect(z.getRe()).toBe(5);
         expect(z.getIm()).toBe(0);
       });
 
       test('new Complex(re, im) creates complex number', () => {
         const z = new Complex(3, 4);
+
         expect(z.getRe()).toBe(3);
         expect(z.getIm()).toBe(4);
       });
 
       test('new Complex(re, im) handles negative values', () => {
         const z = new Complex(-5, -3);
+
         expect(z.getRe()).toBe(-5);
         expect(z.getIm()).toBe(-3);
       });
 
       test('new Complex(re, im) handles decimal values', () => {
         const z = new Complex(0.1, 0.2);
+
         expect(z.getRe()).toBe(0.1);
         expect(z.getIm()).toBe(0.2);
       });
@@ -59,7 +64,7 @@ describe('Complex', () => {
         const w = new Complex(z);
 
         expect(w).toEqual(z);
-        expect(w).not.toBe(z); // Different instance
+        expect(w).not.toBe(z);
         expect(w.getRe()).toBe(3);
         expect(w.getIm()).toBe(4);
       });
@@ -311,10 +316,12 @@ describe('Complex', () => {
       expect(I.toCartesian()).toEqual({ x: 0, y: 1 });
 
       const infCart = INFINITY.toCartesian();
+
       expect(infCart.x).toBe(Infinity);
       expect(infCart.y).toBe(Infinity);
 
       const nanCart = NAN.toCartesian();
+
       expect(Number.isNaN(nanCart.x)).toBe(true);
       expect(Number.isNaN(nanCart.y)).toBe(true);
     });
@@ -354,16 +361,19 @@ describe('Complex', () => {
 
       testCases.forEach(({ z, r, p }) => {
         const polar = z.toPolar();
+
         expectPolarCloseTo(polar, { r, p });
       });
     });
 
     test('handles special values', () => {
       const infPolar = INFINITY.toPolar();
+
       expect(infPolar.r).toBe(Infinity);
       expect(infPolar.p).toBe(Infinity);
 
       const nanPolar = NAN.toPolar();
+
       expect(Number.isNaN(nanPolar.r)).toBe(true);
       expect(Number.isNaN(nanPolar.p)).toBe(true);
     });

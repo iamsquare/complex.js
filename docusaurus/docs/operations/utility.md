@@ -137,9 +137,16 @@ console.log(argument(u)); // => same as argument(z)
 
 Checks if two complex numbers are equal: $z = w$.
 
-Uses floating-point comparison with epsilon tolerance (Complex.EPSILON) to account
-for floating-point precision errors. Two numbers are considered equal if both their
-real and imaginary parts differ by at most Complex.EPSILON.
+Uses a robust floating-point comparison that combines absolute and relative error
+to account for floating-point precision errors. For values near zero, uses absolute error:
+$|a - b| < \epsilon$. For values away from zero, uses relative error:
+$|a - b| < \epsilon \cdot \max(|a|, |b|)$. Two numbers are considered equal if both their
+real and imaginary parts are approximately equal using this method.
+
+**Special cases:**
+
+- Two infinite numbers are considered equal.
+- NaN is never equal to anything, including itself.
 
 ```typescript
 equals(z: Complex, w: Complex): boolean
@@ -165,6 +172,10 @@ console.log(equals(z1, z2)); // => true
 
 const z3 = new Complex(1.0000001, 2);
 console.log(equals(z1, z3)); // => true (within epsilon)
+
+const z4 = Complex.INFINITY;
+const z5 = Complex.INFINITY;
+console.log(equals(z4, z5)); // => true
 ```
 
 ---
@@ -199,4 +210,51 @@ console.log(notEquals(z1, z2)); // => true
 
 const z3 = new Complex(1, 2);
 console.log(notEquals(z1, z3)); // => false
+```
+
+---
+
+## isApproximatelyEqual
+
+Checks if two floating-point numbers are approximately equal using a combination
+of absolute and relative error. This is more robust than simple epsilon comparison.
+
+This is the underlying function used by [`equals`](#equals) and other comparison operations.
+For values near zero, uses absolute error: $|a - b| < \epsilon$.
+For values away from zero, uses relative error: $|a - b| < \epsilon \cdot \max(|a|, |b|)$.
+
+```typescript
+isApproximatelyEqual(a: number, b: number, epsilon?: number): boolean
+```
+
+### Parameters
+
+- `a` - First number
+- `b` - Second number
+- `epsilon` - Maximum allowed error (defaults to `Complex.EPSILON`)
+
+### Returns
+
+`true` if the numbers are approximately equal (within epsilon tolerance), `false` otherwise.
+
+### Special Cases
+
+- Returns `false` if either number is NaN
+- Returns `true` if both numbers are the same infinite value (positive or negative)
+- Returns `false` if one is infinite and the other is not
+
+### Example
+
+```typescript
+import { isApproximatelyEqual, Complex } from '@iamsquare/complex.js';
+
+// Handle floating-point precision errors
+console.log(isApproximatelyEqual(0.1 + 0.2, 0.3)); // => true
+
+// Custom epsilon tolerance
+console.log(isApproximatelyEqual(1, 1.0001, 0.001)); // => true
+console.log(isApproximatelyEqual(1, 1.0001, 0.00001)); // => false
+
+// Different numbers
+console.log(isApproximatelyEqual(1, 2)); // => false
 ```

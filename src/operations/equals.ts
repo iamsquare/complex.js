@@ -1,13 +1,20 @@
-import { Complex } from '~/complex';
+import { type Complex } from '~/complex';
+import { isApproximatelyEqual } from '~/helpers';
 import { isInfinite } from '~/operations/isInfinite';
 import { isNaNC } from '~/operations/isNaNC';
 
 /**
- * Checks if two complex numbers are equal: z === w.
+ * Checks if two complex numbers are equal: z = w.
  *
- * Uses floating-point comparison with epsilon tolerance (Complex.EPSILON) to account
- * for floating-point precision errors. Two numbers are considered equal if both their
- * real and imaginary parts differ by at most Complex.EPSILON.
+ * Uses a robust floating-point comparison that combines absolute and relative error
+ * to account for precision errors. For values near zero, uses absolute error:
+ * |a - b| < ε. For values away from zero, uses relative error:
+ * |a - b| < ε · max(|a|, |b|). Two numbers are considered equal if both their
+ * real and imaginary parts are approximately equal using this method.
+ *
+ * Special cases:
+ * - Two infinite numbers are considered equal.
+ * - NaN is never equal to anything, including itself.
  *
  * @param z - The first complex number.
  * @param w - The second complex number.
@@ -27,11 +34,5 @@ export function equals(z: Complex, w: Complex) {
   if (isInfinite(z) && isInfinite(w)) return true;
   if (isNaNC(z) || isNaNC(w)) return false;
 
-  const a = z.getRe();
-  const b = z.getIm();
-  const c = w.getRe();
-  const d = w.getIm();
-
-  // TODO: check if it should be done like this
-  return Math.abs(a - c) <= Complex.EPSILON && Math.abs(b - d) <= Complex.EPSILON;
+  return isApproximatelyEqual(z.getRe(), w.getRe()) && isApproximatelyEqual(z.getIm(), w.getIm());
 }

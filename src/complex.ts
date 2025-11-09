@@ -1,6 +1,3 @@
-// TODO: test and fix eventual precision errors
-// TODO: add rounding function
-
 import { type Cartesian, isCartesian, isPolar, type Polar } from '~/helpers';
 import { isPureImaginary } from '~/operations';
 import { argument } from '~/operations/argument';

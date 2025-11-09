@@ -1,9 +1,11 @@
-import type { Complex } from '~/complex';
+import { Complex } from '~/complex';
+import { equals } from '~/operations/equals';
 
 /**
- * Checks if a complex number is zero: z === 0.
+ * Checks if a complex number is zero: z = 0.
  *
- * A complex number is zero if both its real and imaginary parts are exactly zero.
+ * A complex number is zero if both its real and imaginary parts are approximately zero
+ * (within epsilon tolerance).
  *
  * @param z - The complex number to check.
  * @returns `true` if z is zero (0 + 0i), `false` otherwise.
@@ -18,5 +20,5 @@ import type { Complex } from '~/complex';
  * ```
  */
 export function isZero(z: Complex) {
-  return z.getRe() === 0 && z.getIm() === 0;
+  return equals(z, Complex.ZERO);
 }

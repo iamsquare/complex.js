@@ -1,7 +1,7 @@
 import type { Complex } from '~/complex';
 
 /**
- * Checks if a complex number is NaN: z === NaN.
+ * Checks if a complex number is NaN: z = NaN.
  *
  * A complex number is NaN if either its real or imaginary part is NaN.
  *

@@ -2,7 +2,7 @@ import type { Complex } from '~/complex';
 import { isNaNC } from '~/operations/isNaNC';
 
 /**
- * Checks if a complex number is infinite: z === ∞.
+ * Checks if a complex number is infinite: z = ∞.
  *
  * A complex number is infinite if either its real or imaginary part is infinite
  * (and it is not NaN).

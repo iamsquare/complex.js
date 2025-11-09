@@ -17,6 +17,7 @@
 - **Trigonometric Functions** - sin, cos, tan, sec, csc, cot and their inverses
 - **Hyperbolic Functions** - sinh, cosh, tanh, sech, csch, coth and their inverses
 - **Mathematical Functions** - Exponentiation, logarithms, powers, square roots
+- **Numerically Stable** - Uses robust floating-point comparisons (combining absolute and relative error) and stable algorithms to handle precision errors
 - **TypeScript Support** - Full type definitions included, no `@types` package needed
 - **Universal** - Works in both browsers and Node.js
 - **Zero Dependencies** - Lightweight and fast
