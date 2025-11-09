@@ -1,5 +1,5 @@
 import { Complex } from '~/complex';
-import { argument, isInfinite, isNaNC, isZero, modulus } from '~/operations';
+import { argument, isInfinite, isNaNC, isZero, modulus, multiply } from '~/operations';
 
 /**
  * Calculates the square root (principal value) of a complex number: √z.
@@ -32,5 +32,5 @@ export function sqrt(z: Complex) {
   const p = argument(z);
   const sqrtR = Math.sqrt(r);
 
-  return new Complex(sqrtR * Math.cos(p / 2), sqrtR * Math.sin(p / 2));
+  return multiply(sqrtR, new Complex(Math.cos(p / 2), Math.sin(p / 2)));
 }

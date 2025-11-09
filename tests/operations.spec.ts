@@ -7,6 +7,7 @@ import {
   conjugate,
   divide,
   equals,
+  flip,
   isInfinite,
   isNaNC,
   isPureImaginary,
@@ -304,6 +305,31 @@ describe('Operators', () => {
       testCases.forEach(({ input, expected }) => {
         test(`conjugate(${getLabel(input)})`, () => {
           expect(conjugate(input)).toEqual(expected);
+        });
+      });
+    });
+  });
+
+  describe('Flip', () => {
+    test('swaps real and imaginary parts', () => {
+      expect(flip(z)).toBeComplexCloseTo(new Complex(1, 1));
+      expect(flip(w)).toBeComplexCloseTo(new Complex(3, 2));
+      expect(flip(new Complex(5, -3))).toBeComplexCloseTo(new Complex(-3, 5));
+    });
+
+    test('flip of zero returns zero', () => {
+      expect(flip(ZERO)).toBeComplexCloseTo(ZERO);
+    });
+
+    describe('Special Cases', () => {
+      const testCases = [
+        { input: INFINITY, expected: INFINITY },
+        { input: NAN, expected: NAN },
+      ];
+
+      testCases.forEach(({ input, expected }) => {
+        test(`flip(${getLabel(input)})`, () => {
+          expect(flip(input)).toEqual(expected);
         });
       });
     });

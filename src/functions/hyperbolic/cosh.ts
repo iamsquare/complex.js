@@ -20,8 +20,7 @@ export function cosh(z: Complex) {
   if (isInfinite(z) || isNaNC(z)) return Complex.NAN;
   if (isZero(z)) return Complex.ONE;
 
-  const a = z.getRe();
-  const b = z.getIm();
+  const { re: a, im: b } = z.getComponents();
 
   return new Complex(Math.cosh(a) * Math.cos(b), Math.sinh(a) * Math.sin(b));
 }

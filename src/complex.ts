@@ -155,6 +155,23 @@ export class Complex {
   }
 
   /**
+   * Gets both the real and imaginary parts of this Complex number.
+   *
+   * @returns An object with re (real part) and im (imaginary part) properties.
+   *
+   * @example
+   * ```typescript
+   * const z = new Complex(3, 4);
+   * const { re, im } = z.getComponents();
+   * console.log(re); // => 3
+   * console.log(im); // => 4
+   * ```
+   */
+  getComponents() {
+    return { re: this.re, im: this.im };
+  }
+
+  /**
    * Formats this complex number as a string in the form "±a ± bi".
    *
    * Special cases:

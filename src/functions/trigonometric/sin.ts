@@ -20,8 +20,7 @@ export function sin(z: Complex) {
   if (isInfinite(z) || isNaNC(z)) return Complex.NAN;
   if (isZero(z)) return Complex.ZERO;
 
-  const a = z.getRe();
-  const b = z.getIm();
+  const { re: a, im: b } = z.getComponents();
 
   return new Complex(Math.sin(a) * Math.cosh(b), Math.cos(a) * Math.sinh(b));
 }

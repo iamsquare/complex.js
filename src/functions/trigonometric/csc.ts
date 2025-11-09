@@ -1,6 +1,6 @@
 import { Complex } from '~/complex';
 import { subtractStable } from '~/helpers';
-import { isInfinite, isNaNC, isZero } from '~/operations';
+import { divide, isInfinite, isNaNC, isZero } from '~/operations';
 
 /**
  * Calculates the cosecant of a complex number: csc(z).
@@ -22,10 +22,8 @@ export function csc(z: Complex) {
   if (isInfinite(z) || isNaNC(z)) return Complex.NAN;
   if (isZero(z)) return Complex.INFINITY;
 
-  // We avoid numeric cancellation by expanding the denominator and simplifying with trigonometric rules.
-  const a = z.getRe();
-  const b = z.getIm();
+  const { re: a, im: b } = z.getComponents();
   const d = subtractStable(Math.cosh(2 * b), Math.cos(2 * a));
 
-  return new Complex((2 * Math.sin(a) * Math.cosh(b)) / d, (-2 * Math.cos(a) * Math.sinh(b)) / d);
+  return divide(new Complex(2 * Math.sin(a) * Math.cosh(b), -2 * Math.cos(a) * Math.sinh(b)), d);
 }

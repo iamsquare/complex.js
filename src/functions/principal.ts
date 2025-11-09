@@ -42,13 +42,13 @@ export function principal(z: Complex | number, n: number): Complex {
 
   if (isNaNC(zc)) return Complex.NAN;
   if (Number.isNaN(n) || !Number.isFinite(n)) return Complex.NAN;
+  if (n === 0) return Complex.NAN;
   if (isInfinite(zc) && n > 0) return Complex.INFINITY;
   if (isInfinite(zc) && n < 0) return Complex.ZERO;
   if (isZero(zc) && n > 0) return Complex.ZERO;
   if (isZero(zc) && n < 0) return Complex.INFINITY;
-  if (n === 0) return Complex.NAN;
 
-  if (n === 1) return new Complex(zc);
+  if (n === 1) return zc;
 
   const absN = Math.abs(n);
 

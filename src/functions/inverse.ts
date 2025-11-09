@@ -23,8 +23,7 @@ export function inverse(z: Complex) {
   if (isInfinite(z)) return Complex.ZERO;
   if (isZero(z)) return Complex.INFINITY;
 
-  const a = z.getRe();
-  const b = z.getIm();
+  const { re: a, im: b } = z.getComponents();
   const maxAbs = Math.max(Math.abs(a), Math.abs(b));
 
   // Scale by the maximum absolute value to avoid numerical cancellation

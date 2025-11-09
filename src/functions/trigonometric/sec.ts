@@ -1,6 +1,6 @@
 import { Complex } from '~/complex';
 import { addStable } from '~/helpers';
-import { isInfinite, isNaNC, isZero } from '~/operations';
+import { divide, isInfinite, isNaNC, isZero } from '~/operations';
 
 /**
  * Calculates the secant of a complex number: sec(z).
@@ -22,10 +22,8 @@ export function sec(z: Complex) {
   if (isInfinite(z) || isNaNC(z)) return Complex.NAN;
   if (isZero(z)) return Complex.ONE;
 
-  // We avoid numeric cancellation by expanding the denominator and simplifying with trigonometric rules.
-  const a = z.getRe();
-  const b = z.getIm();
+  const { re: a, im: b } = z.getComponents();
   const d = addStable(Math.cos(2 * a), Math.cosh(2 * b));
 
-  return new Complex((2 * Math.cos(a) * Math.cosh(b)) / d, (2 * Math.sin(a) * Math.sinh(b)) / d);
+  return divide(new Complex(2 * Math.cos(a) * Math.cosh(b), 2 * Math.sin(a) * Math.sinh(b)), d);
 }

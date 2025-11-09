@@ -26,10 +26,8 @@ export function subtract(z: Complex, w: Complex) {
   }
   if (isInfinite(z) || isInfinite(w)) return Complex.INFINITY;
 
-  const a = z.getRe();
-  const b = z.getIm();
-  const c = w.getRe();
-  const d = w.getIm();
+  const { re: a, im: b } = z.getComponents();
+  const { re: c, im: d } = w.getComponents();
 
   return new Complex(subtractStable(a, c), subtractStable(b, d));
 }

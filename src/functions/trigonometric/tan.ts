@@ -1,6 +1,6 @@
 import { Complex } from '~/complex';
 import { addStable } from '~/helpers';
-import { isInfinite, isNaNC, isZero } from '~/operations';
+import { divide, isInfinite, isNaNC, isZero, multiply } from '~/operations';
 
 /**
  * Calculates the tangent of a complex number: tan(z).
@@ -21,10 +21,8 @@ export function tan(z: Complex) {
   if (isInfinite(z) || isNaNC(z)) return Complex.NAN;
   if (isZero(z)) return Complex.ZERO;
 
-  // We avoid numeric cancellation by expanding the denominator and simplifying with trigonometric rules.
-  const a2 = 2 * z.getRe();
-  const b2 = 2 * z.getIm();
+  const { re: a2, im: b2 } = multiply(2, z).getComponents();
   const d = addStable(Math.cos(a2), Math.cosh(b2));
 
-  return new Complex(Math.sin(a2) / d, Math.sinh(b2) / d);
+  return divide(new Complex(Math.sin(a2), Math.sinh(b2)), d);
 }

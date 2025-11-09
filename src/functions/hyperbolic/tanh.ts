@@ -1,6 +1,6 @@
 import { Complex } from '~/complex';
 import { addStable } from '~/helpers';
-import { isInfinite, isNaNC, isZero } from '~/operations';
+import { divide, isInfinite, isNaNC, isZero, multiply } from '~/operations';
 
 /**
  * Calculates the hyperbolic tangent of a complex number: tanh(z).
@@ -21,10 +21,7 @@ export function tanh(z: Complex) {
   if (isInfinite(z) || isNaNC(z)) return Complex.NAN;
   if (isZero(z)) return Complex.ZERO;
 
-  // We avoid numeric cancellation by expanding the denominator and simplifying with trig rules.
-  const a2 = 2 * z.getRe();
-  const b2 = 2 * z.getIm();
-  const d = addStable(Math.cosh(a2), Math.cos(b2));
+  const { re: a, im: b } = multiply(z, 2).getComponents();
 
-  return new Complex(Math.sinh(a2) / d, Math.sin(b2) / d);
+  return divide(new Complex(Math.sinh(a), Math.sin(b)), addStable(Math.cosh(a), Math.cos(b)));
 }

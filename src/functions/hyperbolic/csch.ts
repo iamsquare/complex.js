@@ -1,6 +1,6 @@
 import { Complex } from '~/complex';
 import { subtractStable } from '~/helpers';
-import { isInfinite, isNaNC, isZero } from '~/operations';
+import { divide, isInfinite, isNaNC, isZero } from '~/operations';
 
 /**
  * Calculates the hyperbolic cosecant of a complex number: csch(z).
@@ -22,10 +22,8 @@ export function csch(z: Complex) {
   if (isInfinite(z) || isNaNC(z)) return Complex.NAN;
   if (isZero(z)) return Complex.INFINITY;
 
-  // We avoid numeric cancellation by expanding the denominator and simplifying with trig rules.
-  const a = z.getRe();
-  const b = z.getIm();
+  const { re: a, im: b } = z.getComponents();
   const d = subtractStable(Math.cos(2 * b), Math.cosh(2 * a));
 
-  return new Complex((-2 * Math.sinh(a) * Math.cos(b)) / d, (2 * Math.cosh(a) * Math.sin(b)) / d);
+  return divide(new Complex(-2 * Math.sinh(a) * Math.cos(b), 2 * Math.cosh(a) * Math.sin(b)), d);
 }

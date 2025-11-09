@@ -39,10 +39,8 @@ export function multiply(z: Complex | number, w: Complex | number) {
   if (isZero(zc) || isZero(wc)) return Complex.ZERO;
   if (isReal(zc) && isReal(wc)) return new Complex(zc.getRe() * wc.getRe(), 0);
 
-  const a = zc.getRe();
-  const b = zc.getIm();
-  const c = wc.getRe();
-  const d = wc.getIm();
+  const { re: a, im: b } = zc.getComponents();
+  const { re: c, im: d } = wc.getComponents();
 
   const ac = a * c;
   const bd = b * d;

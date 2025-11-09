@@ -228,6 +228,7 @@ Complex.EPSILON; // Machine epsilon
 - [`modulus(z)`](/operations/utility#modulus) - Absolute value / magnitude
 - [`argument(z)`](/operations/utility#argument) - Phase / argument
 - [`conjugate(z)`](/operations/utility#conjugate) - Complex conjugate
+- [`flip(z)`](/operations/utility#flip) - Swap real and imaginary parts
 - [`unit(z)`](/operations/utility#unit) - Unit vector
 - [`equals(z, w)`](/operations/utility#equals) - Equality check
 - [`notEquals(z, w)`](/operations/utility#notequals) - Inequality check

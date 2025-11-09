@@ -101,6 +101,43 @@ console.log(result.toString()); // => "3 - 4i"
 
 ---
 
+## flip
+
+Flips a complex number by swapping its real and imaginary parts.
+
+For a complex number $z = a + ib$, flip($z$) = $b + ia$. This operation swaps
+the real and imaginary parts of the number.
+
+**Algebraic Description:** This operation is equivalent to multiplying the complex conjugate of $z$ by the imaginary unit $i$, i.e., $i \cdot \overline{z}$, where $\overline{z}$ is the complex conjugate $a - ib$. Performing this multiplication gives:
+
+$$i(a - ib) = ia - i^2b = ia - (-1)b = b + ia$$
+
+Thus, flip($z$) = $i \cdot \overline{z}$.
+
+```typescript
+flip(z: Complex): Complex
+```
+
+### Parameters
+
+- `z` - The complex number to flip
+
+### Returns
+
+A new Complex number with swapped real and imaginary parts.
+
+### Example
+
+```typescript
+import { Complex, flip } from '@iamsquare/complex.js';
+
+const z = new Complex(3, 4);
+const result = flip(z);
+console.log(result.toString()); // => "4 + 3i"
+```
+
+---
+
 ## unit
 
 Calculates the unit vector (normalized) of a complex number: $\frac{z}{|z|}$.

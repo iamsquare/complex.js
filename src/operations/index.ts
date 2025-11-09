@@ -3,6 +3,7 @@ export { argument } from '~/operations/argument';
 export { conjugate } from '~/operations/conjugate';
 export { divide } from '~/operations/divide';
 export { equals } from '~/operations/equals';
+export { flip } from '~/operations/flip';
 export { isInfinite } from '~/operations/isInfinite';
 export { isNaNC } from '~/operations/isNaNC';
 export { isPureImaginary } from '~/operations/isPureImaginary';

@@ -199,6 +199,64 @@ describe('Complex', () => {
         expect(Number.isNaN(NAN.getIm())).toBe(true);
       });
     });
+
+    describe('getComponents()', () => {
+      test('returns both real and imaginary parts for standard complex number', () => {
+        const z = new Complex(3, 4);
+        const { re, im } = z.getComponents();
+
+        expect(re).toBe(3);
+        expect(im).toBe(4);
+      });
+
+      test('returns negative values correctly', () => {
+        const z = new Complex(-5, -3);
+        const { re, im } = z.getComponents();
+
+        expect(re).toBe(-5);
+        expect(im).toBe(-3);
+      });
+
+      test('returns zero for both parts', () => {
+        const { re, im } = ZERO.getComponents();
+
+        expect(re).toBe(0);
+        expect(im).toBe(0);
+      });
+
+      test('returns correct values for real number', () => {
+        const { re, im } = ONE.getComponents();
+
+        expect(re).toBe(1);
+        expect(im).toBe(0);
+      });
+
+      test('returns correct values for pure imaginary number', () => {
+        const { re, im } = I.getComponents();
+
+        expect(re).toBe(0);
+        expect(im).toBe(1);
+      });
+
+      test('handles special values', () => {
+        const infComponents = INFINITY.getComponents();
+        const nanComponents = NAN.getComponents();
+
+        expect(infComponents.re).toBe(Infinity);
+        expect(infComponents.im).toBe(Infinity);
+
+        expect(Number.isNaN(nanComponents.re)).toBe(true);
+        expect(Number.isNaN(nanComponents.im)).toBe(true);
+      });
+
+      test('returns same values as getRe() and getIm()', () => {
+        const z = new Complex(3, 4);
+        const { re, im } = z.getComponents();
+
+        expect(re).toBe(z.getRe());
+        expect(im).toBe(z.getIm());
+      });
+    });
   });
 
   describe('toString()', () => {

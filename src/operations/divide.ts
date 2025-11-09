@@ -51,36 +51,36 @@ export function divide(z: Complex | number, w: Complex | number) {
   const wScaleDown = wMaxComponent >= overflowBoundary ? 0.5 : 1;
   const zScaleUp = zMaxComponent < underflowBoundary ? 1 / scalingFactor : 1;
   const wScaleUp = wMaxComponent < underflowBoundary ? scalingFactor : 1;
-
-  const zScaled = multiply(zc, zScaleDown * zScaleUp);
-  const wScaled = multiply(wc, wScaleDown * wScaleUp);
   const scale = zScaleDown * wScaleDown * zScaleUp * wScaleUp;
 
-  if (Math.abs(wScaled.getIm()) <= Math.abs(wScaled.getRe())) {
-    const r = wScaled.getIm() / wScaled.getRe();
-    const t = wScaled.getRe() + wScaled.getIm() * r;
+  const { re: zScaledRe, im: zScaledIm } = multiply(zc, zScaleDown * zScaleUp).getComponents();
+  const { re: wScaledRe, im: wScaledIm } = multiply(wc, wScaleDown * wScaleUp).getComponents();
+
+  if (Math.abs(wScaledIm) <= Math.abs(wScaledRe)) {
+    const r = wScaledIm / wScaledRe;
+    const t = wScaledRe + wScaledIm * r;
 
     return multiply(
       isApproximatelyEqual(r, 0)
         ? new Complex(
-            (zScaled.getRe() + wScaled.getIm() * (zScaled.getIm() / wScaled.getRe())) / t,
-            (zScaled.getIm() - wScaled.getIm() * (zScaled.getRe() / wScaled.getRe())) / t,
+            (zScaledRe + wScaledIm * (zScaledIm / wScaledRe)) / t,
+            (zScaledIm - wScaledIm * (zScaledRe / wScaledRe)) / t,
           )
-        : new Complex((zScaled.getRe() + zScaled.getIm() * r) / t, (zScaled.getIm() - zScaled.getRe() * r) / t),
+        : new Complex((zScaledRe + zScaledIm * r) / t, (zScaledIm - zScaledRe * r) / t),
       scale,
     );
   }
 
-  const r = wScaled.getRe() / wScaled.getIm();
-  const t = wScaled.getRe() * r + wScaled.getIm();
+  const r = wScaledRe / wScaledIm;
+  const t = wScaledRe * r + wScaledIm;
 
   return multiply(
     isApproximatelyEqual(r, 0)
       ? new Complex(
-          (wScaled.getRe() * (zScaled.getRe() / wScaled.getIm()) + zScaled.getIm()) / t,
-          (wScaled.getRe() * (zScaled.getIm() / wScaled.getIm()) - zScaled.getRe()) / t,
+          (wScaledRe * (zScaledRe / wScaledIm) + zScaledIm) / t,
+          (wScaledRe * (zScaledIm / wScaledIm) - zScaledRe) / t,
         )
-      : new Complex((zScaled.getRe() * r + zScaled.getIm()) / t, (zScaled.getIm() * r - zScaled.getRe()) / t),
+      : new Complex((zScaledRe * r + zScaledIm) / t, (zScaledIm * r - zScaledRe) / t),
     scale,
   );
 }

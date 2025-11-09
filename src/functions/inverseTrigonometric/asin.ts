@@ -1,9 +1,12 @@
 import { Complex } from '~/complex';
 import { log } from '~/functions/log';
 import { sqrt } from '~/functions/sqrt';
+import { conjugate } from '~/operations/conjugate';
+import { flip } from '~/operations/flip';
 import { isInfinite } from '~/operations/isInfinite';
 import { isNaNC } from '~/operations/isNaNC';
 import { isZero } from '~/operations/isZero';
+import { subtract } from '~/operations/subtract';
 
 /**
  * Calculates the arcsine (inverse sine) of a complex number: arcsin(z).
@@ -25,11 +28,9 @@ export function asin(z: Complex) {
   if (isInfinite(z) || isNaNC(z)) return Complex.NAN;
   if (isZero(z)) return Complex.ZERO;
 
-  const a = z.getRe();
-  const b = z.getIm();
+  const { re: a, im: b } = z.getComponents();
 
   const s = sqrt(new Complex(1 - a * a + b * b, -2 * a * b));
-  const l = log(new Complex(s.getRe() - b, s.getIm() + a));
 
-  return new Complex(l.getIm(), -l.getRe());
+  return conjugate(flip(log(subtract(s, new Complex(b, -a)))));
 }

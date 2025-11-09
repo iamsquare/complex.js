@@ -38,8 +38,7 @@ export function pow(z: Complex | number, w: Complex | number) {
     return Complex.NAN;
   }
 
-  const c = wc.getRe();
-  const d = wc.getIm();
+  const { re: c, im: d } = wc.getComponents();
 
   const pyt = pythagoras(zc);
   const arg = argument(zc);

@@ -26,8 +26,7 @@ export function asinh(z: Complex) {
   if (isInfinite(z) || isNaNC(z)) return Complex.NAN;
   if (isZero(z)) return Complex.ZERO;
 
-  const a = z.getRe();
-  const b = z.getIm();
+  const { re: a, im: b } = z.getComponents();
 
   const s = sqrt(new Complex(a * a - b * b + 1, 2 * a * b));
 
