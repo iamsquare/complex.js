@@ -11,9 +11,7 @@ Complex numbers are fundamental to signal processing and the Fourier Transform.
 ```typescript
 import { Complex, add, multiply, exp } from '@iamsquare/complex.js';
 
-import { Complex, add, multiply, exp } from '@iamsquare/complex.js';
-
-function dft(signal: number[]): Complex[] {
+function dft(signal: number[]) {
   const N = signal.length;
   const result: Complex[] = [];
 
@@ -22,7 +20,6 @@ function dft(signal: number[]): Complex[] {
 
     for (let t = 0; t < N; t++) {
       const eit = exp(new Complex(0, (2 * Math.PI * k * t) / N));
-
       sum = add(sum, multiply(signal[t], eit));
     }
 
@@ -32,15 +29,16 @@ function dft(signal: number[]): Complex[] {
   return result;
 }
 
-dft([1, 0, -1, 0]); // => [0, 2, 0, 2] (approximately)
+const spectrum = dft([1, 0, -1, 0]);
+console.log(spectrum.map((c) => c.toString())); // => ["0", "2", "0", "2"] (approximately)
 ```
 
 ## Inverse DFT
 
 ```typescript
-import { Complex, add, multiply, exp } from '@iamsquare/complex.js';
+import { Complex, add, multiply, exp, divide } from '@iamsquare/complex.js';
 
-function idft(spectrum: Complex[]): number[] {
+function idft(spectrum: Complex[]) {
   const N = spectrum.length;
   const result: number[] = [];
 
@@ -49,7 +47,6 @@ function idft(spectrum: Complex[]): number[] {
 
     for (let k = 0; k < N; k++) {
       const eit = exp(new Complex(0, (2 * Math.PI * k * n) / N));
-
       sum = add(sum, multiply(spectrum[k], eit));
     }
 
@@ -63,5 +60,5 @@ const signal = [1, 0, -1, 0];
 const spectrum = dft(signal);
 const reconstructed = idft(spectrum);
 
-console.log('Reconstructed:', reconstructed); // => [ 1, 0, -1, 0 ] (approximately)
+console.log('Reconstructed:', reconstructed); // => [1, 0, -1, 0] (approximately)
 ```

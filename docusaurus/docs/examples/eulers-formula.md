@@ -11,17 +11,17 @@ $$e^{i\theta} = \cos(\theta) + i\sin(\theta)$$
 ## Basic Example: $e^{i\pi} = -1$
 
 ```typescript
-import { Complex, exp, multiply } from '@iamsquare/complex.js';
+import { Complex, exp } from '@iamsquare/complex.js';
 
 const result = exp(new Complex(0, Math.PI));
 
-console.log(result.toString()); // => "-1 + 0i" (approximately)
+console.log(result.toString()); // => "-1"
 ```
 
 ## General Form: $e^{i\theta}$
 
 ```typescript
-import { Complex, exp, multiply, cos, sin } from '@iamsquare/complex.js';
+import { Complex, exp, multiply, cos, sin, add } from '@iamsquare/complex.js';
 
 function eulersFormula(theta: number) {
   return exp(new Complex(0, theta));
@@ -31,19 +31,16 @@ function trigonometryFormula(theta: number) {
   const thetaComplex = new Complex(theta);
   const cosTheta = cos(thetaComplex);
   const sinTheta = sin(thetaComplex);
-
-  return new Complex(
-    cosTheta.getRe() + multiply(Complex.I, sinTheta).getRe(),
-    cosTheta.getIm() + multiply(Complex.I, sinTheta).getIm(),
-  );
+  // Use add function for proper complex addition
+  return add(cosTheta, multiply(Complex.I, sinTheta));
 }
 
 // Example: e^(iπ/2) = i
 const euler = eulersFormula(Math.PI / 2);
 const trigonometric = trigonometryFormula(Math.PI / 2);
 
-console.log(euler.toString()); // => "0 + 1i" (approximately)
-console.log(trigonometric.toString()); // => "0 + 1i" (approximately)
+console.log(euler.toString()); // => "1 i"
+console.log(trigonometric.toString()); // => "1 i"
 ```
 
 ## Complex Exponentials
