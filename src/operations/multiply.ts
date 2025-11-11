@@ -1,5 +1,6 @@
 import { Complex } from '~/complex';
-import { addStable, subtractStable } from '~/helpers';
+import { addStable } from '~/lib/addStable';
+import { subtractStable } from '~/lib/subtractStable';
 import { isInfinite } from '~/operations/isInfinite';
 import { isNaNC } from '~/operations/isNaNC';
 import { isReal } from '~/operations/isReal';

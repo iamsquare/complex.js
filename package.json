@@ -90,11 +90,12 @@
     "lint-staged": "^16.2.6",
     "prettier": "^3.6.2",
     "rimraf": "^6.1.0",
-    "rollup": "^4.53.0",
+    "rollup": "^4.53.2",
     "rollup-plugin-dts": "^6.2.3",
+    "tsconfig-paths": "^4.2.0",
     "tsx": "^4.20.6",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.46.3",
+    "typescript-eslint": "^8.46.4",
     "vite-tsconfig-paths": "^5.1.4",
     "vitest": "^4.0.8"
   },
@@ -106,13 +107,10 @@
   "directories": {
     "dist": "dist"
   },
-  "packageManager": "pnpm@10.20.0",
+  "packageManager": "pnpm@10.21.0",
   "pnpm": {
     "executionEnv": {
       "nodeVersion": "24.11.0"
     }
-  },
-  "dependencies": {
-    "tsconfig-paths": "^4.2.0"
   }
 }

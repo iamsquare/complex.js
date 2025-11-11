@@ -1,5 +1,6 @@
 import { type Complex } from '~/complex';
 import { type Polar } from '~/helpers';
+import { isApproximatelyEqual } from '~/lib/isApproximatelyEqual';
 
 /**
  * Type for Vitest matcher result.
@@ -16,40 +17,6 @@ type SyncExpectationResult = {
  * Using a slightly larger epsilon than Number.EPSILON for practical comparisons.
  */
 export const TEST_EPSILON = Number.EPSILON * 10;
-
-/**
- * Checks if two floating-point numbers are approximately equal using a combination
- * of absolute and relative error. This is more robust than simple epsilon comparison.
- *
- * For values near zero, uses absolute error: |a - b| < epsilon
- * For values away from zero, uses relative error: |a - b| < epsilon * max(|a|, |b|)
- *
- * @param a - First number
- * @param b - Second number
- * @param epsilon - Maximum allowed error (defaults to TEST_EPSILON)
- * @returns True if numbers are approximately equal
- *
- * @example
- * ```typescript
- * isApproximatelyEqual(0.1 + 0.2, 0.3); // => true
- * isApproximatelyEqual(1, 1.0001, 0.001); // => true
- * isApproximatelyEqual(1, 2); // => false
- * ```
- */
-export function isApproximatelyEqual(a: number, b: number, epsilon: number = TEST_EPSILON): boolean {
-  if (Number.isNaN(a) || Number.isNaN(b)) return false;
-  if (!Number.isFinite(a) || !Number.isFinite(b)) return a === b;
-
-  if (a === b) return true;
-
-  const absA = Math.abs(a);
-  const absB = Math.abs(b);
-  const maxAbs = Math.max(absA, absB);
-
-  if (maxAbs < 1) return Math.abs(a - b) < epsilon;
-
-  return Math.abs(a - b) < epsilon * maxAbs;
-}
 
 /**
  * Vitest matcher for checking if a number is approximately equal to an expected value.

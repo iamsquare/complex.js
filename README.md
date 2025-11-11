@@ -170,17 +170,7 @@ const arcHyperSine = asinh(z);
 ### Utility Operations
 
 ```typescript
-import {
-  Complex,
-  modulus,
-  argument,
-  conjugate,
-  unit,
-  equals,
-  isApproximatelyEqual,
-  isReal,
-  isZero,
-} from '@iamsquare/complex.js';
+import { Complex, modulus, argument, conjugate, unit, equals, isReal, isZero } from '@iamsquare/complex.js';
 
 const z = new Complex(3, 4);
 
@@ -200,9 +190,6 @@ const unitVec = unit(z); // 0.6 + 0.8i
 const isEqual = equals(z, new Complex(3, 4)); // true
 const isRealNum = isReal(z); // false
 const isZeroNum = isZero(z); // false
-
-// Compare floating-point numbers
-const approxEqual = isApproximatelyEqual(0.1 + 0.2, 0.3); // true
 ```
 
 ### Predefined Constants

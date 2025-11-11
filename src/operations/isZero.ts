@@ -1,5 +1,5 @@
 import type { Complex } from '~/complex';
-import { isApproximatelyEqual } from '~/helpers';
+import { isApproximatelyEqual } from '~/lib/isApproximatelyEqual';
 
 /**
  * Checks if a complex number is zero: z = 0.

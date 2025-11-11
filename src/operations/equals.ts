@@ -1,5 +1,5 @@
 import { type Complex } from '~/complex';
-import { isApproximatelyEqual } from '~/helpers';
+import { isApproximatelyEqual } from '~/lib/isApproximatelyEqual';
 import { isInfinite } from '~/operations/isInfinite';
 import { isNaNC } from '~/operations/isNaNC';
 

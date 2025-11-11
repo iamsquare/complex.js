@@ -18,6 +18,8 @@
     "baseUrl": ".",
     "paths": {
       "~/*": ["./src/*"],
+      "~/lib": ["./lib/index.ts"],
+      "~/lib/*": ["./lib/*"],
       "~/tests/*": ["./tests/*"],
       "~/repl/*": ["./repl/*"]
     }

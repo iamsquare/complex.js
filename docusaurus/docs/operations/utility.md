@@ -39,6 +39,41 @@ console.log(result); // => 5
 
 ---
 
+## pythagoras
+
+Calculates the modulus squared (magnitude squared) of a complex number: $|z|^2$.
+
+This is equivalent to $a^2 + b^2$ for $z = a + ib$. It avoids the square root operation
+and is useful when comparing magnitudes or when only the squared value is needed.
+
+```typescript
+pythagoras(z: Complex): number
+```
+
+### Parameters
+
+- `z` - The complex number
+
+### Returns
+
+The modulus squared as a real number.
+
+### Example
+
+```typescript
+import { Complex, pythagoras, modulus } from '@iamsquare/complex.js';
+
+const z = new Complex(3, 4);
+const modSquared = pythagoras(z);
+console.log(modSquared); // => 25
+
+// pythagoras(z) is equivalent to modulus(z)²
+const mod = modulus(z);
+console.log(mod * mod); // => 25 (same as pythagoras(z))
+```
+
+---
+
 ## argument
 
 Gets the argument (phase angle) of a complex number: $\arg(z)$.
@@ -251,47 +286,100 @@ console.log(notEquals(z1, z3)); // => false
 
 ---
 
-## isApproximatelyEqual
+## Type Definitions and Type Guards
 
-Checks if two floating-point numbers are approximately equal using a combination
-of absolute and relative error. This is more robust than simple epsilon comparison.
+Helper functions and types for working with coordinate representations.
 
-This is the underlying function used by [`equals`](#equals) and other comparison operations.
-For values near zero, uses absolute error: $|a - b| < \epsilon$.
-For values away from zero, uses relative error: $|a - b| < \epsilon \cdot \max(|a|, |b|)$.
+### Cartesian
+
+Type definition for Cartesian coordinates.
+
+Represents a complex number in Cartesian form with `x` (real part) and `y` (imaginary part).
 
 ```typescript
-isApproximatelyEqual(a: number, b: number, epsilon?: number): boolean
+type Cartesian = {
+  x: number;
+  y: number;
+};
 ```
 
-### Parameters
+### Polar
 
-- `a` - First number
-- `b` - Second number
-- `epsilon` - Maximum allowed error (defaults to `Number.EPSILON`)
+Type definition for Polar coordinates.
 
-### Returns
-
-`true` if the numbers are approximately equal (within epsilon tolerance), `false` otherwise.
-
-### Special Cases
-
-- Returns `false` if either number is NaN
-- Returns `true` if both numbers are the same infinite value (positive or negative)
-- Returns `false` if one is infinite and the other is not
-
-### Example
+Represents a complex number in polar form with `r` (modulus/radius) and `p` (phase/argument in radians).
 
 ```typescript
-import { isApproximatelyEqual, Complex } from '@iamsquare/complex.js';
+type Polar = {
+  r: number;
+  p: number;
+};
+```
 
-// Handle floating-point precision errors
-console.log(isApproximatelyEqual(0.1 + 0.2, 0.3)); // => true
+### isCartesian
 
-// Custom epsilon tolerance
-console.log(isApproximatelyEqual(1, 1.0001, 0.001)); // => true
-console.log(isApproximatelyEqual(1, 1.0001, 0.00001)); // => false
+Checks if an object is a Cartesian coordinate.
 
-// Different numbers
-console.log(isApproximatelyEqual(1, 2)); // => false
+```typescript
+isCartesian(obj?: unknown): obj is Cartesian
+```
+
+#### Parameters
+
+- `obj` - The object to check
+
+#### Returns
+
+`true` if obj is a Cartesian coordinate (has `x` and `y` number properties), `false` otherwise.
+
+#### Example
+
+```typescript
+import { isCartesian, Complex } from '@iamsquare/complex.js';
+
+const coord = { x: 1, y: 2 };
+console.log(isCartesian(coord)); // => true
+
+const notCoord = { a: 1, b: 2 };
+console.log(isCartesian(notCoord)); // => false
+
+// Works with Complex.toCartesian()
+const z = new Complex(3, 4);
+const cartesian = z.toCartesian();
+console.log(isCartesian(cartesian)); // => true
+```
+
+---
+
+### isPolar
+
+Checks if an object is a Polar coordinate.
+
+```typescript
+isPolar(obj?: unknown): obj is Polar
+```
+
+#### Parameters
+
+- `obj` - The object to check
+
+#### Returns
+
+`true` if obj is a Polar coordinate (has `r` and `p` number properties), `false` otherwise.
+
+#### Example
+
+```typescript
+import { isPolar, Complex } from '@iamsquare/complex.js';
+
+const coord = { r: 1, p: Math.PI / 2 };
+console.log(isPolar(coord)); // => true
+
+const notCoord = { radius: 1, phase: Math.PI / 2 };
+console.log(isPolar(notCoord)); // => false
+
+// Works with Complex.toPolar()
+const z = new Complex(3, 4);
+const polar = z.toPolar();
+console.log(isPolar(polar)); // => true
 ```

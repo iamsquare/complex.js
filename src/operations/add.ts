@@ -1,5 +1,5 @@
 import { Complex } from '~/complex';
-import { addStable } from '~/helpers';
+import { addStable } from '~/lib/addStable';
 import { isInfinite } from '~/operations/isInfinite';
 import { isNaNC } from '~/operations/isNaNC';
 

@@ -1,5 +1,5 @@
 import type { Complex } from '~/complex';
-import { isApproximatelyEqual } from '~/helpers';
+import { isApproximatelyEqual } from '~/lib/isApproximatelyEqual';
 
 /**
  * Checks if a complex number is purely imaginary (has zero real part and non-zero imaginary part).
